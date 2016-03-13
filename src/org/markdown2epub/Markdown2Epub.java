@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -40,6 +42,12 @@ public class Markdown2Epub {
 	private static final String NCX = "content.ncx";
 	private static final String TOC = "toc.xhtml";
 	private static final String CSS = "book.css";
+	/** Mime-Types und zugehörige Endungen für Bilder */
+	private static final String[][] MIME_TYPES_IMAGE = {
+		{ "image/gif",	".gif" }, // GIF-Dateien
+		{ "image/jpeg",	".jpeg", ".jpg", ".jpe"}, // JPEG-Dateien
+		{ "image/png",	".png" } // PNG-Dateien
+	};
 
 	private ZipOutputStream zip;
 	private PrintWriter out;
@@ -83,19 +91,22 @@ public class Markdown2Epub {
 		writeFile(basedir, CSS, "text/css", "style-sheet");
 
 		// Cover
-		writeFile(basedir, "cover.png", "image/png", COVER_ID);
-		writeCover();
+		writeCover(basedir);
 
 		contentFiles.add(new FileEntry(TOC, MIMETYPE_XHTML, "toc"));
 
 		// Markdown-Dateien konvertieren und schreiben
+		Set<String> images = new HashSet<>();
 		File[] files = basedir.listFiles();
 		Arrays.sort(files);
 		for (File file : files) {
 			if (file.getName().endsWith(".md")) {
-				convert(file);
+				convert(file, images);
 			}
 		}
+
+		// Bilder ausgeben
+		writeImages(basedir, images);
 
 		// Inhaltsverzeichnis ausgeben
 		writeNCX();
@@ -153,7 +164,28 @@ public class Markdown2Epub {
 		zip.closeEntry();
 	}
 
-	private void writeCover() throws IOException {
+	private void writeCover(File basedir) throws IOException {
+		// Cover suchen
+		boolean found = false;
+		String mimeType = null;
+		String filename = null;
+		outer: for (String[] entry : MIME_TYPES_IMAGE) {
+			mimeType = entry[0];
+			for (int i = 1; i < entry.length; i++) {
+				filename = "cover" + entry[i];
+				if (exists(basedir, filename)) {
+					found = true;
+					break outer;
+				}
+			}
+		}
+		if (! found) {
+			echo("MsgNoCover");
+			return;
+		}
+
+		writeFile(basedir, filename, mimeType, COVER_ID);
+
 		zip.putNextEntry(new ZipEntry(COVER));
 		contentFiles.add(0, new FileEntry(COVER, MIMETYPE_XHTML, "cover"));
 		out.printf("<?xml version='1.0' encoding='%s'?>%n", ENCODING);
@@ -164,14 +196,33 @@ public class Markdown2Epub {
 		out.printf("<link href='%s' type='text/css' rel='stylesheet'/>%n", CSS);
 		out.println("</head>");
 		out.println("<body>");
-		out.printf("  <img id='cover' src='cover.png' alt='Cover %s'/>%n", props.getProperty("title"));
+		out.printf("  <img id='cover' src='%s' alt='Cover %s'/>%n", filename, props.getProperty("title"));
 		out.println("</body>");
 		out.println("</html>");
 		out.flush();
 		zip.closeEntry();
 	}
 
-	private void convert(File file) throws IOException {
+	private void writeImages(File basedir, Set<String> images) throws IOException {
+		for (String image : images) {
+			// Mime-Type ermitteln
+			String mimeType = null;
+			String suffix = image.substring(image.lastIndexOf('.'));
+			for (String[] s : MIME_TYPES_IMAGE) {
+				for (int i = 1; i < s.length; i++) {
+					if (suffix.equals(s[i])) {
+						mimeType = s[0];
+					}
+				}
+			}
+			// Bild ausgeben
+			String id = image.substring(0, image.lastIndexOf('.'));
+			writeFile(basedir, image, mimeType, id);
+			mediaFiles.add(new FileEntry(image, mimeType, id));
+		}
+	}
+
+	private void convert(File file, Set<String> images) throws IOException {
 		String outputFilename = file.getName();
 		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf(".md"));
 		String id = outputFilename;
@@ -196,6 +247,11 @@ public class Markdown2Epub {
 		Matcher matcher = Pattern.compile("<h1>([^<]*)</h1>").matcher(output);
 		if (matcher.find()) {
 			tocEntries.put(outputFilename, matcher.group(1));
+		}
+		// Bilder suchen
+		matcher = Pattern.compile("<img [^>]*src=[\"']([^\"']*)[\"'][^>]*>").matcher(output);
+		while (matcher.find()) {
+			images.add(matcher.group(1));
 		}
 
 		// Footer
@@ -340,6 +396,11 @@ public class Markdown2Epub {
 		out.println("  </package>");
 		out.flush();
 		zip.closeEntry();
+	}
+
+	private boolean exists(File basedir, String filename) {
+		File f = new File(basedir, filename);
+		return f.exists();
 	}
 
 	private static boolean isEmpty(String s) {
