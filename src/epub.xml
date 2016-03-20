@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Eigenschaften für eBook</comment>
+<!-- eindeutige ID des Buchs (https://www.famkruithof.net/uuid/uuidgen) -->
+<entry key="UUID"></entry>
+<!-- Buch-Titel -->
+<entry key="title"></entry>
+<!-- Sub-Titel -->
+<entry key="subtitle"></entry>
+<!-- Sprache -->
+<entry key="language">de</entry>
+<!-- Beschreibung -->
+<entry key="description"></entry>
+<!-- Author (Anzeige) -->
+<entry key="author"></entry>
+<!-- Author (für Sortierung) -->
+<entry key="authorFileAs"></entry>
+<!-- Datum der Veröffentlichung -->
+<entry key="pubDate"></entry>
+</properties>

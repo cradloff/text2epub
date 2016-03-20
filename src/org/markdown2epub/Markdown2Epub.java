@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class Markdown2Epub {
 	private static final String NCX = "content.ncx";
 	private static final String TOC = "toc.xhtml";
 	private static final String CSS = "book.css";
+	private static final String PROPERTIES = "epub.xml";
 	/** Mime-Types und zugehörige Endungen für Bilder */
 	private static final String[][] MIME_TYPES_IMAGE = {
 		{ "image/gif",	".gif" }, // GIF-Dateien
@@ -67,7 +69,10 @@ public class Markdown2Epub {
 	private void createEpub(String... args) throws IOException {
 		File basedir = new File(args[0]);
 		props = new Properties();
-		try (InputStream pin = new FileInputStream(new File(basedir, "epub.xml"))) {
+		if (! exists(basedir, PROPERTIES)) {
+			copy(PROPERTIES, basedir);
+		}
+		try (InputStream pin = new FileInputStream(new File(basedir, PROPERTIES))) {
 			props.loadFromXML(pin);
 		}
 		res = ResourceBundle.getBundle("Markdown2Epub", Locale.forLanguageTag(props.getProperty("language")));
@@ -123,20 +128,37 @@ public class Markdown2Epub {
 	private void writeFile(File basedir, String filename, String mimeType, String id) throws IOException {
 		File file = new File(basedir, filename);
 		if (! file.exists()) {
-			echo("MsgSkipFile", filename);
-			return;
+			// Vorlage aus Classpath kopieren
+			copy(CSS, basedir);
 		}
 
 		mediaFiles.add(new FileEntry(filename, mimeType, id));
 		zip.putNextEntry(new ZipEntry(filename));
-		byte[] buf = new byte[1024];
 		try (FileInputStream fis = new FileInputStream(file)) {
-			int len;
-			while ((len = fis.read(buf)) > 0) {
-				zip.write(buf, 0, len);
-			}
+			copy(fis, zip);
 		}
 		zip.closeEntry();
+	}
+
+	/**
+	 * Kopiert die Datei aus dem Classpath ins angegebene Verzeichnis.
+	 */
+	private void copy(String filename, File basedir) throws IOException {
+		try (InputStream is = getClass().getResourceAsStream("/" + filename);
+			OutputStream os = new FileOutputStream(new File(basedir, filename));) {
+			copy(is, os);
+		}
+	}
+
+	/**
+	 * Kopiert die Daten aus dem Input-Stream auf den Output-Stream.
+	 */
+	private void copy(InputStream is, OutputStream os) throws IOException {
+		byte[] buf = new byte[1024];
+		int len;
+		while ((len = is.read(buf)) > 0) {
+			os.write(buf, 0, len);
+		}
 	}
 
 	private void writeMimetype() throws IOException {
