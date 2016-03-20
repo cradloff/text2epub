@@ -76,7 +76,7 @@ public class Markdown2Epub {
 			props.loadFromXML(pin);
 		}
 		res = ResourceBundle.getBundle("Markdown2Epub", Locale.forLanguageTag(props.getProperty("language")));
-		File epub = new File(basedir, basedir.getName() + ".epub");
+		File epub = new File(basedir, mkFilename(basedir));
 		zip = new ZipOutputStream(new FileOutputStream(epub));
 		zip.setLevel(9);
 		out = new PrintWriter(new OutputStreamWriter(zip, ENCODING), false);
@@ -123,6 +123,31 @@ public class Markdown2Epub {
 		zip.close();
 
 		echo("MsgSuccess", epub.getName());
+	}
+
+	/** Liefert den Dateinamen für das EPUB zurück */
+	private String mkFilename(File basedir) {
+		// Titel - Author.epub
+		String author = props.getProperty("authorFileAs");
+		if (isEmpty(author)) {
+			author = props.getProperty("author");
+		}
+		String title = props.getProperty("title");
+
+		String filename;
+		// Ggf. Verzeichnis-Name als Fallback
+		if (isEmpty(author) || isEmpty(title)) {
+			filename = basedir.getName();
+		} else {
+			filename = title + " - " + author;
+		}
+
+		// ggf. Sonderzeichen entfernen
+		filename = filename.replaceAll("[/\\:|'\"&><]", "");
+		// Whitespaces durch Leerzeichen ersetzen
+		filename = filename.replaceAll("\\s\\s*", " ");
+
+		return filename + ".epub";
 	}
 
 	private void writeFile(File basedir, String filename, String mimeType, String id) throws IOException {
