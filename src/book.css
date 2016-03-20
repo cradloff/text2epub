@@ -45,3 +45,15 @@ blockquote p {
 	text-align: center;
 	font-size: x-large;
 }
+
+/* replace horizontal row with three asterisk */
+hr {
+	border: none;
+	margin: 2.0rem auto;
+	text-align:center;
+}
+    
+hr:before {
+	content: "***";
+	letter-spacing: 1rem;
+}
