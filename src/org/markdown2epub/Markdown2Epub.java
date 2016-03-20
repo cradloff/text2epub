@@ -322,6 +322,10 @@ public class Markdown2Epub {
 		out.println("  <body class='toc'>");
 		out.printf("    <div id='author'>%s</div>%n", props.getProperty("author"));
 		out.printf("    <div id='title'>%s</div>%n", props.getProperty("title"));
+		String subtitle = props.getProperty("subtitle");
+		if (! isEmpty(subtitle)) {
+			out.printf("    <div id='subtitle'>%s</div>%n", subtitle);
+		}
 		out.printf("    <h2>%s</h2>%n", res.getString("toc"));
 		out.println("    <ul>");
 		for (Entry<String, String> entry : tocEntries.entrySet()) {
