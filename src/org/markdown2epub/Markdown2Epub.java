@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -24,6 +21,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.github.rjeschke.txtmark.Configuration;
 import com.github.rjeschke.txtmark.Processor;
@@ -57,26 +62,26 @@ public class Markdown2Epub {
 	/** Medien (Dateiname / Mime-Type) */
 	private List<FileEntry> mediaFiles = new ArrayList<>();
 	/** Einträge für Inhaltsverzeichnis (Link / Titel) */
-	private Map<String, String> tocEntries = new LinkedHashMap<>();
+	private List<TocEntry> tocEntries = new ArrayList<>();
 	private Properties props;
 	private String uuid;
 	private ResourceBundle res;
 
-	public static void main(String... args) throws IOException {
+	public static void main(String... args) throws IOException, ParserConfigurationException, SAXException {
 		new Markdown2Epub().createEpub(args);
 	}
 
-	private void createEpub(String... args) throws IOException {
+	private void createEpub(String... args) throws IOException, ParserConfigurationException, SAXException {
 		File basedir = new File(args[0]);
 		props = new Properties();
 		if (! exists(basedir, PROPERTIES)) {
-			copy(PROPERTIES, basedir);
+			copyCP2FS(PROPERTIES, basedir);
 		}
 		try (InputStream pin = new FileInputStream(new File(basedir, PROPERTIES))) {
 			props.loadFromXML(pin);
 		}
 		res = ResourceBundle.getBundle("Markdown2Epub", Locale.forLanguageTag(props.getProperty("language")));
-		File epub = new File(basedir, mkFilename(basedir));
+		File epub = new File(mkFilename(basedir));
 		zip = new ZipOutputStream(new FileOutputStream(epub));
 		zip.setLevel(9);
 		out = new PrintWriter(new OutputStreamWriter(zip, ENCODING), false);
@@ -93,7 +98,12 @@ public class Markdown2Epub {
 		writeContainer();
 
 		// CSS
-		writeFile(basedir, CSS, "text/css", "style-sheet");
+		File css = new File(basedir, CSS);
+		if (! css.exists()) {
+			// Vorlage aus Classpath kopieren
+			copyCP2FS(CSS, basedir);
+		}
+		writeMedia(basedir, CSS, "text/css", "style-sheet");
 
 		// Cover
 		writeCover(basedir);
@@ -107,6 +117,8 @@ public class Markdown2Epub {
 		for (File file : files) {
 			if (file.getName().endsWith(".md")) {
 				convert(file, images);
+			} else if (file.getName().endsWith(".xhtml")) {
+				writeHtml(file, images);
 			}
 		}
 
@@ -150,15 +162,14 @@ public class Markdown2Epub {
 		return filename + ".epub";
 	}
 
-	private void writeFile(File basedir, String filename, String mimeType, String id) throws IOException {
-		File file = new File(basedir, filename);
-		if (! file.exists()) {
-			// Vorlage aus Classpath kopieren
-			copy(CSS, basedir);
-		}
-
+	private void writeMedia(File basedir, String filename, String mimeType, String id) throws IOException {
 		mediaFiles.add(new FileEntry(filename, mimeType, id));
-		zip.putNextEntry(new ZipEntry(filename));
+		File file = new File(basedir, filename);
+		writeFile(file);
+	}
+
+	private void writeFile(File file) throws IOException {
+		zip.putNextEntry(new ZipEntry(file.getName()));
 		try (FileInputStream fis = new FileInputStream(file)) {
 			copy(fis, zip);
 		}
@@ -168,7 +179,7 @@ public class Markdown2Epub {
 	/**
 	 * Kopiert die Datei aus dem Classpath ins angegebene Verzeichnis.
 	 */
-	private void copy(String filename, File basedir) throws IOException {
+	private void copyCP2FS(String filename, File basedir) throws IOException {
 		try (InputStream is = getClass().getResourceAsStream("/" + filename);
 			OutputStream os = new FileOutputStream(new File(basedir, filename));) {
 			copy(is, os);
@@ -191,10 +202,11 @@ public class Markdown2Epub {
 		ZipEntry entry = new ZipEntry("mimetype");
 		entry.setMethod(ZipEntry.STORED);
 		// dummerweise muss die Größe und CRC-32 jetzt explizit gesetzt werden (aus vorhandener Zip-Datei übernommen):
-		entry.setCompressedSize(20);
+		String mimetype = "application/epub+zip";
+		entry.setCompressedSize(mimetype.length());
 		entry.setCrc(0x2cab616f);
 		zip.putNextEntry(entry);
-		out.print("application/epub+zip");
+		out.print(mimetype);
 		out.flush();
 		zip.closeEntry();
 	}
@@ -231,7 +243,7 @@ public class Markdown2Epub {
 			return;
 		}
 
-		writeFile(basedir, filename, mimeType, COVER_ID);
+		writeMedia(basedir, filename, mimeType, COVER_ID);
 
 		zip.putNextEntry(new ZipEntry(COVER));
 		contentFiles.add(0, new FileEntry(COVER, MIMETYPE_XHTML, "cover"));
@@ -264,11 +276,25 @@ public class Markdown2Epub {
 			}
 			// Bild ausgeben
 			String id = image.substring(0, image.lastIndexOf('.'));
-			writeFile(basedir, image, mimeType, id);
-			mediaFiles.add(new FileEntry(image, mimeType, id));
+			writeMedia(basedir, image, mimeType, id);
 		}
 	}
 
+	/** XHTML übernehmen */
+	private void writeHtml(File file, Set<String> images) throws IOException, ParserConfigurationException, SAXException {
+		String outputFilename = file.getName();
+		String id = outputFilename.substring(0, outputFilename.lastIndexOf(".xhtml"));
+		writeFile(file);
+		contentFiles.add(new FileEntry(outputFilename, MIMETYPE_XHTML, id));
+		// Überschrift suchen
+		scanTocEntries(outputFilename, file);
+		// Bilder suchen
+		scanImages(images, file);
+
+		echo("MsgFileImported", outputFilename);
+	}
+
+	/** Markdown nach HTML konvertieren */
 	private void convert(File file, Set<String> images) throws IOException {
 		String outputFilename = file.getName();
 		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf(".md"));
@@ -289,17 +315,11 @@ public class Markdown2Epub {
 		// Inhalt
 		Configuration config = Configuration.builder().forceExtentedProfile().build();
 		String output = Processor.process(file, config);
-		out.write(output);
 		// Überschrift suchen
-		Matcher matcher = Pattern.compile("<h1>([^<]*)</h1>").matcher(output);
-		if (matcher.find()) {
-			tocEntries.put(outputFilename, matcher.group(1));
-		}
+		scanTocEntries(outputFilename, output);
 		// Bilder suchen
-		matcher = Pattern.compile("<img [^>]*src=[\"']([^\"']*)[\"'][^>]*>").matcher(output);
-		while (matcher.find()) {
-			images.add(matcher.group(1));
-		}
+		scanImages(images, output);
+		out.write(output);
 
 		// Footer
 		out.println("</body>");
@@ -308,6 +328,93 @@ public class Markdown2Epub {
 		zip.closeEntry();
 
 		echo("MsgFileImported", outputFilename);
+	}
+
+	/** Sucht nach Überschriften für das Inhaltsverzeichnis */
+	private void scanTocEntries(String outputFilename, String content) {
+		// sucht nach <h1>xxx</h1> und <h1 id="...">xxx</h1>
+		Matcher matcher = Pattern.compile("<h1(\\s+id=[\"']([^>]*)[\"'])?>([^<]*)</h1>").matcher(content);
+		while (matcher.find()) {
+			String id = matcher.group(2);
+			String link = outputFilename;
+			if (! isEmpty(id)) {
+				link += "#" + id;
+			}
+			tocEntries.add(new TocEntry(matcher.group(3), link));
+		}
+	}
+
+	/** Sucht nach Überschriften für das Inhaltsverzeichnis */
+	private void scanTocEntries(final String outputFilename, File file) throws ParserConfigurationException, SAXException, IOException {
+		DefaultHandler handler = new DefaultHandler() {
+			private boolean scan = false;
+			private String id;
+			private StringBuilder sb = new StringBuilder();
+
+			@Override
+			public void startElement(String uri, String localName,
+					String qName, Attributes attributes) throws SAXException {
+				if ("h1".equals(qName)) {
+					scan = true;
+					id = attributes.getValue("id");
+					sb.setLength(0);
+				}
+			}
+
+			@Override
+			public void endElement(String uri, String localName, String qName)
+					throws SAXException {
+				if ("h1".equals(qName)) {
+					scan = false;
+					String link = outputFilename;
+					if (id != null) {
+						link += "#" + id;
+					}
+					tocEntries.add(new TocEntry(sb.toString().trim(), link));
+				}
+			}
+
+			@Override
+			public void characters(char[] ch, int start, int length)
+					throws SAXException {
+				if (scan) {
+					sb.append(ch, start, length);
+				}
+			}
+
+		};
+		parseXml(file, handler);
+	}
+
+	/** Sucht nach referenzierten Bildern */
+	private void scanImages(Set<String> images, String content) {
+		// sucht nach <img ...src="xxx".../>
+		Matcher matcher = Pattern.compile("<img [^>]*src=[\"']([^\"']*)[\"'][^>]*>").matcher(content);
+		while (matcher.find()) {
+			images.add(matcher.group(1));
+		}
+	}
+
+	/** Sucht nach referenzierten Bildern */
+	private void scanImages(final Set<String> images, File file) throws ParserConfigurationException, SAXException, IOException {
+		DefaultHandler handler = new DefaultHandler() {
+			@Override
+			public void startElement(String uri, String localName,
+					String qName, Attributes attributes) throws SAXException {
+				if ("img".equals(qName)) {
+					images.add(attributes.getValue("src"));
+				}
+			}
+		};
+		parseXml(file, handler);
+	}
+
+	private void parseXml(File file, DefaultHandler handler)
+			throws ParserConfigurationException, SAXException, IOException {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+		SAXParser parser = factory.newSAXParser();
+		parser.parse(file, handler);
 	}
 
 	private void writeNCX() throws IOException {
@@ -340,12 +447,12 @@ public class Markdown2Epub {
 		out.println("        </navLabel>");
 		out.printf("        <content src='%s'/>%n", TOC);
 		// untergeordnet die Kapitel
-		for (Entry<String, String> entry : tocEntries.entrySet()) {
+		for (TocEntry entry : tocEntries) {
 			out.printf("        <navPoint playOrder='%1$d' id='navPoint-%1$d'>%n", index++);
 			out.println("          <navLabel>");
-			out.printf("            <text>%s</text>%n", entry.getValue());
+			out.printf("            <text>%s</text>%n", entry.getTitle());
 			out.println("          </navLabel>");
-			out.printf("          <content src='%s'/>%n", entry.getKey());
+			out.printf("          <content src='%s'/>%n", entry.getFilename());
 			out.println("        </navPoint>");
 		}
 		out.println("      </navPoint>");
@@ -375,8 +482,8 @@ public class Markdown2Epub {
 		}
 		out.printf("    <h2>%s</h2>%n", res.getString("toc"));
 		out.println("    <ul>");
-		for (Entry<String, String> entry : tocEntries.entrySet()) {
-			out.printf("      <li><a href='%s'>%s</a></li>%n", entry.getKey(), entry.getValue());
+		for (TocEntry entry : tocEntries) {
+			out.printf("      <li><a href='%s'>%s</a></li>%n", entry.getFilename(), entry.getTitle());
 		}
 		out.println("    </ul>");
 		out.println("  </body>");
@@ -426,8 +533,7 @@ public class Markdown2Epub {
 		// Verzeichnis der Dateien des Buches
 		out.println("    <manifest>");
 		out.printf("      <item id='ncx' href='%s' media-type='application/x-dtbncx+xml'/>%n", NCX);
-		for (int i = 0; i < contentFiles.size(); i++) {
-			FileEntry entry = contentFiles.get(i);
+		for (FileEntry entry : contentFiles) {
 			out.printf("      <item id='%s' href='%s' media-type='%s'/>%n", entry.getId(), entry.getFilename(), entry.getMimeType());
 		}
 		for (FileEntry entry : mediaFiles) {
