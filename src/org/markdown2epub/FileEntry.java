@@ -5,7 +5,7 @@ package org.markdown2epub;
  *
  * @author Claus Radloff
  */
-class FileEntry {
+public class FileEntry {
 	private String filename;
 	private String mimeType;
 	private String id;
