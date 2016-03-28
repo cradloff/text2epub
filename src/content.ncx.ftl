@@ -17,7 +17,7 @@
         <text>${resource.cover}</text>
       </navLabel>
       <content src='${params.COVER}'/>
-    </navPoint>");
+    </navPoint>
     <navPoint playOrder='2' id='navPoint-2'>
       <navLabel>
         <text>${property.title}</text>

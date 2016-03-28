@@ -1,4 +1,4 @@
-package org.markdown2epub;
+package text2epub;
 
 /**
  * Daten zu einem Eintrag im Inhaltsverzeichnis.

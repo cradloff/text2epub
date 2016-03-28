@@ -6,6 +6,8 @@
 <link href='${stylesheet}' type='text/css' rel='stylesheet'/>
 </head>
 <body>
+<div>
 	<img id='cover' src='${params.cover_url}' alt='Cover ${property.title}'/>
+</div>
 </body>
 </html>

@@ -1,4 +1,5 @@
-package org.markdown2epub;
+package text2epub;
+
 
 /**
  * Daten zu einer Datei.
@@ -20,7 +21,7 @@ public class FileEntry {
 		super();
 		this.filename = filename;
 		this.mimeType = mimeType;
-		this.id = id;
+		this.id = escape(id);
 	}
 
 	public String getFilename() {
@@ -33,5 +34,18 @@ public class FileEntry {
 
 	public String getId() {
 		return id;
+	}
+
+	/** Erzeugt eine gültige XML-ID aus der Zeichenkette */
+	private static String escape(String s) {
+		String t = s;
+		// ungültige Zeichen entfernen
+		t = s.replaceAll("[^a-zA-Z0-9-_]", "");
+		// ID darf nicht mit 'xml' oder einer Ziffer beginnen
+		if (t.startsWith("xml") || t.matches("\\d.*")) {
+			t = "_" + t;
+		}
+
+		return t;
 	}
 }

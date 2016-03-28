@@ -1,4 +1,4 @@
-package org.markdown2epub;
+package text2epub;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,12 +15,12 @@ import java.util.ResourceBundle;
 
 /** Daten zum Buch */
 public class Book {
-	private static final String OPF = "content.opf";
-	private static final String COVER = "cover.xhtml";
-	private static final String COVER_ID = "cover-image";
-	private static final String NCX = "content.ncx";
-	private static final String TOC = "toc.xhtml";
-	private static final String CSS = "book.css";
+	public static final String OPF = "content.opf";
+	public static final String COVER = "cover.xhtml";
+	public static final String COVER_ID = "cover-image";
+	public static final String NCX = "content.ncx";
+	public static final String TOC = "toc.xhtml";
+	public static final String CSS = "book.css";
 	private Properties props = new Properties();
 	private Map<String, String> res = new HashMap<>();
 	private Map<String, Object> params = new HashMap<>();
@@ -52,7 +52,7 @@ public class Book {
 			props.loadFromXML(pin);
 		}
 		// Resource-Bundle in Map umkopieren
-		ResourceBundle resBundle = ResourceBundle.getBundle("Markdown2Epub", Locale.forLanguageTag(getProperty("language")));
+		ResourceBundle resBundle = ResourceBundle.getBundle("Text2Epub", Locale.forLanguageTag(getProperty("language")));
 		for (String key : resBundle.keySet()) {
 			res.put(key, resBundle.getString(key));
 		}
