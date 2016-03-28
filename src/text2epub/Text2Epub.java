@@ -28,6 +28,13 @@ public class Text2Epub {
 	private Book book;
 	private FreeMarker freeMarker;
 
+	/**
+	 * Startet die Erstellung des Buches. Wird das Programm ohne Parameter aufgerufen,
+	 * werden die Quellen im aktuellen Verzeichnis gesucht, der Dateiname des Buchs wird
+	 * aus Titel und Author zusammengesetzt.
+	 * @param args [Verzeichnis mit Quellen] [Dateiname]
+	 * @throws IOException
+	 */
 	public static void main(String... args) throws IOException {
 		new Text2Epub().createEpub(args);
 	}
@@ -39,7 +46,7 @@ public class Text2Epub {
 		}
 		book = new Book();
 		book.readProperties(new File(basedir, PROPERTIES));
-		File epub = new File(mkFilename(basedir));
+		File epub = new File(args.length > 1 ? args[1] : mkFilename(basedir));
 		book.setFilename(epub);
 		writer = new ZipWriter(epub);
 
