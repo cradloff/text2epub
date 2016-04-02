@@ -24,7 +24,9 @@
       </#if>
       xml:lang='${property.language}'>${property.author}</dc:creator>
     <#-- Cover -->
+    <#if params.COVER ??>
     <meta name='cover' content='${params.COVER_ID}'/>
+    </#if>
     <#-- Charakteristischer Zeitpunkt der Erstellung des Buches -->
     <dc:date opf:event='creation'>${creation}</dc:date>
     <#-- Zeitpunkt der Veröffentlichung -->
@@ -48,7 +50,9 @@
     <itemref idref='${entry.id}'/>
     </#list>
   </spine>
+  <#if params.COVER ??>
   <guide>
     <reference type='cover' title='${resource.cover}' href='${params.COVER}'/>
   </guide>
+  </#if>
 </package>

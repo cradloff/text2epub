@@ -15,6 +15,9 @@ import com.github.rjeschke.txtmark.Processor;
  * @author Claus Radloff
  */
 public class Text2Epub {
+	private static final String TOC = "toc.xhtml";
+	private static final String COVER = "cover.xhtml";
+	private static final String COVER_ID = "cover-image";
 	private static final String MIMETYPE_XHTML = "application/xhtml+xml";
 	private static final String PROPERTIES = "epub.xml";
 	/** Mime-Types und zugehörige Endungen für Bilder */
@@ -69,7 +72,11 @@ public class Text2Epub {
 		// Cover
 		writeCover(basedir);
 
-		book.addContentFile(new FileEntry(Book.TOC, MIMETYPE_XHTML, "toc"));
+		boolean createToc = Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"));
+		if (createToc) {
+			book.addContentFile(new FileEntry(TOC, MIMETYPE_XHTML, "toc"));
+			book.setParam("TOC", TOC);
+		}
 
 		// Markdown-Dateien konvertieren und schreiben
 		Set<String> images = new HashSet<>();
@@ -90,8 +97,8 @@ public class Text2Epub {
 
 		// Inhaltsverzeichnis ausgeben
 		freeMarker.writeTemplate("content.ncx.ftl", Book.NCX);
-		if (Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"))) {
-			freeMarker.writeTemplate("toc.xhtml.ftl", Book.TOC);
+		if (createToc) {
+			freeMarker.writeTemplate("toc.xhtml.ftl", TOC);
 		}
 
 		// Stammdatei schreiben
@@ -136,9 +143,8 @@ public class Text2Epub {
 	private void writeCover(File basedir) throws IOException {
 		// Cover suchen
 		boolean found = false;
-		String filename = null;
 		// explizit angegeben?
-		filename = book.getProperty("cover");
+		String filename = book.getProperty("cover");
 		// sonst danach suchen
 		if (isEmpty(filename)) {
 			outer: for (String[] entry : MIME_TYPES_IMAGE) {
@@ -156,11 +162,13 @@ public class Text2Epub {
 			}
 		}
 
-		writeImage(basedir, filename, Book.COVER_ID);
+		writeImage(basedir, filename, COVER_ID);
 
-		book.addContentFile(new FileEntry(Book.COVER, MIMETYPE_XHTML, "cover"));
-		book.getParams().put("cover_url", filename);
-		freeMarker.writeTemplate("cover.xhtml.ftl", Book.COVER);
+		book.addContentFile(new FileEntry(COVER, MIMETYPE_XHTML, "cover"));
+		book.setParam("COVER", COVER);
+		book.setParam("COVER_ID", COVER_ID);
+		book.setParam("cover_url", filename);
+		freeMarker.writeTemplate("cover.xhtml.ftl", COVER);
 	}
 
 	private void writeImages(File basedir, Set<String> images) throws IOException {
@@ -213,7 +221,7 @@ public class Text2Epub {
 		// Inhalt
 		Configuration config = Configuration.builder().forceExtentedProfile().build();
 		String output = Processor.process(file, config);
-		book.getParams().put("content", output);
+		book.setParam("content", output);
 		freeMarker.writeTemplate("content.xhtml.ftl", outputFilename);
 		// Überschrift suchen
 		TocScanner toc = new TocScanner(book, outputFilename);
