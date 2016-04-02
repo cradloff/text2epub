@@ -18,4 +18,8 @@
 <entry key="authorFileAs"></entry>
 <!-- Datum der Veröffentlichung -->
 <entry key="pubDate"></entry>
+<!-- Cover-Bild (default cover.*) -->
+<entry key="cover"></entry>
+<!-- Inhaltsverzeichnis generieren? -->
+<entry key="toc">true</entry>
 </properties>

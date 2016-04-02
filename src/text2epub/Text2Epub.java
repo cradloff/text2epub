@@ -90,7 +90,9 @@ public class Text2Epub {
 
 		// Inhaltsverzeichnis ausgeben
 		freeMarker.writeTemplate("content.ncx.ftl", Book.NCX);
-		freeMarker.writeTemplate("toc.xhtml.ftl", Book.TOC);
+		if (Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"))) {
+			freeMarker.writeTemplate("toc.xhtml.ftl", Book.TOC);
+		}
 
 		// Stammdatei schreiben
 		freeMarker.writeTemplate("content.opf.ftl", Book.OPF);
@@ -134,24 +136,27 @@ public class Text2Epub {
 	private void writeCover(File basedir) throws IOException {
 		// Cover suchen
 		boolean found = false;
-		String mimeType = null;
 		String filename = null;
-		outer: for (String[] entry : MIME_TYPES_IMAGE) {
-			mimeType = entry[0];
-			for (int i = 1; i < entry.length; i++) {
-				filename = "cover" + entry[i];
-				if (IOUtils.exists(basedir, filename)) {
-					found = true;
-					break outer;
+		// explizit angegeben?
+		filename = book.getProperty("cover");
+		// sonst danach suchen
+		if (isEmpty(filename)) {
+			outer: for (String[] entry : MIME_TYPES_IMAGE) {
+				for (int i = 1; i < entry.length; i++) {
+					filename = "cover" + entry[i];
+					if (IOUtils.exists(basedir, filename)) {
+						found = true;
+						break outer;
+					}
 				}
 			}
-		}
-		if (! found) {
-			echo("MsgNoCover");
-			return;
+			if (! found) {
+				echo("MsgNoCover");
+				return;
+			}
 		}
 
-		writeMedia(basedir, filename, mimeType, Book.COVER_ID);
+		writeImage(basedir, filename, Book.COVER_ID);
 
 		book.addContentFile(new FileEntry(Book.COVER, MIMETYPE_XHTML, "cover"));
 		book.getParams().put("cover_url", filename);
@@ -160,20 +165,25 @@ public class Text2Epub {
 
 	private void writeImages(File basedir, Set<String> images) throws IOException {
 		for (String image : images) {
-			// Mime-Type ermitteln
-			String mimeType = null;
-			String suffix = image.substring(image.lastIndexOf('.'));
-			for (String[] s : MIME_TYPES_IMAGE) {
-				for (int i = 1; i < s.length; i++) {
-					if (suffix.equals(s[i])) {
-						mimeType = s[0];
-					}
-				}
-			}
 			// Bild ausgeben
 			String id = image.substring(0, image.lastIndexOf('.'));
-			writeMedia(basedir, image, mimeType, id);
+			writeImage(basedir, image, id);
 		}
+	}
+
+	private void writeImage(File basedir, String image, String id) throws IOException {
+		// Mime-Type ermitteln
+		String mimeType = null;
+		String suffix = image.substring(image.lastIndexOf('.'));
+		for (String[] s : MIME_TYPES_IMAGE) {
+			for (int i = 1; i < s.length; i++) {
+				if (suffix.equals(s[i])) {
+					mimeType = s[0];
+				}
+			}
+		}
+
+		writeMedia(basedir, image, mimeType, id);
 	}
 
 	/** XHTML übernehmen */
