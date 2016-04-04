@@ -17,7 +17,6 @@ import com.github.rjeschke.txtmark.Processor;
 public class Text2Epub {
 	private static final String TOC = "toc.xhtml";
 	private static final String COVER = "cover.xhtml";
-	private static final String COVER_ID = "cover-image";
 	private static final String MIMETYPE_XHTML = "application/xhtml+xml";
 	private static final String PROPERTIES = "epub.xml";
 	/** Mime-Types und zugehörige Endungen für Bilder */
@@ -162,11 +161,11 @@ public class Text2Epub {
 			}
 		}
 
-		writeImage(basedir, filename, COVER_ID);
+		String coverId = writeImage(basedir, filename);
 
 		book.addContentFile(new FileEntry(COVER, MIMETYPE_XHTML, "cover"));
 		book.setParam("COVER", COVER);
-		book.setParam("COVER_ID", COVER_ID);
+		book.setParam("COVER_ID", coverId);
 		book.setParam("cover_url", filename);
 		freeMarker.writeTemplate("cover.xhtml.ftl", COVER);
 	}
@@ -174,12 +173,11 @@ public class Text2Epub {
 	private void writeImages(File basedir, Set<String> images) throws IOException {
 		for (String image : images) {
 			// Bild ausgeben
-			String id = image.substring(0, image.lastIndexOf('.'));
-			writeImage(basedir, image, id);
+			writeImage(basedir, image);
 		}
 	}
 
-	private void writeImage(File basedir, String image, String id) throws IOException {
+	private String writeImage(File basedir, String image) throws IOException {
 		// Mime-Type ermitteln
 		String mimeType = null;
 		String suffix = image.substring(image.lastIndexOf('.'));
@@ -191,13 +189,16 @@ public class Text2Epub {
 			}
 		}
 
+		String id = String.format("img-%02d", book.getMediaFiles().size() + 1);
 		writeMedia(basedir, image, mimeType, id);
+
+		return id;
 	}
 
 	/** XHTML übernehmen */
 	private void writeHtml(File file, Set<String> images) throws IOException {
 		String outputFilename = file.getName();
-		String id = outputFilename.substring(0, outputFilename.lastIndexOf(".xhtml"));
+		String id = String.format("content-%02d", book.getContentFiles().size() + 1);
 		writer.writeFile(file);
 		book.addContentFile(new FileEntry(outputFilename, MIMETYPE_XHTML, id));
 		// Überschrift suchen
