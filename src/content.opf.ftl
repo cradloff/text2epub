@@ -50,9 +50,12 @@
     <itemref idref='${entry.id}'/>
     </#list>
   </spine>
-  <#if params.COVER ??>
   <guide>
+    <#if params.COVER ??>
     <reference type='cover' title='${resource.cover}' href='${params.COVER}'/>
+    </#if>
+    <#if params.TOC ??>
+    <reference type='toc' title='${resource.toc}' href='${params.TOC}'/>
+    </#if>
   </guide>
-  </#if>
 </package>
