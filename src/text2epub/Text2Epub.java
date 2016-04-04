@@ -23,7 +23,8 @@ public class Text2Epub {
 	private static final String[][] MIME_TYPES_IMAGE = {
 		{ "image/gif",	".gif" }, // GIF-Dateien
 		{ "image/jpeg",	".jpeg", ".jpg", ".jpe"}, // JPEG-Dateien
-		{ "image/png",	".png" } // PNG-Dateien
+		{ "image/png",	".png" }, // PNG-Dateien
+		{ "image/svg+xml", ".svg" } // SVG-Grafiken
 	};
 
 	private ZipWriter writer;
@@ -183,7 +184,7 @@ public class Text2Epub {
 		String suffix = image.substring(image.lastIndexOf('.'));
 		for (String[] s : MIME_TYPES_IMAGE) {
 			for (int i = 1; i < s.length; i++) {
-				if (suffix.equals(s[i])) {
+				if (suffix.equalsIgnoreCase(s[i])) {
 					mimeType = s[0];
 				}
 			}
