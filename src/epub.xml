@@ -4,7 +4,7 @@
 <comment>Eigenschaften für eBook</comment>
 <!-- eindeutige ID des Buchs (https://www.famkruithof.net/uuid/uuidgen) -->
 <entry key="UUID"></entry>
-<!-- Buch-Titel -->
+<!-- Buch-Titel (Pflichtangabe) -->
 <entry key="title"></entry>
 <!-- Sub-Titel -->
 <entry key="subtitle"></entry>
@@ -12,14 +12,14 @@
 <entry key="language">de</entry>
 <!-- Beschreibung -->
 <entry key="description"></entry>
-<!-- Author (Anzeige) -->
+<!-- Author (Anzeige, Pflichtangabe) -->
 <entry key="author"></entry>
 <!-- Author (für Sortierung) -->
 <entry key="authorFileAs"></entry>
-<!-- Datum der Veröffentlichung -->
+<!-- Datum der Veröffentlichung (yyyy-mm-dd) -->
 <entry key="pubDate"></entry>
 <!-- Cover-Bild (default cover.*) -->
 <entry key="cover"></entry>
-<!-- Inhaltsverzeichnis generieren? -->
+<!-- Inhaltsverzeichnis generieren? (true/false) -->
 <entry key="toc">true</entry>
 </properties>
