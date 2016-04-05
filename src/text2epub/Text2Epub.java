@@ -3,6 +3,7 @@ package text2epub;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -81,7 +82,12 @@ public class Text2Epub {
 		// Markdown-Dateien konvertieren und schreiben
 		Set<String> images = new HashSet<>();
 		File[] files = basedir.listFiles();
-		Arrays.sort(files);
+		Arrays.sort(files, new Comparator<File>() {
+			@Override
+			public int compare(File f1, File f2) {
+				return f1.getName().compareToIgnoreCase(f2.getName());
+			}
+		});
 		for (File file : files) {
 			String filename = file.getName().toLowerCase();
 			if (filename.endsWith(".md")
