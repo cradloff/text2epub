@@ -7,7 +7,7 @@
 </head>
 <body>
 <div>
-	<img id='cover' src='${params.cover_url}' alt='Cover ${property.title}'/>
+	<img id='cover' src='${params.cover_url}' alt='${property.author} - ${property.title}'/>
 </div>
 </body>
 </html>

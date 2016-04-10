@@ -2,6 +2,7 @@ package text2epub;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -20,12 +21,13 @@ public class Text2Epub {
 	private static final String COVER = "cover.xhtml";
 	private static final String MIMETYPE_XHTML = "application/xhtml+xml";
 	private static final String PROPERTIES = "epub.xml";
+	private static final String MIME_TYPE_SVG = "image/svg+xml";
 	/** Mime-Types und zugehörige Endungen für Bilder */
 	private static final String[][] MIME_TYPES_IMAGE = {
 		{ "image/gif",	".gif" }, // GIF-Dateien
 		{ "image/jpeg",	".jpeg", ".jpg", ".jpe"}, // JPEG-Dateien
 		{ "image/png",	".png" }, // PNG-Dateien
-		{ "image/svg+xml", ".svg" } // SVG-Grafiken
+		{ MIME_TYPE_SVG, ".svg" } // SVG-Grafiken
 	};
 
 	private ZipWriter writer;
@@ -178,6 +180,16 @@ public class Text2Epub {
 	}
 
 	private void writeImages(File basedir, Set<String> images) throws IOException {
+		// zuerst nach eingebetteten Bildern in SVG-Grafiken suchen
+		for (String image : new ArrayList<String>(images)) {
+			String mimeType = getMimeType(image);
+			if (MIME_TYPE_SVG.equals(mimeType)) {
+				ImageScanner scanner = new ImageScanner(images);
+				scanner.scanXml(new File(basedir, image));
+			}
+		}
+
+		// jetzt die Bilder schreiben
 		for (String image : images) {
 			// Bild ausgeben
 			writeImage(basedir, image);
@@ -186,6 +198,15 @@ public class Text2Epub {
 
 	private String writeImage(File basedir, String image) throws IOException {
 		// Mime-Type ermitteln
+		String mimeType = getMimeType(image);
+
+		String id = String.format("img-%02d", book.getMediaFiles().size() + 1);
+		writeMedia(basedir, image, mimeType, id);
+
+		return id;
+	}
+
+	private String getMimeType(String image) {
 		String mimeType = null;
 		String suffix = image.substring(image.lastIndexOf('.'));
 		for (String[] s : MIME_TYPES_IMAGE) {
@@ -195,11 +216,7 @@ public class Text2Epub {
 				}
 			}
 		}
-
-		String id = String.format("img-%02d", book.getMediaFiles().size() + 1);
-		writeMedia(basedir, image, mimeType, id);
-
-		return id;
+		return mimeType;
 	}
 
 	/** XHTML übernehmen */
