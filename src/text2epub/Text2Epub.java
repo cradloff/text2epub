@@ -238,7 +238,7 @@ public class Text2Epub {
 	/** Markdown nach HTML konvertieren */
 	private void writeMarkdown(File file, Set<String> images) throws IOException {
 		String outputFilename = file.getName();
-		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf(".md"));
+		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf("."));
 		String id = outputFilename;
 		outputFilename += ".xhtml";
 		book.addContentFile(new FileEntry(outputFilename, MIMETYPE_XHTML, id));
