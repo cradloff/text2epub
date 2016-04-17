@@ -22,4 +22,6 @@
 <entry key="cover"></entry>
 <!-- Inhaltsverzeichnis generieren? (true/false) -->
 <entry key="toc">true</entry>
+<!-- Verzeichnis-Ebenen (1-3) -->
+<entry key="toc-level">3</entry>
 </properties>

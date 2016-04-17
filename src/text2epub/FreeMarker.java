@@ -2,6 +2,8 @@ package text2epub;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
@@ -42,9 +44,21 @@ public class FreeMarker {
 	/** Schreibt ein FreeMarker-Template in die Zip-Datei */
 	public void writeTemplate(String templateName, String path) throws IOException {
 		writer.newEntry(path);
+		writeTemplate(templateName, writer);
+	}
+
+	/** Führt ein FreeMarker-Template aus, und liefert das Ergebnis zurück */
+	public String applyTemplate(String templateName) throws IOException {
+		StringWriter out = new StringWriter();
+		writeTemplate(templateName, out);
+
+		return out.toString();
+	}
+
+	private void writeTemplate(String templateName, Writer out) throws IOException {
 		Template template = fmCfg.getTemplate(templateName);
 		try {
-			template.process(data, writer);
+			template.process(data, out);
 		} catch (TemplateException e) {
 			throw new RuntimeException(e);
 		}

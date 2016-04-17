@@ -1,4 +1,4 @@
-package text2epub;
+package text2epub.xml;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -17,15 +17,17 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-/** Basisklasse für XML-Scanner */
-public class AbstractXmlScanner extends DefaultHandler {
+/** XML-Scanner */
+public class XmlScanner {
+	private XmlScanner() {}
+
 	/** Scannt ein XML-Fragment */
-	public void scanXmlFragment(String content) {
-		scanXmlFragment(new ByteArrayInputStream(content.getBytes()));
+	public static void scanXmlFragment(String content, DefaultHandler handler) {
+		scanXmlFragment(new ByteArrayInputStream(content.getBytes()), handler);
 	}
 
 	/** Scannt ein XML-Fragment */
-	public void scanXmlFragment(InputStream in) {
+	public static void scanXmlFragment(InputStream in, DefaultHandler handler) {
 		// Fragment in Root-Element verpacken
 		Enumeration<InputStream> streams = Collections.enumeration(
 				Arrays.asList(new InputStream[] {
@@ -35,26 +37,26 @@ public class AbstractXmlScanner extends DefaultHandler {
 				}));
 
 		SequenceInputStream seqStream = new SequenceInputStream(streams);
-		scanXml(seqStream);
+		scanXml(seqStream, handler);
 	}
 
 	/** Scannt eine Datei */
-	public void scanXml(File file) throws IOException {
+	public static void scanXml(File file, DefaultHandler handler) throws IOException {
 		try (FileInputStream fis = new FileInputStream(file)) {
-			scanXml(fis);
+			scanXml(fis, handler);
 		}
 	}
 
-	/** Scannt einen Input-Stream */
-	public void scanXml(InputStream in) {
+	/** Scannt einen Input-Stream
+	 * @param handler */
+	public static void scanXml(InputStream in, DefaultHandler handler) {
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
 			SAXParser parser = factory.newSAXParser();
-			parser.parse(in, this);
+			parser.parse(in, handler);
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
 }

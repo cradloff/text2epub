@@ -12,6 +12,20 @@
   </docAuthor>
   <navMap>
     <#assign order = 1 >
+    <#macro printNavPoint entries>
+      <#list entries as entry>
+      <navPoint playOrder='${order}' id='navPoint-${order}'>
+      <#assign order = order + 1 >
+        <navLabel>
+          <text>${entry.title}</text>
+        </navLabel>
+        <content src='${entry.filename}'/>
+        <#if entry.subEntries?size &gt; 0>
+          <@printNavPoint entries=entry.subEntries/>
+        </#if>
+      </navPoint>
+      </#list>
+    </#macro>
     <#-- Cover und Index-Seite auf oberster Ebene -->
     <#if params.COVER ??>
     <navPoint playOrder='${order}' id='navPoint-${order}'>
@@ -30,27 +44,11 @@
       </navLabel>
       <content src='${params.TOC}'/>
       <#-- untergeordnet die Kapitel -->
-      <#list tocEntries as entry>
-      <navPoint playOrder='${order}' id='navPoint-${order}'>
-      <#assign order = order + 1 >
-        <navLabel>
-          <text>${entry.title}</text>
-        </navLabel>
-        <content src='${entry.filename}'/>
-      </navPoint>
-      </#list>
+      <@printNavPoint entries=tocEntries/>
     </navPoint>
     <#else>
     <#-- sonst die Kapitel auch auf oberster Ebene -->
-    <#list tocEntries as entry>
-    <navPoint playOrder='${order}' id='navPoint-${order}'>
-    <#assign order = order + 1 >
-      <navLabel>
-        <text>${entry.title}</text>
-      </navLabel>
-      <content src='${entry.filename}'/>
-    </navPoint>
-    </#list>
+    <@printNavPoint entries=tocEntries/>
     </#if>
   </navMap>
 </ncx>

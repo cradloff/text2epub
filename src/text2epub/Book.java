@@ -25,7 +25,7 @@ public class Book {
 	/** Medien (Dateiname / Mime-Type) */
 	private List<FileEntry> mediaFiles = new ArrayList<>();
 	/** Einträge für Inhaltsverzeichnis (Link / Titel) */
-	private List<TocEntry> tocEntries = new ArrayList<>();
+	private TocEntry tocRoot = new TocEntry("h0", "tocRoot", "n/a");
 	private File filename;
 
 	/**
@@ -166,11 +166,12 @@ public class Book {
 	}
 
 	public List<TocEntry> getTocEntries() {
-		return tocEntries;
+		return tocRoot.getSubEntries();
 	}
 
 	public void addTocEntry(TocEntry entry) {
-		tocEntries.add(entry);
+		// neuen Eintrag einsortieren
+		tocRoot.add(entry);
 	}
 
 }

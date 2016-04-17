@@ -6,9 +6,10 @@ import java.util.Set;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /** Sucht nach eingebunden Bildern */
-public class ImageScanner extends AbstractXmlScanner {
+public class ImageScanner extends DefaultHandler {
 	private Deque<String> parents = new ArrayDeque<>();
 	private Set<String> images;
 

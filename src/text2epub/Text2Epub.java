@@ -1,12 +1,28 @@
 package text2epub;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import text2epub.xml.ChainedContentHandler;
+import text2epub.xml.CompressingXMLWriter;
+import text2epub.xml.IdGeneratorFilter;
+import text2epub.xml.XMLWriter;
+import text2epub.xml.XmlScanner;
 
 import com.github.rjeschke.txtmark.Configuration;
 import com.github.rjeschke.txtmark.Processor;
@@ -22,6 +38,7 @@ public class Text2Epub {
 	private static final String MIMETYPE_XHTML = "application/xhtml+xml";
 	private static final String PROPERTIES = "epub.xml";
 	private static final String MIME_TYPE_SVG = "image/svg+xml";
+	private static final List<String> ALL_HEADINGS = Arrays.asList("h1", "h2", "h3", "h4", "h5", "h6");
 	/** Mime-Types und zugehörige Endungen für Bilder */
 	private static final String[][] MIME_TYPES_IMAGE = {
 		{ "image/gif",	".gif" }, // GIF-Dateien
@@ -81,7 +98,7 @@ public class Text2Epub {
 			book.setParam("TOC", TOC);
 		}
 
-		// Markdown-Dateien konvertieren und schreiben
+		// XHTML- und Markdown-Dateien konvertieren und schreiben
 		Set<String> images = new HashSet<>();
 		File[] files = basedir.listFiles();
 		Arrays.sort(files, new Comparator<File>() {
@@ -185,7 +202,7 @@ public class Text2Epub {
 			String mimeType = getMimeType(image);
 			if (MIME_TYPE_SVG.equals(mimeType)) {
 				ImageScanner scanner = new ImageScanner(images);
-				scanner.scanXml(new File(basedir, image));
+				XmlScanner.scanXml(new File(basedir, image), scanner);
 			}
 		}
 
@@ -222,40 +239,54 @@ public class Text2Epub {
 	/** XHTML übernehmen */
 	private void writeHtml(File file, Set<String> images) throws IOException {
 		String outputFilename = file.getName();
-		String id = String.format("content-%02d", book.getContentFiles().size() + 1);
-		writer.writeFile(file);
-		book.addContentFile(new FileEntry(outputFilename, MIMETYPE_XHTML, id));
-		// Überschrift suchen
-		TocScanner toc = new TocScanner(book, outputFilename);
-		toc.scanXml(file);
-		// Bilder suchen
-		ImageScanner img = new ImageScanner(images);
-		img.scanXml(file);
-
-		echo("MsgFileImported", outputFilename);
+		writeHtml(new InputSource(new FileInputStream(file)), outputFilename, images);
 	}
 
 	/** Markdown nach HTML konvertieren */
 	private void writeMarkdown(File file, Set<String> images) throws IOException {
 		String outputFilename = file.getName();
 		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf("."));
-		String id = outputFilename;
 		outputFilename += ".xhtml";
-		book.addContentFile(new FileEntry(outputFilename, MIMETYPE_XHTML, id));
 
 		// Inhalt
 		Configuration config = Configuration.builder().forceExtentedProfile().build();
 		String output = Processor.process(file, config);
 		book.setParam("content", output);
-		freeMarker.writeTemplate("content.xhtml.ftl", outputFilename);
-		// Überschrift suchen
-		TocScanner toc = new TocScanner(book, outputFilename);
-		toc.scanXmlFragment(output);
-		// Bilder suchen
-		ImageScanner img = new ImageScanner(images);
-		img.scanXmlFragment(output);
+		output = freeMarker.applyTemplate("content.xhtml.ftl");
+		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
+	}
 
-		echo("MsgFileImported", outputFilename);
+	private void writeHtml(InputSource input, String outputFilename, Set<String> images)
+			throws IOException {
+		try {
+			// TOC-Level muss zwischen 1 und 6 liegen
+			int level = Integer.parseInt(book.getProperty().getProperty("toc-level", "1"));
+			level = Math.max(level, 1);
+			level = Math.min(level, 6);
+			List<String> headings = ALL_HEADINGS.subList(0, level);
+			writer.newEntry(outputFilename);
+			XMLFilter filter = new IdGeneratorFilter(headings);
+			XMLReader reader = XMLReaderFactory.createXMLReader();
+			reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			filter.setParent(reader);
+			XMLWriter cxWriter = new CompressingXMLWriter();
+			cxWriter.setOutput(writer);
+			// Überschriften suchen
+			TocScanner toc = new TocScanner(book, outputFilename, headings);
+			// Bilder suchen
+			ImageScanner img = new ImageScanner(images);
+			ContentHandler handler = new ChainedContentHandler(toc, img, cxWriter);
+			filter.setContentHandler(handler);
+			// Dokument ausgeben
+			filter.parse(input);
+
+			String id = String.format("content-%02d", book.getContentFiles().size() + 1);
+			book.addContentFile(new FileEntry(outputFilename, MIMETYPE_XHTML, id));
+
+			echo("MsgFileImported", outputFilename);
+		} catch (SAXException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private static boolean isEmpty(String s) {
