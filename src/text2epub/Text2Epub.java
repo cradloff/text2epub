@@ -320,7 +320,7 @@ public class Text2Epub {
 		parser.parse(content, false);
 		String output = out.toString();
 		book.setParam("content", output);
-		output = freeMarker.applyTemplate("content.xhtml.ftl");System.out.println(output);
+		output = freeMarker.applyTemplate("content.xhtml.ftl");
 		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
 	}
 
