@@ -2,6 +2,7 @@ package text2epub.xml;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Fasst ein Start-Element, das direkt von einem End-Element gefolgt wird,
@@ -23,7 +24,7 @@ public class CompressingXMLWriter extends XMLWriter {
 		this.uri = uri;
 		this.localName = localName;
 		this.qName = qName;
-		this.atts = atts;
+		this.atts = new AttributesImpl(atts);
 	}
 
 	@Override

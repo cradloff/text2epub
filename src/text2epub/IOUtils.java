@@ -3,6 +3,7 @@ package text2epub;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -49,6 +50,24 @@ public class IOUtils {
 	public static boolean exists(File basedir, String filename) {
 		File f = new File(basedir, filename);
 		return f.exists();
+	}
+
+	/**
+	 * Liest die übergebene Datei ein.
+	 * @param file Datei
+	 * @return Inhalt der Datei
+	 */
+	public static String read(File file) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		char[] buf = new char[1024];
+		try (FileReader fr = new FileReader(file)) {
+			int len;
+			while ((len = fr.read(buf)) > 0) {
+				sb.append(buf, 0, len);
+			}
+		}
+
+		return sb.toString();
 	}
 
 }

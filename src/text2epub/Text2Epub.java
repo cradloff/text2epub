@@ -4,12 +4,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import net.java.textilej.parser.MarkupParser;
+import net.java.textilej.parser.builder.HtmlDocumentBuilder;
+import net.java.textilej.parser.markup.Dialect;
+import net.java.textilej.parser.markup.confluence.ConfluenceDialect;
+import net.java.textilej.parser.markup.mediawiki.MediaWikiDialect;
+import net.java.textilej.parser.markup.textile.TextileDialect;
+import net.java.textilej.parser.markup.trac.TracWikiDialect;
 
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -114,6 +123,15 @@ public class Text2Epub {
 				writeMarkdown(file, images);
 			} else if (filename.endsWith(".xhtml")) {
 				writeHtml(file, images);
+			} else if (filename.endsWith(".textile")) {
+				writeTextile(file, new TextileDialect(), images);
+			} else if (filename.endsWith(".wiki")
+					|| filename.endsWith(".mediawiki")) {
+				writeTextile(file, new MediaWikiDialect(), images);
+			} else if (filename.endsWith(".trac")) {
+				writeTextile(file, new TracWikiDialect(), images);
+			} else if (filename.endsWith(".confluence")) {
+				writeTextile(file, new ConfluenceDialect(), images);
 			}
 		}
 
@@ -287,6 +305,23 @@ public class Text2Epub {
 		} catch (SAXException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/** mit Textile-J nach HTML konvertieren */
+	private void writeTextile(File file, Dialect dialect, Set<String> images) throws IOException {
+		String outputFilename = file.getName();
+		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf("."));
+		outputFilename += ".xhtml";
+
+		// Inhalt
+		String content = IOUtils.read(file);
+		StringWriter out = new StringWriter();
+		MarkupParser parser = new MarkupParser(dialect, new HtmlDocumentBuilder(out));
+		parser.parse(content, false);
+		String output = out.toString();
+		book.setParam("content", output);
+		output = freeMarker.applyTemplate("content.xhtml.ftl");System.out.println(output);
+		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
 	}
 
 	private static boolean isEmpty(String s) {
