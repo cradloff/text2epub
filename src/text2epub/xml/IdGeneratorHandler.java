@@ -22,8 +22,11 @@ public class IdGeneratorHandler extends FilterContentHandler {
 			Attributes atts) throws SAXException {
 		if (elements.contains(qName)) {
 			AttributesImpl newAtts = new AttributesImpl(atts);
-			String id = String.format("%s-%02d", qName, ++count);
-			newAtts.addAttribute("", "id", "id", "ID", id);
+			// noch keine ID vorhanden?
+			if (newAtts.getIndex("id") < 0) {
+				String id = String.format("%s-%02d", qName, ++count);
+				newAtts.addAttribute("", "id", "id", "ID", id);
+			}
 			super.startElement(uri, localName, qName, newAtts);
 		} else {
 			super.startElement(uri, localName, qName, atts);
