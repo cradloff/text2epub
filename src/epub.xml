@@ -16,6 +16,10 @@
 <entry key="author"></entry>
 <!-- Author (für Sortierung) -->
 <entry key="authorFileAs"></entry>
+<!-- Schlagwörter/Genre (z.B. Humor, Fiction, Romance, ...) https://www.bisg.org/bisac/complete-bisac-subject-headings-2015-edition -->
+<entry key="subject"></entry>
+<!-- Rechte/Lizenz (z.B. Public Domain) -->
+<entry key="rights"></entry>
 <!-- Datum der Veröffentlichung (yyyy-mm-dd) -->
 <entry key="pubDate"></entry>
 <!-- Cover-Bild (default cover.*) -->

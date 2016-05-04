@@ -12,7 +12,7 @@
     <dc:title xml:lang='${property.language}'>${property.title}</dc:title>
     <#-- bis hier notwendige Metainformationen, es folgen einige optionale: -->
     <#-- Beschreibung -->
-    <#if property.description != "">
+    <#if property.description ?? && property.description != "">
     <dc:description xml:lang='${property.language}'>${property.description}</dc:description>
     </#if>
     <#-- Erzeuger, Erschaffer des digitalen Buches, hier auch der Autor -->
@@ -23,6 +23,12 @@
       opf:file-as='${property.author}' opf:role='aut'
       </#if>
       xml:lang='${property.language}'>${property.author}</dc:creator>
+    <#if property.subject ?? && property.subject != "">
+    <dc:subject>${property.subject}</dc:subject>
+    </#if>
+    <#if property.rights ?? && property.rights != "">
+    <dc:rights>${property.rights}</dc:rights>
+    </#if>
     <#-- Cover -->
     <#if params.COVER ??>
     <meta name='cover' content='${params.COVER_ID}'/>
