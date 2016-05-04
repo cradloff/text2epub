@@ -44,17 +44,8 @@ import com.github.rjeschke.txtmark.Processor;
 public class Text2Epub {
 	private static final String TOC = "toc.xhtml";
 	private static final String COVER = "cover.xhtml";
-	private static final String MIMETYPE_XHTML = "application/xhtml+xml";
 	private static final String PROPERTIES = "epub.xml";
-	private static final String MIME_TYPE_SVG = "image/svg+xml";
 	private static final List<String> ALL_HEADINGS = Arrays.asList("h1", "h2", "h3", "h4", "h5", "h6");
-	/** Mime-Types und zugehörige Endungen für Bilder */
-	private static final String[][] MIME_TYPES_IMAGE = {
-		{ "image/gif",	".gif" }, // GIF-Dateien
-		{ "image/jpeg",	".jpeg", ".jpg", ".jpe"}, // JPEG-Dateien
-		{ "image/png",	".png" }, // PNG-Dateien
-		{ MIME_TYPE_SVG, ".svg" } // SVG-Grafiken
-	};
 
 	private ZipWriter writer;
 	private Book book;
@@ -96,19 +87,19 @@ public class Text2Epub {
 			// Vorlage aus Classpath kopieren
 			IOUtils.copyCP2FS(book.getStylesheet(), basedir);
 		}
-		writeMedia(basedir, book.getStylesheet(), "text/css", "style-sheet");
+		writeMedia(basedir, new FileEntry(book.getStylesheet(), "text/css", "style-sheet"));
 
 		// Cover
-		writeCover(basedir);
+		Set<FileEntry> images = new HashSet<>();
+		writeCover(basedir, images);
 
 		boolean createToc = Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"));
 		if (createToc) {
-			book.addContentFile(new FileEntry(TOC, MIMETYPE_XHTML, "toc"));
+			book.addContentFile(new FileEntry(TOC, MimeTypes.MIMETYPE_XHTML, "toc"));
 			book.setParam("TOC", TOC);
 		}
 
 		// XHTML- und Markdown-Dateien konvertieren und schreiben
-		Set<String> images = new HashSet<>();
 		File[] files = basedir.listFiles();
 		Arrays.sort(files, new Comparator<File>() {
 			@Override
@@ -177,20 +168,20 @@ public class Text2Epub {
 		return filename + ".epub";
 	}
 
-	private void writeMedia(File basedir, String filename, String mimeType, String id) throws IOException {
-		book.addMediaFile(new FileEntry(filename, mimeType, id));
-		File file = new File(basedir, filename);
+	private void writeMedia(File basedir, FileEntry mediaFile) throws IOException {
+		book.addMediaFile(mediaFile);
+		File file = new File(basedir, mediaFile.getFilename());
 		writer.writeFile(file);
 	}
 
-	private void writeCover(File basedir) throws IOException {
+	private void writeCover(File basedir, Set<FileEntry> images) throws IOException {
 		// Cover suchen
 		boolean found = false;
 		// explizit angegeben?
 		String filename = book.getProperty("cover");
 		// sonst danach suchen
 		if (isEmpty(filename)) {
-			outer: for (String[] entry : MIME_TYPES_IMAGE) {
+			outer: for (String[] entry : MimeTypes.MIME_TYPES_IMAGE) {
 				for (int i = 1; i < entry.length; i++) {
 					filename = "cover" + entry[i];
 					if (IOUtils.exists(basedir, filename)) {
@@ -205,63 +196,40 @@ public class Text2Epub {
 			}
 		}
 
-		String coverId = writeImage(basedir, filename);
+		FileEntry cover = new FileEntry(filename, MimeTypes.getMimeType(filename), "cover-img");
+		images.add(cover);
 
-		book.addContentFile(new FileEntry(COVER, MIMETYPE_XHTML, "cover"));
+		book.addContentFile(new FileEntry(COVER, MimeTypes.MIMETYPE_XHTML, "cover"));
 		book.setParam("COVER", COVER);
-		book.setParam("COVER_ID", coverId);
+		book.setParam("COVER_ID", cover.getId());
 		book.setParam("cover_url", filename);
 		freeMarker.writeTemplate("cover.xhtml.ftl", COVER);
 	}
 
-	private void writeImages(File basedir, Set<String> images) throws IOException {
+	private void writeImages(File basedir, Set<FileEntry> images) throws IOException {
 		// zuerst nach eingebetteten Bildern in SVG-Grafiken suchen
-		for (String image : new ArrayList<String>(images)) {
-			String mimeType = getMimeType(image);
-			if (MIME_TYPE_SVG.equals(mimeType)) {
+		for (FileEntry image : new ArrayList<FileEntry>(images)) {
+			if (MimeTypes.MIME_TYPE_SVG.equals(image.getMimeType())) {
 				ImageScanner scanner = new ImageScanner(images);
-				XmlScanner.scanXml(new File(basedir, image), scanner);
+				XmlScanner.scanXml(new File(basedir, image.getFilename()), scanner);
 			}
 		}
 
 		// jetzt die Bilder schreiben
-		for (String image : images) {
+		for (FileEntry image : images) {
 			// Bild ausgeben
-			writeImage(basedir, image);
+			writeMedia(basedir, image);
 		}
-	}
-
-	private String writeImage(File basedir, String image) throws IOException {
-		// Mime-Type ermitteln
-		String mimeType = getMimeType(image);
-
-		String id = String.format("img-%02d", book.getMediaFiles().size() + 1);
-		writeMedia(basedir, image, mimeType, id);
-
-		return id;
-	}
-
-	private String getMimeType(String image) {
-		String mimeType = null;
-		String suffix = image.substring(image.lastIndexOf('.'));
-		for (String[] s : MIME_TYPES_IMAGE) {
-			for (int i = 1; i < s.length; i++) {
-				if (suffix.equalsIgnoreCase(s[i])) {
-					mimeType = s[0];
-				}
-			}
-		}
-		return mimeType;
 	}
 
 	/** XHTML übernehmen */
-	private void writeHtml(File file, Set<String> images) throws IOException {
+	private void writeHtml(File file, Set<FileEntry> images) throws IOException {
 		String outputFilename = file.getName();
 		writeHtml(new InputSource(new FileInputStream(file)), outputFilename, images);
 	}
 
 	/** Markdown nach HTML konvertieren */
-	private void writeMarkdown(File file, Set<String> images) throws IOException {
+	private void writeMarkdown(File file, Set<FileEntry> images) throws IOException {
 		String outputFilename = file.getName();
 		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf("."));
 		outputFilename += ".xhtml";
@@ -274,7 +242,7 @@ public class Text2Epub {
 		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
 	}
 
-	private void writeHtml(InputSource input, String outputFilename, Set<String> images)
+	private void writeHtml(InputSource input, String outputFilename, Set<FileEntry> images)
 			throws IOException {
 		try {
 			// TOC-Level muss zwischen 1 und 6 liegen
@@ -299,7 +267,7 @@ public class Text2Epub {
 			filter.parse(input);
 
 			String id = String.format("content-%02d", book.getContentFiles().size() + 1);
-			book.addContentFile(new FileEntry(outputFilename, MIMETYPE_XHTML, id));
+			book.addContentFile(new FileEntry(outputFilename, MimeTypes.MIMETYPE_XHTML, id));
 
 			echo("MsgFileImported", outputFilename);
 		} catch (SAXException e) {
@@ -308,7 +276,7 @@ public class Text2Epub {
 	}
 
 	/** mit Textile-J nach HTML konvertieren */
-	private void writeTextile(File file, Dialect dialect, Set<String> images) throws IOException {
+	private void writeTextile(File file, Dialect dialect, Set<FileEntry> images) throws IOException {
 		String outputFilename = file.getName();
 		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf("."));
 		outputFilename += ".xhtml";

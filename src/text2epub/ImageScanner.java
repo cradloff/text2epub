@@ -11,13 +11,13 @@ import org.xml.sax.helpers.DefaultHandler;
 /** Sucht nach eingebunden Bildern */
 public class ImageScanner extends DefaultHandler {
 	private Deque<String> parents = new ArrayDeque<>();
-	private Set<String> images;
+	private Set<FileEntry> images;
 
 	/**
 	 * Konstruktor.
 	 * @param images Set mit den Bildern
 	 */
-	public ImageScanner(Set<String> images) {
+	public ImageScanner(Set<FileEntry> images) {
 		this.images = images;
 	}
 
@@ -31,7 +31,7 @@ public class ImageScanner extends DefaultHandler {
 				|| "source".equals(qName) && "picture".equals(parents.peekLast())) {
 			String src = attributes.getValue("src");
 			if (src != null) {
-				images.add(src);
+				addEntry(src);
 			}
 			String srcset = attributes.getValue("srcset");
 			if (srcset != null) {
@@ -40,16 +40,22 @@ public class ImageScanner extends DefaultHandler {
 				String[] t = srcset.split("\\s*,\\s*");
 				for (String s : t) {
 					String[] u = s.split("\\s+");
-					images.add(u[0]);
+					addEntry(u[0]);
 				}
 			}
 		}
 		// image-Tag in SVG-Grafik
 		else if (parents.contains("svg") && "image".equals(qName)) {
-			images.add(attributes.getValue("xlink:href"));
+			addEntry(attributes.getValue("xlink:href"));
 		}
 
 		parents.addLast(qName);
+	}
+
+	private void addEntry(String src) {
+		String id = String.format("img-%02d", images.size());
+		FileEntry entry = new FileEntry(src, MimeTypes.getMimeType(src), id);
+		images.add(entry);
 	}
 
 	@Override
