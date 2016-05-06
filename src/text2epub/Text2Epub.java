@@ -79,7 +79,7 @@ public class Text2Epub {
 		writer.storeEntry("mimetype", "application/epub+zip");
 
 		// Container-Beschreibung
-		freeMarker.writeTemplate("container.xml.ftl", "META-INF/container.xml");
+		freeMarker.writeTemplate("container.xml.ftlx", "META-INF/container.xml");
 
 		// CSS
 		File css = new File(basedir, book.getStylesheet());
@@ -130,13 +130,13 @@ public class Text2Epub {
 		writeImages(basedir, images);
 
 		// Inhaltsverzeichnis ausgeben
-		freeMarker.writeTemplate("content.ncx.ftl", Book.NCX);
+		freeMarker.writeTemplate("content.ncx.ftlx", Book.NCX);
 		if (createToc) {
-			freeMarker.writeTemplate("toc.xhtml.ftl", TOC);
+			freeMarker.writeTemplate("toc.xhtml.ftlx", TOC);
 		}
 
 		// Stammdatei schreiben
-		freeMarker.writeTemplate("content.opf.ftl", Book.OPF);
+		freeMarker.writeTemplate("content.opf.ftlx", Book.OPF);
 
 		writer.close();
 
@@ -203,7 +203,7 @@ public class Text2Epub {
 		book.setParam("COVER", COVER);
 		book.setParam("COVER_ID", cover.getId());
 		book.setParam("cover_url", filename);
-		freeMarker.writeTemplate("cover.xhtml.ftl", COVER);
+		freeMarker.writeTemplate("cover.xhtml.ftlx", COVER);
 	}
 
 	private void writeImages(File basedir, Set<FileEntry> images) throws IOException {
@@ -238,7 +238,7 @@ public class Text2Epub {
 		Configuration config = Configuration.builder().forceExtentedProfile().build();
 		String output = Processor.process(file, config);
 		book.setParam("content", output);
-		output = freeMarker.applyTemplate("content.xhtml.ftl");
+		output = freeMarker.applyTemplate("content.xhtml.ftlx");
 		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
 	}
 
@@ -288,7 +288,7 @@ public class Text2Epub {
 		parser.parse(content, false);
 		String output = out.toString();
 		book.setParam("content", output);
-		output = freeMarker.applyTemplate("content.xhtml.ftl");
+		output = freeMarker.applyTemplate("content.xhtml.ftlx");
 		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
 	}
 

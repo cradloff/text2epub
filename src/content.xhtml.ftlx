@@ -6,6 +6,6 @@
 <link href='${stylesheet}' type='text/css' rel='stylesheet'/>
 </head>
 <body>
-${params.content}
+${params.content?no_esc}
 </body>
 </html>

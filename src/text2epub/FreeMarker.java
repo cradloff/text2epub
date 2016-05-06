@@ -31,7 +31,7 @@ public class FreeMarker {
 		this.writer = writer;
 		this.data = data;
 
-		fmCfg = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_22);
+		fmCfg = new Configuration(Configuration.VERSION_2_3_24);
 		// Templates werden zuerst im Basis-Verzeichnis gesucht, dann im Classpath
 		FileTemplateLoader ftl1 = new FileTemplateLoader(basedir);
 		ClassTemplateLoader ctl = new ClassTemplateLoader(getClass(), "/");
