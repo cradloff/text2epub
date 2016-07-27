@@ -245,11 +245,9 @@ public class Text2Epub {
 	private void writeHtml(InputSource input, String outputFilename, Set<FileEntry> images)
 			throws IOException {
 		try {
-			// TOC-Level muss zwischen 1 und 6 liegen
-			int level = Integer.parseInt(book.getProperty().getProperty("toc-level", "1"));
-			level = Math.max(level, 1);
-			level = Math.min(level, 6);
-			List<String> headings = ALL_HEADINGS.subList(0, level);
+			// TOC-Entries einlesen
+			String s = book.getProperty().getProperty("toc-entries", "h1");
+			List<String> headings = Arrays.asList(s.split("\\s*,\\s*"));
 			writer.newEntry(outputFilename);
 			XMLFilter filter = new IdGeneratorFilter(headings);
 			XMLReader reader = XMLReaderFactory.createXMLReader();
