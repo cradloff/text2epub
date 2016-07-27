@@ -1,5 +1,8 @@
 package text2epub.xml;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -15,6 +18,13 @@ public class CompressingXMLWriter extends XMLWriter {
 	private String qName;
 	private Attributes atts;
 	private boolean startElement = false;
+	private Writer output;
+
+	@Override
+	public void setOutput(Writer writer) {
+		super.setOutput(writer);
+		this.output = writer;
+	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName,
@@ -49,6 +59,17 @@ public class CompressingXMLWriter extends XMLWriter {
 			throws SAXException {
 		flushElement();
 		super.ignorableWhitespace(ch, start, length);
+	}
+
+	@Override
+	public void skippedEntity(String name) throws SAXException {
+		try {
+			output.write('&');
+			output.write(name);
+			output.write(';');
+		} catch (IOException e) {
+			throw new SAXException(e);
+		}
 	}
 
 	private void flushElement() throws SAXException {
