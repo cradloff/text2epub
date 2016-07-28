@@ -27,6 +27,17 @@ public class CompressingXMLWriter extends XMLWriter {
 	}
 
 	@Override
+	public void startDocument() throws SAXException {
+		// XML-Deklaration und DOCTYPE ausgeben
+		try {
+			output.write("<?xml version='1.0'?>\n");
+			output.write("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\n");
+		} catch (IOException e) {
+			throw new SAXException(e);
+		}
+	}
+
+	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes atts) throws SAXException {
 		flushElement();
