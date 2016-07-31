@@ -128,6 +128,8 @@ public class Text2Epub {
 
 		// Bilder ausgeben
 		writeImages(basedir, images);
+		// sonstige Medien
+		writeMedia(basedir);
 
 		// Inhaltsverzeichnis ausgeben
 		freeMarker.writeTemplate("content.ncx.ftlx", Book.NCX);
@@ -219,6 +221,21 @@ public class Text2Epub {
 		for (FileEntry image : images) {
 			// Bild ausgeben
 			writeMedia(basedir, image);
+		}
+	}
+
+	/**
+	 * Gibt alle zusätzlichen Medien aus den Properties aus.
+	 */
+	private void writeMedia(File basedir) throws IOException {
+		// weitere Dateien ausgeben
+		String additionalMedia = this.book.getProperty("additional-media");
+		String files[] = additionalMedia.split("\\s*,\\s*");
+		int count = 0;
+		for (String filename : files) {
+			String id = String.format("media-%02d", ++count);
+			FileEntry entry = new FileEntry(filename, MimeTypes.getMimeType(filename), id);
+			writeMedia(basedir, entry);
 		}
 	}
 

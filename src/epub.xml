@@ -28,4 +28,6 @@
 <entry key="toc">true</entry>
 <!-- Verzeichnis-Einträge aus diesen Elementen erstellen -->
 <entry key="toc-entries">h1, h2</entry>
+<!-- Liste von weiteren Dateien -->
+<entry key="additional-media"></entry>
 </properties>
