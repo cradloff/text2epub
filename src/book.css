@@ -46,13 +46,31 @@ blockquote p {
 	font-size: x-large;
 }
 
+/* Link zu Fußnote */
+a.refnote {
+	font-size: small;
+	vertical-align: super;
+}
+
+/* Fußnote */
+.footnote {
+	font-size: small;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+a.footnote {
+	font-size: x-small;
+	vertical-align: super;
+}
+
 /* replace horizontal row with three asterisk */
 hr {
 	border: none;
 	margin: 2.0rem auto;
 	text-align:center;
 }
-    
+
 hr:before {
 	content: "***";
 	letter-spacing: 1rem;
