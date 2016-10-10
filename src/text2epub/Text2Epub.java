@@ -230,12 +230,14 @@ public class Text2Epub {
 	private void writeMedia(File basedir) throws IOException {
 		// weitere Dateien ausgeben
 		String additionalMedia = this.book.getProperty("additional-media");
-		String files[] = additionalMedia.split("\\s*,\\s*");
-		int count = 0;
-		for (String filename : files) {
-			String id = String.format("media-%02d", ++count);
-			FileEntry entry = new FileEntry(filename, MimeTypes.getMimeType(filename), id);
-			writeMedia(basedir, entry);
+		if (additionalMedia != null) {
+			String files[] = additionalMedia.split("\\s*,\\s*");
+			int count = 0;
+			for (String filename : files) {
+				String id = String.format("media-%02d", ++count);
+				FileEntry entry = new FileEntry(filename, MimeTypes.getMimeType(filename), id);
+				writeMedia(basedir, entry);
+			}
 		}
 	}
 
