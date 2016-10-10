@@ -46,7 +46,11 @@ public class ImageScanner extends DefaultHandler {
 		}
 		// image-Tag in SVG-Grafik
 		else if (parents.contains("svg") && "image".equals(qName)) {
-			addEntry(attributes.getValue("xlink:href"));
+			String link = attributes.getValue("xlink:href");
+			// eingebettete Grafiken ignorieren
+			if (! link.startsWith("data:")) {
+				addEntry(link);
+			}
 		}
 
 		parents.addLast(qName);
