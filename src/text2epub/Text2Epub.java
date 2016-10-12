@@ -137,6 +137,11 @@ public class Text2Epub {
 			freeMarker.writeTemplate("toc.xhtml.ftlx", TOC);
 		}
 
+		// ggf. Page-Map ausgeben
+		if (book.getPageEntries() != null) {
+			freeMarker.writeTemplate("page-map.xml.ftlx", "page-map.xml");
+		}
+
 		// Stammdatei schreiben
 		freeMarker.writeTemplate("content.opf.ftlx", Book.OPF);
 
@@ -278,7 +283,9 @@ public class Text2Epub {
 			TocScanner toc = new TocScanner(book, outputFilename, headings);
 			// Bilder suchen
 			ImageScanner img = new ImageScanner(images);
-			ContentHandler handler = new ChainedContentHandler(toc, img, cxWriter);
+			// Seitenzahlen suchen
+			PageEntryScanner pes = new PageEntryScanner(book, outputFilename);
+			ContentHandler handler = new ChainedContentHandler(toc, img, pes, cxWriter);
 			filter.setContentHandler(handler);
 			// Dokument ausgeben
 			filter.parse(input);

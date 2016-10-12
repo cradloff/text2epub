@@ -51,4 +51,14 @@
     <@printNavPoint entries=tocEntries/>
     </#if>
   </navMap>
+  <#if pageEntries ??>
+  <pageList>
+    <#list pageEntries as entry>
+    <pageTarget id="${entry.id}" type="normal" value="${entry.title}">
+      <navLabel><text>${entry.title}</text></navLabel>
+      <content src="${entry.filename}#${entry.id}"/>
+    </pageTarget>
+    </#list>
+  </pageList>
+  </#if>
 </ncx>

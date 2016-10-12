@@ -49,9 +49,12 @@
     <#list mediaFiles as entry>
     <item id='${entry.id}' href='${entry.filename}' media-type='${entry.mimeType}'/>
     </#list>
+    <#if pageEntries ??>
+    <item id="map" href="page-map.xml" media-type="application/oebps-page-map+xml"/>
+    </#if>
   </manifest>
   <#-- Reihenfolge der Inhalte des Buches -->
-  <spine toc='ncx'>
+  <spine <#if pageEntries ??>page-map="map"</#if> toc='ncx'>
     <#list contentFiles as entry>
     <itemref idref='${entry.id}'/>
     </#list>

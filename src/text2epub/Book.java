@@ -26,6 +26,8 @@ public class Book {
 	private List<FileEntry> mediaFiles = new ArrayList<>();
 	/** Einträge für Inhaltsverzeichnis (Link / Titel) */
 	private TocEntry tocRoot = new TocEntry("h0", "tocRoot", "n/a");
+	/** Einträge für Seiten-Einträge */
+	private List<PageEntry> pageEntries;
 	private File filename;
 
 	/**
@@ -174,4 +176,15 @@ public class Book {
 		tocRoot.add(entry);
 	}
 
+	public List<PageEntry> getPageEntries() {
+		return pageEntries;
+	}
+
+	public void addPageEntry(PageEntry entry) {
+		if (pageEntries == null) {
+			pageEntries = new ArrayList<>();
+		}
+
+		pageEntries.add(entry);
+	}
 }
