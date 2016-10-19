@@ -709,6 +709,7 @@ public class XMLWriter extends XMLFilterImpl
 	write("/>");
 	super.startElement(uri, localName, qName, atts);
 	super.endElement(uri, localName, qName);
+	nsSupport.popContext();
     }
 
 
