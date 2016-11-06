@@ -235,7 +235,7 @@ public class Text2Epub {
 	private void writeMedia(File basedir) throws IOException {
 		// weitere Dateien ausgeben
 		String additionalMedia = this.book.getProperty("additional-media");
-		if (additionalMedia != null) {
+		if (additionalMedia != null && ! "".equals(additionalMedia)) {
 			String files[] = additionalMedia.split("\\s*,\\s*");
 			int count = 0;
 			for (String filename : files) {
