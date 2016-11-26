@@ -11,7 +11,9 @@ h2 {
 }
 
 p {
+	margin: 2pt 0 2pt;
 	text-indent: 1em;
+	text-align: justify;
 }
 
 blockquote p {
