@@ -2,6 +2,8 @@ package text2epub;
 
 /** Hilfsklasse zur Bestimmung von Mime-Types */
 public class MimeTypes {
+	public static final String MIME_TYPE_CSS = "text/css";
+	public static final String MIMETYPE_EPUB = "application/epub+zip";
 	public static final String MIMETYPE_XHTML = "application/xhtml+xml";
 	public static final String MIME_TYPE_SVG = "image/svg+xml";
 	/** Mime-Types und zugehörige Endungen für Bilder */

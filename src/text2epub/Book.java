@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 public class Book {
 	public static final String OPF = "content.opf";
 	public static final String NCX = "content.ncx";
-	public static final String CSS = "book.css";
+	public static final FileEntry CSS = new FileEntry("book.css", MimeTypes.MIME_TYPE_CSS, "style-sheet");
 	private Properties props = new Properties();
 	private Map<String, String> res = new HashMap<>();
 	private Map<String, Object> params = new HashMap<>();
@@ -110,7 +110,7 @@ public class Book {
 	 * @return Stylesheet
 	 */
 	public String getStylesheet() {
-		return CSS;
+		return CSS.getFilename();
 	}
 
 	/**

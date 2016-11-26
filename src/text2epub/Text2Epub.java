@@ -42,10 +42,9 @@ import com.github.rjeschke.txtmark.Processor;
  * @author Claus Radloff
  */
 public class Text2Epub {
-	private static final String TOC = "toc.xhtml";
+	private static final FileEntry TOC = new FileEntry("toc.xhtml", MimeTypes.MIMETYPE_XHTML, "toc");
 	private static final String COVER = "cover.xhtml";
 	private static final String PROPERTIES = "epub.xml";
-	private static final List<String> ALL_HEADINGS = Arrays.asList("h1", "h2", "h3", "h4", "h5", "h6");
 
 	private ZipWriter writer;
 	private Book book;
@@ -66,7 +65,10 @@ public class Text2Epub {
 		File basedir = new File(args.length == 0 ? "." : args[0]);
 		if (! IOUtils.exists(basedir, PROPERTIES)) {
 			IOUtils.copyCP2FS(PROPERTIES, basedir);
+			echo("MsgFileCreated", PROPERTIES);
+			return;
 		}
+
 		book = new Book();
 		book.readProperties(new File(basedir, PROPERTIES));
 		File epub = new File(args.length > 1 ? args[1] : mkFilename(basedir));
@@ -76,18 +78,14 @@ public class Text2Epub {
 		freeMarker = new FreeMarker(basedir, writer, book);
 
 		// als erster Eintrag muss der Mime-Type angelegt werden (unkomprimiert)
-		writer.storeEntry("mimetype", "application/epub+zip");
+		writer.storeEntry("mimetype", MimeTypes.MIMETYPE_EPUB);
 
 		// Container-Beschreibung
 		freeMarker.writeTemplate("container.xml.ftlx", "META-INF/container.xml");
 
-		// CSS
-		File css = new File(basedir, book.getStylesheet());
-		if (! css.exists()) {
-			// Vorlage aus Classpath kopieren
-			IOUtils.copyCP2FS(book.getStylesheet(), basedir);
-		}
-		writeMedia(basedir, new FileEntry(book.getStylesheet(), "text/css", "style-sheet"));
+		// Stylesheet
+		book.addMediaFile(Book.CSS);
+		freeMarker.writeTemplate(Book.CSS.getFilename(), Book.CSS.getFilename());
 
 		// Cover
 		Set<FileEntry> images = new HashSet<>();
@@ -95,8 +93,8 @@ public class Text2Epub {
 
 		boolean createToc = Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"));
 		if (createToc) {
-			book.addContentFile(new FileEntry(TOC, MimeTypes.MIMETYPE_XHTML, "toc"));
-			book.setParam("TOC", TOC);
+			book.addContentFile(TOC);
+			book.setParam("TOC", TOC.getFilename());
 		}
 
 		// XHTML- und Markdown-Dateien konvertieren und schreiben
@@ -134,7 +132,7 @@ public class Text2Epub {
 		// Inhaltsverzeichnis ausgeben
 		freeMarker.writeTemplate("content.ncx.ftlx", Book.NCX);
 		if (createToc) {
-			freeMarker.writeTemplate("toc.xhtml.ftlx", TOC);
+			freeMarker.writeTemplate("toc.xhtml.ftlx", TOC.getFilename());
 		}
 
 		// ggf. Page-Map ausgeben
@@ -152,6 +150,12 @@ public class Text2Epub {
 
 	/** Liefert den Dateinamen für das EPUB zurück */
 	private String mkFilename(File basedir) {
+		// explizit angegebener Dateiname?
+		String filename = book.getProperty("filename");
+		if (! isEmpty(filename)) {
+			return filename;
+		}
+
 		// Titel - Author.epub
 		String author = book.getProperty("authorFileAs");
 		if (isEmpty(author)) {
@@ -159,7 +163,6 @@ public class Text2Epub {
 		}
 		String title = book.getProperty("title");
 
-		String filename;
 		// Ggf. Verzeichnis-Name als Fallback
 		if (isEmpty(author) || isEmpty(title)) {
 			filename = basedir.getName();
@@ -172,7 +175,13 @@ public class Text2Epub {
 		// Whitespaces durch Leerzeichen ersetzen
 		filename = filename.replaceAll("\\s\\s*", " ");
 
-		return filename + ".epub";
+		// Dateiendung
+		if (! filename.endsWith(".")) {
+			filename += ".";
+		}
+		filename += "epub";
+
+		return filename;
 	}
 
 	private void writeMedia(File basedir, FileEntry mediaFile) throws IOException {
@@ -254,9 +263,7 @@ public class Text2Epub {
 
 	/** Markdown nach HTML konvertieren */
 	private void writeMarkdown(File file, Set<FileEntry> images) throws IOException {
-		String outputFilename = file.getName();
-		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf("."));
-		outputFilename += ".xhtml";
+		String outputFilename = replaceSuffix(file, ".xhtml");
 
 		// Inhalt
 		Configuration config = Configuration.builder().forceExtentedProfile().build();
@@ -295,15 +302,14 @@ public class Text2Epub {
 
 			echo("MsgFileImported", outputFilename);
 		} catch (SAXException e) {
+			echo("MsgExceptionImport", outputFilename, e.getLocalizedMessage());
 			throw new RuntimeException(e);
 		}
 	}
 
 	/** mit Textile-J nach HTML konvertieren */
 	private void writeTextile(File file, Dialect dialect, Set<FileEntry> images) throws IOException {
-		String outputFilename = file.getName();
-		outputFilename = outputFilename.substring(0, outputFilename.lastIndexOf("."));
-		outputFilename += ".xhtml";
+		String outputFilename = replaceSuffix(file, ".xhtml");
 
 		// Inhalt
 		String content = IOUtils.read(file);
@@ -314,6 +320,19 @@ public class Text2Epub {
 		book.setParam("content", output);
 		output = freeMarker.applyTemplate("content.xhtml.ftlx");
 		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
+	}
+
+	/** Ersetzt die Dateiendung durch die angegebene Endung */
+	private static String replaceSuffix(File file, String newSuffix) {
+		return replaceSuffix(file.getName(), newSuffix);
+	}
+
+	/** Ersetzt die Dateiendung durch die angegebene Endung */
+	private static String replaceSuffix(String filename, String newSuffix) {
+		String outputFilename = filename.substring(0, filename.lastIndexOf("."));
+		outputFilename += newSuffix;
+
+		return outputFilename;
 	}
 
 	private static boolean isEmpty(String s) {

@@ -4,6 +4,8 @@
 <comment>Eigenschaften für eBook</comment>
 <!-- eindeutige ID des Buchs (https://www.famkruithof.net/uuid/uuidgen) -->
 <entry key="UUID"></entry>
+<!-- ISBN -->
+<entry key="ISBN"></entry>
 <!-- Buch-Titel (Pflichtangabe) -->
 <entry key="title"></entry>
 <!-- Sub-Titel -->
@@ -16,6 +18,10 @@
 <entry key="author"></entry>
 <!-- Author (für Sortierung) -->
 <entry key="authorFileAs"></entry>
+<!-- Dateiname (default: Titel - Author.epub) -->
+<entry key="filename"></entry>
+<!-- Verlag -->
+<entry key="publisher"></entry>
 <!-- Schlagwörter/Genre (z.B. Humor, Fiction, Romance, ...) https://www.bisg.org/bisac/complete-bisac-subject-headings-2015-edition -->
 <entry key="subject"></entry>
 <!-- Rechte/Lizenz (z.B. Public Domain) -->
@@ -26,7 +32,7 @@
 <entry key="cover"></entry>
 <!-- Inhaltsverzeichnis generieren? (true/false) -->
 <entry key="toc">true</entry>
-<!-- Verzeichnis-Einträge aus diesen Elementen erstellen -->
+<!-- Verzeichnis-Einträge aus diesen Elementen erstellen (default: h1) -->
 <entry key="toc-entries">h1, h2</entry>
 <!-- Liste von weiteren Dateien -->
 <entry key="additional-media"></entry>

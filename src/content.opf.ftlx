@@ -6,6 +6,9 @@
   unique-identifier='BookId'>
   <metadata>
     <dc:identifier id='BookId' opf:scheme='UUID'>${UUID}</dc:identifier>
+    <#if property.ISBN ?? && property.ISBN != "">
+    <dc:identifier opf:scheme="ISBN">${property.ISBN}</dc:identifier>
+    </#if>
     <#-- Hauptsprache des Buches -->
     <dc:language>${property.language}</dc:language>
     <#-- Buchtitel -->
@@ -35,6 +38,10 @@
     </#if>
     <#-- Charakteristischer Zeitpunkt der Erstellung des Buches -->
     <dc:date opf:event='creation'>${creation}</dc:date>
+    <#-- Verlag -->
+    <#if property.publisher ?? && property.publisher != "">
+    <dc:publisher>${property.publisher}</dc:publisher>
+    </#if>
     <#-- Zeitpunkt der Veröffentlichung -->
     <#if property.pubDate != "">
     <dc:date opf:event='publication'>${property.pubDate}</dc:date>
