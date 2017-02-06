@@ -52,6 +52,7 @@ blockquote p {
 a.refnote {
 	font-size: small;
 	vertical-align: super;
+	text-decoration: none;
 }
 
 /* Fußnote */
@@ -64,9 +65,21 @@ a.refnote {
 a.footnote {
 	font-size: x-small;
 	vertical-align: super;
+	text-decoration: none;
 }
 
 /* gesperrter Text */
 .g {
 	letter-spacing: 0.25em;
+}
+
+/* dünne Linie mit Verlauf als Trenner */
+hr {
+	border: 0; 
+	height: 1px; 
+	width: 80%;
+	align: center;
+	text-align: center;
+	background: #333; 
+	background-image: linear-gradient(to right, #eee, #333, #eee);
 }
