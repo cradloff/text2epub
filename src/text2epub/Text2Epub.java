@@ -63,13 +63,14 @@ public class Text2Epub {
 
 	private void createEpub(String... args) throws IOException {
 		File basedir = new File(args.length == 0 ? "." : args[0]);
+		book = new Book();
 		if (! IOUtils.exists(basedir, PROPERTIES)) {
 			IOUtils.copyCP2FS(PROPERTIES, basedir);
+			book.readProperties(new File(basedir, PROPERTIES));
 			echo("MsgFileCreated", PROPERTIES);
 			return;
 		}
 
-		book = new Book();
 		book.readProperties(new File(basedir, PROPERTIES));
 		File epub = new File(args.length > 1 ? args[1] : mkFilename(basedir));
 		book.setFilename(epub);
