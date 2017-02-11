@@ -62,7 +62,7 @@ a.refnote {
 	margin-bottom: 0.5em;
 }
 
-a.footnote {
+.footnote a {
 	font-size: x-small;
 	vertical-align: super;
 	text-decoration: none;
