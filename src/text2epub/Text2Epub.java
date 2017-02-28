@@ -49,6 +49,7 @@ public class Text2Epub {
 	private ZipWriter writer;
 	private Book book;
 	private FreeMarker freeMarker;
+	private File basedir;
 
 	/**
 	 * Startet die Erstellung des Buches. Wird das Programm ohne Parameter aufgerufen,
@@ -62,7 +63,7 @@ public class Text2Epub {
 	}
 
 	private void createEpub(String... args) throws IOException {
-		File basedir = new File(args.length == 0 ? "." : args[0]);
+		basedir = new File(args.length == 0 ? "." : args[0]);
 		book = new Book();
 		if (! IOUtils.exists(basedir, PROPERTIES)) {
 			IOUtils.copyCP2FS(PROPERTIES, basedir);
@@ -262,18 +263,6 @@ public class Text2Epub {
 		writeHtml(new InputSource(new FileInputStream(file)), outputFilename, images);
 	}
 
-	/** Markdown nach HTML konvertieren */
-	private void writeMarkdown(File file, Set<FileEntry> images) throws IOException {
-		String outputFilename = replaceSuffix(file, ".xhtml");
-
-		// Inhalt
-		Configuration config = Configuration.builder().forceExtentedProfile().build();
-		String output = Processor.process(file, config);
-		book.setParam("content", output);
-		output = freeMarker.applyTemplate("content.xhtml.ftlx");
-		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
-	}
-
 	private void writeHtml(InputSource input, String outputFilename, Set<FileEntry> images)
 			throws IOException {
 		try {
@@ -308,18 +297,41 @@ public class Text2Epub {
 		}
 	}
 
+	/** Markdown nach HTML konvertieren */
+	private void writeMarkdown(File file, Set<FileEntry> images) throws IOException {
+		// Inhalt
+		Configuration config = Configuration.builder().forceExtentedProfile().build();
+		String output = Processor.process(file, config);
+		writeText(file, output, images);
+	}
+
 	/** mit Textile-J nach HTML konvertieren */
 	private void writeTextile(File file, Dialect dialect, Set<FileEntry> images) throws IOException {
-		String outputFilename = replaceSuffix(file, ".xhtml");
-
 		// Inhalt
 		String content = IOUtils.read(file);
 		StringWriter out = new StringWriter();
 		MarkupParser parser = new MarkupParser(dialect, new HtmlDocumentBuilder(out));
 		parser.parse(content, false);
 		String output = out.toString();
-		book.setParam("content", output);
-		output = freeMarker.applyTemplate("content.xhtml.ftlx");
+		writeText(file, output, images);
+	}
+
+	/** gibt den Text als Html aus */
+	private void writeText(File file, String text, Set<FileEntry> images) throws IOException {
+		// gibt es ein eigenes Stylesheet für die Datei?
+		String stylesheet = replaceSuffix(file, ".css");
+		if (IOUtils.exists(basedir, stylesheet)) {
+			writeMedia(basedir, new FileEntry(stylesheet, MimeTypes.MIME_TYPE_CSS, stylesheet));
+			book.setStylesheet(stylesheet);
+		}
+
+		// HTML-Datei erzeugen
+		book.setParam("content", text);
+		String output = freeMarker.applyTemplate("content.xhtml.ftlx");
+		book.setStylesheet(null);
+
+		// in Buch ausgeben
+		String outputFilename = replaceSuffix(file, ".xhtml");
 		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
 	}
 

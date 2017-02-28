@@ -29,6 +29,7 @@ public class Book {
 	/** Einträge für Seiten-Einträge */
 	private List<PageEntry> pageEntries;
 	private File filename;
+	private String stylesheet;
 
 	/**
 	 * Konstruktor.
@@ -110,7 +111,20 @@ public class Book {
 	 * @return Stylesheet
 	 */
 	public String getStylesheet() {
+		if (stylesheet != null) {
+			return stylesheet;
+		}
+
 		return CSS.getFilename();
+	}
+
+	/**
+	 * Setzt den Namen des Stylesheets. Wird <code>null</code> übergeben wird als
+	 * Default der Name des CSS-Eintrags verwendet.
+	 * @param stylesheet Stylesheet
+	 */
+	public void setStylesheet(String stylesheet) {
+		this.stylesheet = stylesheet;
 	}
 
 	/**
