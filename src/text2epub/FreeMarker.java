@@ -18,6 +18,8 @@ import freemarker.template.TemplateExceptionHandler;
 public class FreeMarker {
 	/** Zeichensatz */
 	private static final String ENCODING = "UTF-8";
+	/** globale Include-Datei */
+	private static final String AUTO_INCLUDE = "book.ftl";
 	/** FreeMarker-Konfiguration */
 	private Configuration fmCfg;
 	private ZipWriter writer;
@@ -39,6 +41,10 @@ public class FreeMarker {
 		fmCfg.setTemplateLoader(mtl);
 		fmCfg.setDefaultEncoding(ENCODING);
 		fmCfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+		// wenn vorhanden, globales Freemarker-Include einbinden
+		if (IOUtils.exists(basedir, AUTO_INCLUDE)) {
+			fmCfg.addAutoInclude(AUTO_INCLUDE);
+		}
 	}
 
 	/** Schreibt ein FreeMarker-Template in die Zip-Datei */
