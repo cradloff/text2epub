@@ -1,0 +1,11 @@
+Markdown-Prozessor: txtmark 0.13
+https://github.com/rjeschke/txtmark
+Lizenz: Apache License 2.0
+
+Freemarker 2.3.24.stable-incubating
+http://freemarker.org/
+Lizenz: Apache License 2.0
+
+WIKI / Textile: Textile-J
+https://java.net/projects/textile-j
+Lizenz: LGPL-2.1
