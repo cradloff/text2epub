@@ -34,6 +34,7 @@ import text2epub.xml.XMLWriter;
 import text2epub.xml.XmlScanner;
 
 import com.github.rjeschke.txtmark.Configuration;
+import com.github.rjeschke.txtmark.Configuration.Builder;
 import com.github.rjeschke.txtmark.Processor;
 
 /**
@@ -109,9 +110,11 @@ public class Text2Epub {
 		});
 		for (File file : files) {
 			String filename = file.getName().toLowerCase();
-			if (filename.endsWith(".md")
-					|| filename.endsWith(".txt")) {
-				writeMarkdown(file, images);
+			if (filename.endsWith(".txt")) {
+				writeMarkdown(file, false, images);
+			} else if (filename.endsWith(".md")) {
+				// Extended Profile aktivieren
+				writeMarkdown(file, true, images);
 			} else if (filename.endsWith(".xhtml")) {
 				writeHtml(file, images);
 			} else if (filename.endsWith(".textile")) {
@@ -298,9 +301,13 @@ public class Text2Epub {
 	}
 
 	/** Markdown nach HTML konvertieren */
-	private void writeMarkdown(File file, Set<FileEntry> images) throws IOException {
+	private void writeMarkdown(File file, boolean extended, Set<FileEntry> images) throws IOException {
 		// Inhalt
-		Configuration config = Configuration.builder().forceExtentedProfile().build();
+		Builder builder = Configuration.builder();
+		if (extended) {
+			builder = builder.forceExtentedProfile();
+		}
+		Configuration config = builder.build();
 		String output = Processor.process(file, config);
 		writeText(file, output, images);
 	}
