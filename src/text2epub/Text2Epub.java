@@ -1,7 +1,6 @@
 package text2epub;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -262,8 +261,11 @@ public class Text2Epub {
 
 	/** XHTML übernehmen */
 	private void writeHtml(File file, Set<FileEntry> images) throws IOException {
+		// Inhalt einlesen
+		String content = freeMarker.applyTemplate(file);
 		String outputFilename = file.getName();
-		writeHtml(new InputSource(new FileInputStream(file)), outputFilename, images);
+		// Datei ausgeben
+		writeHtml(new InputSource(new StringReader(content)), outputFilename, images);
 	}
 
 	private void writeHtml(InputSource input, String outputFilename, Set<FileEntry> images)
@@ -302,24 +304,29 @@ public class Text2Epub {
 
 	/** Markdown nach HTML konvertieren */
 	private void writeMarkdown(File file, boolean extended, Set<FileEntry> images) throws IOException {
-		// Inhalt
+		// Inhalt einlesen
+		String content = freeMarker.applyTemplate(file);
+		// Markdown nach Html konvertieren
 		Builder builder = Configuration.builder();
 		if (extended) {
 			builder = builder.forceExtentedProfile();
 		}
 		Configuration config = builder.build();
-		String output = Processor.process(file, config);
+		String output = Processor.process(content, config);
+		// Datei ausgeben
 		writeText(file, output, images);
 	}
 
 	/** mit Textile-J nach HTML konvertieren */
 	private void writeTextile(File file, Dialect dialect, Set<FileEntry> images) throws IOException {
-		// Inhalt
-		String content = IOUtils.read(file);
+		// Inhalt einlesen
+		String content = freeMarker.applyTemplate(file);
+		// Textile nach Html konvertieren
 		StringWriter out = new StringWriter();
 		MarkupParser parser = new MarkupParser(dialect, new HtmlDocumentBuilder(out));
 		parser.parse(content, false);
 		String output = out.toString();
+		// Datei ausgeben
 		writeText(file, output, images);
 	}
 

@@ -53,7 +53,20 @@ public class FreeMarker {
 		writeTemplate(templateName, writer);
 	}
 
-	/** Führt ein FreeMarker-Template aus, und liefert das Ergebnis zurück */
+	/**
+	 * Führt ein FreeMarker-Template aus, und liefert das Ergebnis zurück.
+	 * @param file Datei
+	 * @return Ergebnis des Templates
+	 */
+	public String applyTemplate(File file) throws IOException {
+		return applyTemplate(file.getName());
+	}
+
+	/**
+	 * Führt ein FreeMarker-Template aus, und liefert das Ergebnis zurück
+	 * @param templateName Dateiname des Templates
+	 * @return Ergebnis des Templates
+	 */
 	public String applyTemplate(String templateName) throws IOException {
 		StringWriter out = new StringWriter();
 		writeTemplate(templateName, out);
