@@ -30,6 +30,7 @@ public class Book {
 	private List<PageEntry> pageEntries;
 	private File filename;
 	private String stylesheet;
+	private int page;
 
 	/**
 	 * Konstruktor.
@@ -155,6 +156,22 @@ public class Book {
 	 */
 	public void setFilename(File filename) {
 		this.filename = filename;
+	}
+
+	/**
+	 * Setzt die aktuelle Seite.
+	 * @param page aktuelle Seite
+	 */
+	public int initpage(int page) {
+		this.page = page;
+		return page;
+	}
+
+	/**
+	 * Liefert die nächste Seite zurück.
+	 */
+	public int getNextpage() {
+		return ++page;
 	}
 
 	/**
