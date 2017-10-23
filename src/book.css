@@ -30,21 +30,22 @@ blockquote p {
 }
 
 /* table of contents */
-.toc #author {
+.toc	{
+	text-align: center;
+}
+
+.toc#author, .toc #author {
 	color: dimgray;
 	font-size: 1.25em;
-	text-align: center;
 	font-size: large;
 }
-.toc #title {
+.toc#title, .toc #title {
 	font-size: 1.8em;
-	text-align: center;
 	font-size: x-large;
 }
-.toc #subtitle {
+.toc#subtitle, .toc #subtitle {
 	color: dimgray;
 	font-size: 1.25em;
-	text-align: center;
 	font-size: x-large;
 }
 
