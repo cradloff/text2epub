@@ -22,7 +22,7 @@
 <entry key="filename"></entry>
 <!-- Verlag -->
 <entry key="publisher"></entry>
-<!-- Schlagwörter/Genre (z.B. Humor, Fiction, Romance, ...) https://www.bisg.org/bisac/complete-bisac-subject-headings-2015-edition -->
+<!-- Schlagwörter/Genre (z.B. Humor, Fiction, Romance, ...) http://bisg.org/page/bisacedition -->
 <entry key="subject"></entry>
 <!-- Rechte/Lizenz (z.B. Public Domain) -->
 <entry key="rights"></entry>
