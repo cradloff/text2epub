@@ -41,10 +41,8 @@ public class FreeMarker {
 		fmCfg.setTemplateLoader(mtl);
 		fmCfg.setDefaultEncoding(ENCODING);
 		fmCfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-		// wenn vorhanden, globales Freemarker-Include einbinden
-		if (IOUtils.exists(basedir, AUTO_INCLUDE)) {
-			fmCfg.addAutoInclude(AUTO_INCLUDE);
-		}
+		// globales Freemarker-Include einbinden
+		fmCfg.addAutoInclude(AUTO_INCLUDE);
 	}
 
 	/** Schreibt ein FreeMarker-Template in die Zip-Datei */
