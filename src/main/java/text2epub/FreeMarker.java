@@ -42,7 +42,7 @@ public class FreeMarker {
 		fmCfg = new Configuration(Configuration.VERSION_2_3_24);
 		// Templates werden zuerst im Basis-Verzeichnis gesucht, danach in den übergeordneten Verzeichnissen, dann im Classpath
 		List<TemplateLoader> loader = new ArrayList<>();
-		File dir = basedir;
+		File dir = basedir.getCanonicalFile();
 		do {
 			loader.add(new FileTemplateLoader(dir));
 			dir = dir.getParentFile();
