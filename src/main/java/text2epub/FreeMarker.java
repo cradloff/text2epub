@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
@@ -33,11 +35,20 @@ public class FreeMarker {
 		this.writer = writer;
 		this.data = data;
 
+		init(basedir);
+	}
+
+	private void init(File basedir) throws IOException {
 		fmCfg = new Configuration(Configuration.VERSION_2_3_24);
-		// Templates werden zuerst im Basis-Verzeichnis gesucht, dann im Classpath
-		FileTemplateLoader ftl1 = new FileTemplateLoader(basedir);
-		ClassTemplateLoader ctl = new ClassTemplateLoader(getClass(), "/");
-		MultiTemplateLoader mtl = new MultiTemplateLoader(new TemplateLoader[] { ftl1, ctl });
+		// Templates werden zuerst im Basis-Verzeichnis gesucht, danach in den übergeordneten Verzeichnissen, dann im Classpath
+		List<TemplateLoader> loader = new ArrayList<>();
+		File dir = basedir;
+		do {
+			loader.add(new FileTemplateLoader(dir));
+			dir = dir.getParentFile();
+		} while (dir != null);
+		loader.add(new ClassTemplateLoader(getClass(), "/"));
+		MultiTemplateLoader mtl = new MultiTemplateLoader(loader.toArray(new TemplateLoader[loader.size()]));
 		fmCfg.setTemplateLoader(mtl);
 		fmCfg.setDefaultEncoding(ENCODING);
 		fmCfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
