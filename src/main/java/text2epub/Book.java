@@ -135,7 +135,7 @@ public class Book {
 	public String getUUID() {
 		// Die folgende Buchidentifikation ist einzigartig für jedes Buch zu wählen
 		String uuid = props.getProperty("UUID");
-		if (uuid == null || uuid.isEmpty()) {
+		if (StringUtils.isEmpty(uuid)) {
 			uuid = "UUID-gen" + filename.getName().hashCode();
 		}
 

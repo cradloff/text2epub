@@ -38,7 +38,7 @@ public class MimeTypes {
 	 * @return Mime-Type
 	 */
 	public static String getMimeType(String filename) {
-		String suffix = filename.substring(filename.lastIndexOf('.'));
+		String suffix = IOUtils.suffix(filename);
 		String mimeType = MIME_TYPES.get(suffix);
 
 		if (mimeType == null) {

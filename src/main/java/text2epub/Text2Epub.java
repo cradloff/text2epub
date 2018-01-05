@@ -11,14 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.java.textilej.parser.MarkupParser;
-import net.java.textilej.parser.builder.HtmlDocumentBuilder;
-import net.java.textilej.parser.markup.Dialect;
-import net.java.textilej.parser.markup.confluence.ConfluenceDialect;
-import net.java.textilej.parser.markup.mediawiki.MediaWikiDialect;
-import net.java.textilej.parser.markup.textile.TextileDialect;
-import net.java.textilej.parser.markup.trac.TracWikiDialect;
-
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -26,15 +18,22 @@ import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import com.github.rjeschke.txtmark.Configuration;
+import com.github.rjeschke.txtmark.Configuration.Builder;
+import com.github.rjeschke.txtmark.Processor;
+
+import net.java.textilej.parser.MarkupParser;
+import net.java.textilej.parser.builder.HtmlDocumentBuilder;
+import net.java.textilej.parser.markup.Dialect;
+import net.java.textilej.parser.markup.confluence.ConfluenceDialect;
+import net.java.textilej.parser.markup.mediawiki.MediaWikiDialect;
+import net.java.textilej.parser.markup.textile.TextileDialect;
+import net.java.textilej.parser.markup.trac.TracWikiDialect;
 import text2epub.xml.ChainedContentHandler;
 import text2epub.xml.CompressingXMLWriter;
 import text2epub.xml.IdGeneratorFilter;
 import text2epub.xml.XMLWriter;
 import text2epub.xml.XmlScanner;
-
-import com.github.rjeschke.txtmark.Configuration;
-import com.github.rjeschke.txtmark.Configuration.Builder;
-import com.github.rjeschke.txtmark.Processor;
 
 /**
  * Konvertiert Text-Dateien nach Epub.
@@ -156,19 +155,19 @@ public class Text2Epub {
 	private String mkFilename(File basedir) {
 		// explizit angegebener Dateiname?
 		String filename = book.getProperty("filename");
-		if (! isEmpty(filename)) {
+		if (! StringUtils.isEmpty(filename)) {
 			return filename;
 		}
 
 		// Titel - Author.epub
 		String author = book.getProperty("authorFileAs");
-		if (isEmpty(author)) {
+		if (StringUtils.isEmpty(author)) {
 			author = book.getProperty("author");
 		}
 		String title = book.getProperty("title");
 
 		// Ggf. Verzeichnis-Name als Fallback
-		if (isEmpty(author) || isEmpty(title)) {
+		if (StringUtils.isEmpty(author) || StringUtils.isEmpty(title)) {
 			filename = basedir.getName();
 		} else {
 			filename = title + " - " + author;
@@ -200,7 +199,7 @@ public class Text2Epub {
 		// explizit angegeben?
 		String filename = book.getProperty("cover");
 		// sonst danach suchen
-		if (isEmpty(filename)) {
+		if (StringUtils.isEmpty(filename)) {
 			outer: for (String[] entry : MimeTypes.MIME_TYPES_IMAGE) {
 				for (int i = 1; i < entry.length; i++) {
 					filename = "cover" + entry[i];
@@ -248,8 +247,8 @@ public class Text2Epub {
 	private void writeMedia(File basedir) throws IOException {
 		// weitere Dateien ausgeben
 		String additionalMedia = this.book.getProperty("additional-media");
-		if (additionalMedia != null && ! "".equals(additionalMedia)) {
-			String files[] = additionalMedia.split("\\s*,\\s*");
+		if (! StringUtils.isEmpty(additionalMedia)) {
+			List<String> files = StringUtils.splitCSV(additionalMedia);
 			int count = 0;
 			for (String filename : files) {
 				String id = String.format("media-%02d", ++count);
@@ -273,7 +272,7 @@ public class Text2Epub {
 		try {
 			// TOC-Entries einlesen
 			String s = book.getProperty().getProperty("toc-entries", "h1");
-			List<String> headings = Arrays.asList(s.split("\\s*,\\s*"));
+			List<String> headings = StringUtils.splitCSV(s);
 			writer.newEntry(outputFilename);
 			XMLFilter filter = new IdGeneratorFilter(headings);
 			XMLReader reader = XMLReaderFactory.createXMLReader();
@@ -333,7 +332,7 @@ public class Text2Epub {
 	/** gibt den Text als Html aus */
 	private void writeText(File file, String text, Set<FileEntry> images) throws IOException {
 		// gibt es ein eigenes Stylesheet für die Datei?
-		String stylesheet = replaceSuffix(file, ".css");
+		String stylesheet = IOUtils.replaceSuffix(file, ".css");
 		if (IOUtils.exists(basedir, stylesheet)) {
 			writeMedia(basedir, new FileEntry(stylesheet, MimeTypes.MIME_TYPE_CSS, stylesheet));
 			book.setStylesheet(stylesheet);
@@ -345,25 +344,8 @@ public class Text2Epub {
 		book.setStylesheet(null);
 
 		// in Buch ausgeben
-		String outputFilename = replaceSuffix(file, ".xhtml");
+		String outputFilename = IOUtils.replaceSuffix(file, ".xhtml");
 		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
-	}
-
-	/** Ersetzt die Dateiendung durch die angegebene Endung */
-	private static String replaceSuffix(File file, String newSuffix) {
-		return replaceSuffix(file.getName(), newSuffix);
-	}
-
-	/** Ersetzt die Dateiendung durch die angegebene Endung */
-	private static String replaceSuffix(String filename, String newSuffix) {
-		String outputFilename = filename.substring(0, filename.lastIndexOf("."));
-		outputFilename += newSuffix;
-
-		return outputFilename;
-	}
-
-	private static boolean isEmpty(String s) {
-		return s == null || s.isEmpty();
 	}
 
 	private void echo(String key, Object... param) {

@@ -2,6 +2,7 @@ package text2epub;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 import java.util.Set;
 
 import org.xml.sax.Attributes;
@@ -37,7 +38,7 @@ public class ImageScanner extends DefaultHandler {
 			if (srcset != null) {
 				// Komma-getrennte Liste mit Urls und Breiten- und DPI-Angaben
 				// z.B.: srcset="img01.jpg, img02.jpg 200w, img03.jpg 400w 2x"
-				String[] t = srcset.split("\\s*,\\s*");
+				List<String> t = StringUtils.splitCSV(srcset);
 				for (String s : t) {
 					String[] u = s.split("\\s+");
 					addEntry(u[0]);

@@ -70,4 +70,40 @@ public class IOUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Liefert die Datei-Endung zurück.
+	 * @param file Datei
+	 * @return Datei-Endung
+	 */
+	public static String suffix(File file) {
+		return suffix(file.getName());
+	}
+
+	/**
+	 * Liefert die Datei-Endung zurück.
+	 * @param filename Dateiname
+	 * @return Datei-Endung
+	 */
+	public static String suffix(String filename) {
+		int idx = filename.lastIndexOf('.');
+		if (idx < 0) {
+			return null;
+		}
+
+		return filename.substring(idx);
+	}
+
+	/** Ersetzt die Dateiendung durch die angegebene Endung */
+	static String replaceSuffix(File file, String newSuffix) {
+		return replaceSuffix(file.getName(), newSuffix);
+	}
+
+	/** Ersetzt die Dateiendung durch die angegebene Endung */
+	static String replaceSuffix(String filename, String newSuffix) {
+		String outputFilename = filename.substring(0, filename.lastIndexOf("."));
+		outputFilename += newSuffix;
+
+		return outputFilename;
+	}
+
 }
