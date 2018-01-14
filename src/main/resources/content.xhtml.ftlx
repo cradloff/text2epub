@@ -6,7 +6,6 @@
 <link href='${stylesheet}' type='text/css' rel='stylesheet'/>
 </head>
 <body>
-<#assign inlineTemplate = params.content?interpret>
-<@inlineTemplate />
+${params.content?no_esc}
 </body>
 </html>

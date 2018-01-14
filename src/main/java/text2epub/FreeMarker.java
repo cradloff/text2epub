@@ -44,7 +44,7 @@ public class FreeMarker {
 	 * @throws IOException
 	 */
 	public void configure(File basedir) throws IOException {
-		Configuration config = new Configuration(VERSION);
+		Configuration config = createConfiguration();
 		// Templates werden zuerst im Basis-Verzeichnis gesucht, danach in den übergeordneten Verzeichnissen, dann im Classpath
 		List<TemplateLoader> loader = new ArrayList<>();
 		File dir = basedir.getCanonicalFile();
@@ -55,8 +55,6 @@ public class FreeMarker {
 		loader.add(new ClassTemplateLoader(getClass(), "/"));
 		MultiTemplateLoader mtl = new MultiTemplateLoader(loader.toArray(new TemplateLoader[loader.size()]));
 		config.setTemplateLoader(mtl);
-		config.setDefaultEncoding(ENCODING);
-		config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
 		setConfiguration(config);
 	}

@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Properties of eBook</comment>
-<!-- unique identifier of book (required UUID and/or ISBN) -->
+<!-- unique identifier of book (required) -->
 <entry key="UUID">${property.UUID}</entry>
 <!-- ISBN -->
 <entry key="ISBN"></entry>
@@ -40,4 +40,6 @@
 <entry key="toc-entries"></entry>
 <!-- list of additional files (CSV, e.g. first.gif, second.gif) -->
 <entry key="additional-media"></entry>
+<!-- enable freemarker for content? (true/false) -->
+<entry key="freemarker">true</entry>
 </properties>

@@ -287,7 +287,7 @@ public class Text2Epub {
 	/** XHTML übernehmen */
 	private void writeHtml(File file, Set<FileEntry> images) throws IOException {
 		// Inhalt einlesen
-		String content = freeMarker.applyTemplate(file);
+		String content = readContent(file);
 		String outputFilename = file.getName();
 		// Datei ausgeben
 		writeHtml(new InputSource(new StringReader(content)), outputFilename, images);
@@ -330,7 +330,7 @@ public class Text2Epub {
 	/** Markdown nach HTML konvertieren */
 	private void writeMarkdown(File file, boolean extended, Set<FileEntry> images) throws IOException {
 		// Inhalt einlesen
-		String content = freeMarker.applyTemplate(file);
+		String content = readContent(file);
 		// Markdown nach Html konvertieren
 		Builder builder = Configuration.builder();
 		if (extended) {
@@ -345,7 +345,7 @@ public class Text2Epub {
 	/** mit Textile-J nach HTML konvertieren */
 	private void writeTextile(File file, Dialect dialect, Set<FileEntry> images) throws IOException {
 		// Inhalt einlesen
-		String content = freeMarker.applyTemplate(file);
+		String content = readContent(file);
 		// Textile nach Html konvertieren
 		StringWriter out = new StringWriter();
 		MarkupParser parser = new MarkupParser(dialect, new HtmlDocumentBuilder(out));
@@ -353,6 +353,17 @@ public class Text2Epub {
 		String output = out.toString();
 		// Datei ausgeben
 		writeText(file, output, images);
+	}
+
+	private String readContent(File file) throws IOException {
+		String content;
+		if (Boolean.parseBoolean(book.getProperty().getProperty("freemarker", "true"))) {
+			content = freeMarker.applyTemplate(file);
+		} else {
+			content = IOUtils.read(file);
+		}
+
+		return content;
 	}
 
 	/** gibt den Text als Html aus */
