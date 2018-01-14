@@ -10,6 +10,10 @@
 <entry key="title"></entry>
 <!-- Sub-Titel -->
 <entry key="subtitle"></entry>
+<!-- Sammlung, z.B. Titel einer Serie -->
+<entry key="collection"></entry>
+<!-- Position innerhalb der Sammlung (Band-Nummer) -->
+<entry key="group-position"></entry>
 <!-- Sprache -->
 <entry key="language">de</entry>
 <!-- Beschreibung -->
