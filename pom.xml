@@ -48,6 +48,20 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.cradloff</groupId>
+        <artifactId>fit-maven-plugin</artifactId>
+        <version>3.0</version>
+        <executions>
+          <execution>
+            <id>fixture</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -76,6 +90,11 @@
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.c2.fit</groupId>
+      <artifactId>fit</artifactId>
+      <version>1.1</version>
     </dependency>
   </dependencies>
 </project>

@@ -1,0 +1,180 @@
+<html>
+<head>
+<title>Simple ebook</title>
+<link rel="stylesheet" href="fixture.css"/>
+</head>
+<body>
+<h1>Simple ebook</h1>
+
+<p>Tests a very simple ebook.</p>
+
+<table>
+	<caption>Create ebook</caption>
+	<tr class="head">
+		<td colspan="2">fit.Text2Epub</td>
+	</tr>
+	<tr class="head">
+		<td>folder</td>
+		<td>filename</td>
+	</tr>
+	<tr>
+		<td>simple</td>
+		<td>Simple.epub</td>
+	</tr>
+</table>
+
+<table>
+	<caption>check structure of ebook</caption>
+	<tr class="head">
+		<td>fit.ZipFileListing</td>
+		<td colspan="3">Simple.epub</td>
+	</tr>
+	<tr class="head">
+		<td>getName()</td>
+		<td>getSize()</td>
+		<td>getMethod()</td>
+		<td></td>
+	</tr>
+	<tr><td>mimetype              </td><td>20</td><td>0</td><td>mime type declaration</td></tr>
+	<tr><td>META-INF/container.xml</td><td>  </td><td>8</td><td>container description</td></tr>
+	<tr><td>content.opf           </td><td>  </td><td>8</td><td>package document</td></tr>
+	<tr><td>content.ncx           </td><td>  </td><td>8</td><td>navigation document</td></tr>
+	<tr><td>content.xhtml         </td><td>  </td><td>8</td><td>content</td></tr>
+	<tr><td>book.css              </td><td>  </td><td>8</td><td>stylesheet</td></tr>
+</table>
+
+<table>
+	<caption>check mimetype</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Simple.epub</td>
+		<td>mimetype</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number">1</td><td class="pre" colspan="2">application/epub+zip</td></tr>
+</table>
+
+<table>
+	<caption>check container description</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Simple.epub</td>
+		<td>META-INF/container.xml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number">1</td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</td></tr>
+	<tr><td class="number">2</td><td class="pre" colspan="2">&lt;container xmlns='urn:oasis:names:tc:opendocument:xmlns:container' version='1.0'&gt;</td></tr>
+	<tr><td class="number">3</td><td class="pre" colspan="2">  &lt;rootfiles&gt;</td></tr>
+	<tr><td class="number">4</td><td class="pre" colspan="2">   &lt;rootfile full-path='content.opf' media-type='application/oebps-package+xml'/&gt;</td></tr>
+	<tr><td class="number">5</td><td class="pre" colspan="2">  &lt;/rootfiles&gt;</td></tr>
+	<tr><td class="number">6</td><td class="pre" colspan="2">&lt;/container&gt;</td></tr>
+</table>
+
+<table>
+	<caption>check package document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Simple.epub</td>
+		<td>content.opf</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"> 1</td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"> 2</td><td class="pre" colspan="2">&lt;package version='2.0'</td></tr>
+	<tr><td class="number"> 3</td><td class="pre" colspan="2">    xmlns:dc='http://purl.org/dc/elements/1.1/'</td></tr>
+	<tr><td class="number"> 4</td><td class="pre" colspan="2">    xmlns:opf='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"> 5</td><td class="pre" colspan="2">    xmlns='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"> 6</td><td class="pre" colspan="2">    unique-identifier='BookId'></td></tr>
+	<tr><td class="number"> 7</td><td class="pre" colspan="2">  &lt;metadata></td></tr>
+	<tr><td class="number"> 8</td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId' opf:scheme='UUID'>d9476666-e4e7-4bf9-83e6-a2ccc592cddd&lt;/dc:identifier></td></tr>
+	<tr><td class="number"> 9</td><td class="pre" colspan="2">    &lt;dc:language>en&lt;/dc:language></td></tr>
+	<tr><td class="number">10</td><td class="pre" colspan="2">    &lt;dc:title xml:lang='en'>Simple ebook&lt;/dc:title></td></tr>
+	<tr><td class="number">11</td><td class="pre" colspan="2">    &lt;dc:creator</td></tr>
+	<tr><td class="number">12</td><td class="pre" colspan="2">        opf:file-as='Test' opf:role='aut'</td></tr>
+	<tr><td class="number">13</td><td class="pre" colspan="2">        xml:lang='en'>Test&lt;/dc:creator></td></tr>
+	<tr><td class="number">14</td><td class="pre" colspan="2">    &lt;dc:date opf:event='creation'>2018-01-14&lt;/dc:date></td></tr>
+	<tr><td class="number">15</td><td class="pre" colspan="2">    &lt;dc:date opf:event='publication'>2018-01-14&lt;/dc:date></td></tr>
+	<tr><td class="number">16</td><td class="pre" colspan="2">  &lt;/metadata></td></tr>
+	<tr><td class="number">17</td><td class="pre" colspan="2">  &lt;manifest></td></tr>
+	<tr><td class="number">18</td><td class="pre" colspan="2">    &lt;item id='ncx' href='content.ncx' media-type='application/x-dtbncx+xml'/></td></tr>
+	<tr><td class="number">19</td><td class="pre" colspan="2">    &lt;item id='content-01' href='content.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number">20</td><td class="pre" colspan="2">    &lt;item id='style-sheet' href='book.css' media-type='text/css'/></td></tr>
+	<tr><td class="number">21</td><td class="pre" colspan="2">  &lt;/manifest></td></tr>
+	<tr><td class="number">22</td><td class="pre" colspan="2">  &lt;spine &nbsp;toc='ncx'></td></tr>
+	<tr><td class="number">23</td><td class="pre" colspan="2">    &lt;itemref idref='content-01'/></td></tr>
+	<tr><td class="number">24</td><td class="pre" colspan="2">  &lt;/spine></td></tr>
+	<tr><td class="number">25</td><td class="pre" colspan="2">  &lt;guide></td></tr>
+	<tr><td class="number">26</td><td class="pre" colspan="2">  &lt;/guide></td></tr>
+	<tr><td class="number">27</td><td class="pre" colspan="2">&lt;/package></td></tr>
+</table>
+
+<table>
+	<caption>check navigation document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Simple.epub</td>
+		<td>content.ncx</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"> 1</td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"> 2</td><td class="pre" colspan="2">&lt;ncx xmlns='http://www.daisy.org/z3986/2005/ncx/' version='2005-1' xml:lang='en'></td></tr>
+	<tr><td class="number"> 3</td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"> 4</td><td class="pre" colspan="2">    &lt;meta name='dtb:uid' content='d9476666-e4e7-4bf9-83e6-a2ccc592cddd'/></td></tr>
+	<tr><td class="number"> 5</td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"> 6</td><td class="pre" colspan="2">  &lt;docTitle></td></tr>
+	<tr><td class="number"> 7</td><td class="pre" colspan="2">    &lt;text>Simple ebook&lt;/text></td></tr>
+	<tr><td class="number"> 8</td><td class="pre" colspan="2">  &lt;/docTitle></td></tr>
+	<tr><td class="number"> 9</td><td class="pre" colspan="2">  &lt;docAuthor></td></tr>
+	<tr><td class="number">10</td><td class="pre" colspan="2">    &lt;text>Test&lt;/text></td></tr>
+	<tr><td class="number">11</td><td class="pre" colspan="2">  &lt;/docAuthor></td></tr>
+	<tr><td class="number">12</td><td class="pre" colspan="2">  &lt;navMap></td></tr>
+	<tr><td class="number">13</td><td class="pre" colspan="2">  &lt;/navMap></td></tr>
+	<tr><td class="number">14</td><td class="pre" colspan="2">&lt;/ncx></td></tr>
+</table>
+
+<table>
+	<caption>check content</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Simple.epub</td>
+		<td>content.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"> 1</td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"> 2</td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"> 3</td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
+	<tr><td class="number"> 4</td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"> 5</td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
+	<tr><td class="number"> 6</td><td class="pre" colspan="2">    &lt;link href="book.css" type="text/css" rel="stylesheet"/></td></tr>
+	<tr><td class="number"> 7</td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"> 8</td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"> 9</td><td class="pre" colspan="2">    &lt;p>This is a &lt;em>very&lt;/em> simple ebook.&lt;/p></td></tr>
+	<tr><td class="number">10</td><td class="pre" colspan="2">    &lt;p>Another paragraph</td></tr>
+	<tr><td class="number">11</td><td class="pre" colspan="2">    with some text.&lt;/p></td></tr>
+	<tr><td class="number">12</td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number">13</td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table>
+	<caption>Summary</caption>
+	<tr class="head">
+		<td colspan="2">fit.Summary</td>
+	</tr>
+</table>
+
+</body>
+</html>

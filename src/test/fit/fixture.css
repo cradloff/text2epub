@@ -1,0 +1,24 @@
+table {
+	border-collapse: collapse;
+	margin-top: 0.5em;
+}
+
+td, th {
+	border: 1px solid black;
+}
+
+.head {
+	background-color: #EEEEEE;
+}
+
+.highlight {
+	background-color: #F8F8F8;
+}
+
+.number {
+	text-align: right;
+}
+
+.pre {
+	white-space: pre;
+}
