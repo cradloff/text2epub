@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Eigenschaften für eBook</comment>
+<!-- eindeutige ID des Buchs (Pflichtangabe) -->
+<entry key="UUID">6246d419-08b2-4603-a8a8-70a327ae5fd3</entry>
+<!-- ISBN -->
+<entry key="ISBN"></entry>
+<!-- Buch-Titel (Pflichtangabe) -->
+<entry key="title">text2epub</entry>
+<!-- Sub-Titel -->
+<entry key="subtitle">Creating eBooks with text2epub</entry>
+<!-- Sammlung, z.B. Titel einer Serie -->
+<entry key="collection"></entry>
+<!-- Position innerhalb der Sammlung (Band-Nummer) -->
+<entry key="group-position"></entry>
+<!-- Sprache (Pflichtangabe) -->
+<entry key="language">en</entry>
+<!-- Beschreibung -->
+<entry key="description"></entry>
+<!-- Author (Anzeige, Pflichtangabe) -->
+<entry key="author">Claus Radloff</entry>
+<!-- Author (für Sortierung) -->
+<entry key="authorFileAs">Radloff, Claus</entry>
+<!-- Dateiname (default: Titel - Author.epub) -->
+<entry key="filename"></entry>
+<!-- Verlag -->
+<entry key="publisher"></entry>
+<!-- Schlagwörter/Genre (z.B. Humor, Fiction, Romance, ...) http://bisg.org/page/bisacedition -->
+<entry key="subject">COMPUTERS / Digital Media / General</entry>
+<!-- Rechte/Lizenz (z.B. Public Domain) -->
+<entry key="rights">Public Domain</entry>
+<!-- Datum der Veröffentlichung (yyyy-mm-dd) -->
+<entry key="pubDate">2018-01-14</entry>
+<!-- Cover-Bild (default cover.*) -->
+<entry key="cover"></entry>
+<!-- Inhaltsverzeichnis generieren? (true/false) -->
+<entry key="toc">false</entry>
+<!-- Verzeichnis-Einträge aus diesen Elementen erstellen (CSV, default: h1) -->
+<entry key="toc-entries"></entry>
+<!-- Liste von weiteren Dateien (CSV, z.B. first.gif, second.gif) -->
+<entry key="additional-media"></entry>
+<!-- Freemarker für Content aktivieren? (true/false) -->
+<entry key="freemarker">false</entry>
+</properties>
