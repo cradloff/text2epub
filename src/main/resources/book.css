@@ -1,3 +1,7 @@
+@page {
+	margin: 5px !important;
+}
+
 h1 {
 	text-align: center;
 	font-size: x-large;
@@ -25,25 +29,28 @@ blockquote p {
 
 /* cover */
 #cover {
-	width: 100%;
-	height: 100%;
+	max-width: 100%;
+}
+img {
+	max-width: 95%;
+	margin: 0 auto;
+	padding: 0;
 }
 
 /* table of contents */
-.toc	{
-	text-align: center;
-}
-
 .toc#author, .toc #author {
+	text-align: center;
 	color: dimgray;
 	font-size: 1.25em;
 	font-size: large;
 }
 .toc#title, .toc #title {
+	text-align: center;
 	font-size: 1.8em;
 	font-size: x-large;
 }
 .toc#subtitle, .toc #subtitle {
+	text-align: center;
 	color: dimgray;
 	font-size: 1.25em;
 	font-size: x-large;
