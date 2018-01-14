@@ -2,20 +2,20 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Eigenschaften für eBook</comment>
-<!-- eindeutige ID des Buchs (https://www.famkruithof.net/uuid/uuidgen) -->
-<entry key="UUID"></entry>
+<!-- eindeutige ID des Buchs (Pflichtangabe UUID und/oder ISBN) -->
+<entry key="UUID">${property.UUID}</entry>
 <!-- ISBN -->
 <entry key="ISBN"></entry>
 <!-- Buch-Titel (Pflichtangabe) -->
-<entry key="title"></entry>
+<entry key="title">${property.title}</entry>
 <!-- Sub-Titel -->
 <entry key="subtitle"></entry>
 <!-- Sammlung, z.B. Titel einer Serie -->
 <entry key="collection"></entry>
 <!-- Position innerhalb der Sammlung (Band-Nummer) -->
 <entry key="group-position"></entry>
-<!-- Sprache -->
-<entry key="language">de</entry>
+<!-- Sprache (Pflichtangabe) -->
+<entry key="language">${property.language}</entry>
 <!-- Beschreibung -->
 <entry key="description"></entry>
 <!-- Author (Anzeige, Pflichtangabe) -->
@@ -31,13 +31,13 @@
 <!-- Rechte/Lizenz (z.B. Public Domain) -->
 <entry key="rights"></entry>
 <!-- Datum der Veröffentlichung (yyyy-mm-dd) -->
-<entry key="pubDate"></entry>
+<entry key="pubDate">${property.date}</entry>
 <!-- Cover-Bild (default cover.*) -->
 <entry key="cover"></entry>
 <!-- Inhaltsverzeichnis generieren? (true/false) -->
 <entry key="toc">true</entry>
-<!-- Verzeichnis-Einträge aus diesen Elementen erstellen (default: h1) -->
-<entry key="toc-entries">h1, h2</entry>
-<!-- Liste von weiteren Dateien -->
+<!-- Verzeichnis-Einträge aus diesen Elementen erstellen (CSV, default: h1) -->
+<entry key="toc-entries"></entry>
+<!-- Liste von weiteren Dateien (CSV, z.B. first.gif, second.gif) -->
 <entry key="additional-media"></entry>
 </properties>

@@ -49,11 +49,10 @@ public class Book {
 		try (InputStream pin = new FileInputStream(file)) {
 			props.loadFromXML(pin);
 		}
-		// Resource-Bundle in Map umkopieren
-		ResourceBundle resBundle = ResourceBundle.getBundle("Text2Epub", Locale.forLanguageTag(getProperty("language")));
-		for (String key : resBundle.keySet()) {
-			res.put(key, resBundle.getString(key));
-		}
+	}
+
+	public void setProperties(Properties props) {
+		this.props = props;
 	}
 
 	/**
@@ -71,6 +70,18 @@ public class Book {
 	 */
 	public String getProperty(String name) {
 		return props.getProperty(name);
+	}
+
+	/**
+	 * Initialisiert die Resourcen mit der angegebenen Locale.
+	 * @param locale Locale
+	 */
+	public void initResources(Locale locale) {
+		// Resource-Bundle in Map umkopieren
+		ResourceBundle resBundle = ResourceBundle.getBundle("Text2Epub", locale);
+		for (String key : resBundle.keySet()) {
+			res.put(key, resBundle.getString(key));
+		}
 	}
 
 	/**

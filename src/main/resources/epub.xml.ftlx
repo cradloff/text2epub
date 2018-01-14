@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Properties of eBook</comment>
+<!-- unique identifier of book (required UUID and/or ISBN) -->
+<entry key="UUID">${property.UUID}</entry>
+<!-- ISBN -->
+<entry key="ISBN"></entry>
+<!-- book title (required) -->
+<entry key="title">${property.title}</entry>
+<!-- sub title -->
+<entry key="subtitle"></entry>
+<!-- collection, e.g. series title -->
+<entry key="collection"></entry>
+<!-- position in collection (volume number) -->
+<entry key="group-position"></entry>
+<!-- language (required) -->
+<entry key="language">${property.language}</entry>
+<!-- description -->
+<entry key="description"></entry>
+<!-- author (for display, required) -->
+<entry key="author"></entry>
+<!-- author (for ordering) -->
+<entry key="authorFileAs"></entry>
+<!-- filename (default: title - author.epub) -->
+<entry key="filename"></entry>
+<!-- publisher -->
+<entry key="publisher"></entry>
+<!-- keywords/genre (e.g. Humor, Fiction, Romance, ...) http://bisg.org/page/bisacedition -->
+<entry key="subject"></entry>
+<!-- rights/license (e.g. Public Domain) -->
+<entry key="rights"></entry>
+<!-- publishing date (yyyy-mm-dd) -->
+<entry key="pubDate">${property.date}</entry>
+<!-- cover image (default cover.*) -->
+<entry key="cover"></entry>
+<!-- create table of contents? (true/false) -->
+<entry key="toc">true</entry>
+<!-- create toc from these elements (CSV, default: h1) -->
+<entry key="toc-entries"></entry>
+<!-- list of additional files (CSV, e.g. first.gif, second.gif) -->
+<entry key="additional-media"></entry>
+</properties>

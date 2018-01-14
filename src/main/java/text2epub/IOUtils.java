@@ -7,9 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /** Hilfsfunktionen für IO */
 public class IOUtils {
+	/** Zeichensatz */
+	private static final String ENCODING = "UTF-8";
 
 	/**
 	 * Kopiert die Datei aus dem Classpath ins angegebene Verzeichnis.
@@ -68,6 +72,17 @@ public class IOUtils {
 		}
 
 		return sb.toString();
+	}
+
+	/**
+	 * Schreibt die Daten in die Datei.
+	 * @throws IOException
+	 */
+	public static void write(String data, File file) throws IOException {
+		try (FileOutputStream fos = new FileOutputStream(file);
+				Writer out = new OutputStreamWriter(fos, ENCODING);) {
+			out.write(data);
+		}
 	}
 
 	/**

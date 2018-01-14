@@ -15,9 +15,11 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import freemarker.template.Version;
 
 /** Klasse zum Verarbeiten von Templates mit FreeMarker */
 public class FreeMarker {
+	private static final Version VERSION = Configuration.VERSION_2_3_24;
 	/** Zeichensatz */
 	private static final String ENCODING = "UTF-8";
 	/** globale Include-Datei */
@@ -29,17 +31,20 @@ public class FreeMarker {
 
 	/**
 	 * Konstruktor.
-	 * @param basedir Basis-Verzeichnis für Templates
 	 */
-	public FreeMarker(File basedir, ZipWriter writer, Object data) throws IOException {
+	public FreeMarker(ZipWriter writer, Object data) {
 		this.writer = writer;
 		this.data = data;
-
-		init(basedir);
 	}
 
-	private void init(File basedir) throws IOException {
-		fmCfg = new Configuration(Configuration.VERSION_2_3_24);
+	/**
+	 * Erzeugt eine Konfiguration, die Resourcen aus dem Basis-Verzeichnis oder
+	 * dem Classpath lädt.
+	 * @param basedir Basis-Verzeichnis für Templates
+	 * @throws IOException
+	 */
+	public void configure(File basedir) throws IOException {
+		Configuration config = new Configuration(VERSION);
 		// Templates werden zuerst im Basis-Verzeichnis gesucht, danach in den übergeordneten Verzeichnissen, dann im Classpath
 		List<TemplateLoader> loader = new ArrayList<>();
 		File dir = basedir.getCanonicalFile();
@@ -49,11 +54,39 @@ public class FreeMarker {
 		} while (dir != null);
 		loader.add(new ClassTemplateLoader(getClass(), "/"));
 		MultiTemplateLoader mtl = new MultiTemplateLoader(loader.toArray(new TemplateLoader[loader.size()]));
-		fmCfg.setTemplateLoader(mtl);
-		fmCfg.setDefaultEncoding(ENCODING);
-		fmCfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+		config.setTemplateLoader(mtl);
+		config.setDefaultEncoding(ENCODING);
+		config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+
+		setConfiguration(config);
+	}
+
+	/**
+	 * Erzeugt eine Konfiguration, die Resourcen aus dem Classpath lädt.
+	 */
+	public void configureCP() {
+		Configuration config = createConfiguration();
+		config.setTemplateLoader(new ClassTemplateLoader(getClass(), "/"));
+
+		setConfiguration(config);
+	}
+
+	/**
+	 * Erzeugt eine Default-Konfiguration (ohne Template-Loader).
+	 * @return Konfiguration
+	 */
+	public static Configuration createConfiguration() {
+		Configuration config = new Configuration(VERSION);
+		config.setDefaultEncoding(ENCODING);
+		config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 		// globales Freemarker-Include einbinden
-		fmCfg.addAutoInclude(AUTO_INCLUDE);
+		config.addAutoInclude(AUTO_INCLUDE);
+
+		return config;
+	}
+
+	public void setConfiguration(Configuration fmCfg) {
+		this.fmCfg = fmCfg;
 	}
 
 	/** Schreibt ein FreeMarker-Template in die Zip-Datei */

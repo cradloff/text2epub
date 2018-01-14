@@ -4,12 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -65,18 +70,19 @@ public class Text2Epub {
 		basedir = new File(args.length == 0 ? "." : args[0]);
 		book = new Book();
 		if (! IOUtils.exists(basedir, PROPERTIES)) {
-			IOUtils.copyCP2FS(PROPERTIES, basedir);
-			book.readProperties(new File(basedir, PROPERTIES));
-			echo("MsgFileCreated", PROPERTIES);
+			createProperties();
 			return;
 		}
 
 		book.readProperties(new File(basedir, PROPERTIES));
+		Locale locale = Locale.forLanguageTag(book.getProperty("language"));
+		book.initResources(locale);
 		File epub = new File(args.length > 1 ? args[1] : mkFilename(basedir));
 		book.setFilename(epub);
 		writer = new ZipWriter(epub);
 
-		freeMarker = new FreeMarker(basedir, writer, book);
+		freeMarker = new FreeMarker(writer, book);
+		freeMarker.configure(basedir);
 
 		// als erster Eintrag muss der Mime-Type angelegt werden (unkomprimiert)
 		writer.storeEntry("mimetype", MimeTypes.MIMETYPE_EPUB);
@@ -149,6 +155,26 @@ public class Text2Epub {
 		writer.close();
 
 		echo("MsgSuccess", epub.getName());
+	}
+
+	private void createProperties() throws IOException {
+		Locale locale = Locale.getDefault();
+		book.initResources(locale);
+
+		Properties props = new Properties();
+		props.setProperty("UUID", UUID.randomUUID().toString());
+		props.setProperty("title", basedir.getName());
+		props.setProperty("language", locale.getLanguage());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		props.setProperty("date", sdf.format(new Date()));
+		book.setProperties(props);
+
+		freeMarker = new FreeMarker(null, book);
+		freeMarker.configureCP();
+		String properties = freeMarker.applyTemplate("epub.xml.ftlx");
+		IOUtils.write(properties, new File(basedir, PROPERTIES));
+
+		echo("MsgFileCreated", PROPERTIES);
 	}
 
 	/** Liefert den Dateinamen für das EPUB zurück */

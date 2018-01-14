@@ -3,6 +3,7 @@ package text2epub;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -23,7 +24,15 @@ public class ZipWriter extends Writer {
 	 * @param file Datei
 	 */
 	public ZipWriter(File file) throws IOException {
-		zip = new ZipOutputStream(new FileOutputStream(file));
+		this(new FileOutputStream(file));
+	}
+
+	/**
+	 * Konstruktor.
+	 * @param file Datei
+	 */
+	public ZipWriter(OutputStream os) throws IOException {
+		zip = new ZipOutputStream(os);
 		zip.setLevel(9);
 		out = new PrintWriter(new OutputStreamWriter(zip, ENCODING), false);
 	}
