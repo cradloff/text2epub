@@ -32,6 +32,8 @@
 <entry key="rights"></entry>
 <!-- Datum der Veröffentlichung (yyyy-mm-dd) -->
 <entry key="pubDate">${property.date}</entry>
+<!-- Charakteristischer Zeitpunkt der Erstellung des Buches (default: aktuelles Datum) -->
+<entry key="creationDate"></entry>
 <!-- Cover-Bild (default cover.*) -->
 <entry key="cover"></entry>
 <!-- Inhaltsverzeichnis generieren? (true/false) -->

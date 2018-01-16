@@ -190,7 +190,12 @@ public class Book {
 	 * @return Erstellungsdatum
 	 */
 	public String getCreation() {
-		return String.format("%tF", new Date());
+		String creation = props.getProperty("creationDate");
+		if (creation == null) {
+			creation = String.format("%tF", new Date());
+		}
+
+		return creation;
 	}
 
 	public List<FileEntry> getContentFiles() {

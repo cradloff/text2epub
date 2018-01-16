@@ -32,6 +32,8 @@
 <entry key="rights"></entry>
 <!-- publishing date (yyyy-mm-dd) -->
 <entry key="pubDate">${property.date}</entry>
+<!-- specific time of creation of ebook (yyyy-mm-dd, default: current date) -->
+<entry key="creationDate"></entry>
 <!-- cover image (default cover.*) -->
 <entry key="cover"></entry>
 <!-- create table of contents? (true/false) -->
