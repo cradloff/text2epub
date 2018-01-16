@@ -1,0 +1,7 @@
+h1. Textile
+
+This is a document in *Textile* format.
+
+h2. Textile paragraph
+
+And this is a _paragraph_.
