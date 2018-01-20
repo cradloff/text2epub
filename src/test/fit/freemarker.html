@@ -35,19 +35,19 @@
 		<td>getMethod()</td>
 		<td></td>
 	</tr>
-	<tr><td>mimetype              </td><td>20</td><td>0</td><td>mime type declaration</td></tr>
-	<tr><td>META-INF/container.xml</td><td>  </td><td>8</td><td>container description</td></tr>
-	<tr><td>content.opf           </td><td>  </td><td>8</td><td>package document</td></tr>
-	<tr><td>content.ncx           </td><td>  </td><td>8</td><td>navigation document</td></tr>
-	<tr><td>toc.xhtml             </td><td>  </td><td>8</td><td>table of contents</td></tr>
-	<tr><td>page-map.xml          </td><td>  </td><td>8</td><td>page map</td></tr>
-	<tr><td>01_chapter_one.xhtml  </td><td>  </td><td>8</td><td>chapter one</td></tr>
-	<tr><td>02_chapter_two.xhtml  </td><td>  </td><td>8</td><td>chapter two</td></tr>
-	<tr><td>99_footnotes.xhtml    </td><td>  </td><td>8</td><td>footnotes</td></tr>
-	<tr><td>book.css              </td><td>  </td><td>8</td><td>stylesheet</td></tr>
+	<tr><td><a href="#mimetype">mimetype</a>               </td><td>20</td><td>0</td><td>mime type declaration</td></tr>
+	<tr><td><a href="#container">META-INF/container.xml</a></td><td>  </td><td>8</td><td>container description</td></tr>
+	<tr><td><a href="#opf">content.opf</a>                 </td><td>  </td><td>8</td><td>package document</td></tr>
+	<tr><td><a href="#ncx">content.ncx</a>                 </td><td>  </td><td>8</td><td>navigation document</td></tr>
+	<tr><td>toc.xhtml                                      </td><td>  </td><td>8</td><td>table of contents</td></tr>
+	<tr><td><a href="#page-map">page-map.xml</a>           </td><td>  </td><td>8</td><td>page map</td></tr>
+	<tr><td><a href="#chapter1">01_chapter_one.xhtml</a>   </td><td>  </td><td>8</td><td>chapter one</td></tr>
+	<tr><td><a href="#chapter2">02_chapter_two.xhtml</a>   </td><td>  </td><td>8</td><td>chapter two</td></tr>
+	<tr><td><a href="#footnotes">99_footnotes.xhtml</a>    </td><td>  </td><td>8</td><td>footnotes</td></tr>
+	<tr><td>book.css                                       </td><td>  </td><td>8</td><td>stylesheet</td></tr>
 </table>
 
-<table>
+<table id="mimetype">
 	<caption>check mimetype</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
@@ -61,7 +61,7 @@
 	<tr><td class="number">1</td><td class="pre" colspan="2">application/epub+zip</td></tr>
 </table>
 
-<table>
+<table id="container">
 	<caption>check container description</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
@@ -80,7 +80,7 @@
 	<tr><td class="number">6</td><td class="pre" colspan="2">&lt;/container&gt;</td></tr>
 </table>
 
-<table>
+<table id="opf">
 	<caption>check package document</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
@@ -126,12 +126,12 @@
 	<tr><td class="number">33</td><td class="pre" colspan="2">    &lt;itemref idref='content-04'/></td></tr>
 	<tr><td class="number">34</td><td class="pre" colspan="2">  &lt;/spine></td></tr>
 	<tr><td class="number">35</td><td class="pre" colspan="2">  &lt;guide></td></tr>
-	<tr><td class="number">36</td><td class="pre" colspan="2">    &lt;reference type='toc' title='Inhalt' href='toc.xhtml'/></td></tr>
+	<tr><td class="number">36</td><td class="pre" colspan="2">    &lt;reference type='toc' title='Table of contents' href='toc.xhtml'/></td></tr>
 	<tr><td class="number">37</td><td class="pre" colspan="2">  &lt;/guide></td></tr>
 	<tr><td class="number">38</td><td class="pre" colspan="2">&lt;/package></td></tr>
 </table>
 
-<table>
+<table id="ncx">
 	<caption>check navigation document</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
@@ -196,7 +196,26 @@
 	<tr><td class="number">52</td><td class="pre" colspan="2">&lt;/ncx></td></tr>
 </table>
 
-<table>
+<table id="page-map">
+	<caption>check page-map</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>FreeMarker.epub</td>
+		<td>page-map.xml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number">1</td><td class="pre" colspan="2">&lt;?xml version="1.0" ?></td></tr>
+	<tr><td class="number">2</td><td class="pre" colspan="2">&lt;page-map xmlns="http://www.idpf.org/2007/opf"></td></tr>
+	<tr><td class="number">3</td><td class="pre" colspan="2">  &lt;page name="1" href="01_chapter_one.xhtml#page1"/></td></tr>
+	<tr><td class="number">4</td><td class="pre" colspan="2">  &lt;page name="2" href="02_chapter_two.xhtml#page2"/></td></tr>
+	<tr><td class="number">5</td><td class="pre" colspan="2">  &lt;page name="3" href="02_chapter_two.xhtml#page3"/></td></tr>
+	<tr><td class="number">6</td><td class="pre" colspan="2">&lt;/page-map></td></tr>
+</table>
+
+<table id="chapter1">
 	<caption>check chapter one</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
@@ -226,7 +245,7 @@
 	<tr><td class="number">17</td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>
 
-<table>
+<table id="chapter2">
 	<caption>check chapter two</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
@@ -252,7 +271,7 @@
 	<tr><td class="number">13</td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>
 
-<table>
+<table id="footnotes">
 	<caption>check footnotes</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>

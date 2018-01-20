@@ -28,6 +28,13 @@ global stylesheet must be named `book.css`, the other stylesheets
 A table of contents is created by default. `text2epub` scans for header tags, 
 default is `h1`, other tags can be specified in the properties.
 
+## Internationalization
+`text2epub` has builtin support for english and german. To add support for 
+another language, extract the file `Text2Epub_en.properties` and rename it to 
+match you language (e.g. `Text2Epub_es.properties` for spanish). Put that file 
+in the directory where the jar archive is installed. Please send me your 
+translation so I can include it.
+
 ## Scripting
 `text2epub` uses [FreeMarker](https://freemarker.apache.org/) to create the ebook.
 You can also use it for scripting. Just place your script inside the content and
@@ -86,7 +93,8 @@ Resources (but not content!) are searched in the following locations:
 3. Last the classpath is used
 
 So, if you want to customize a certain resource for all of your books, put the
-corresponding template in a common base directory.
+corresponding template in a common base directory or in the same directory where 
+the jar archive is installed.
 
 ## Prerequisites
 `text2epub` is written in Java, so you have to install a JRE (version 7 or higher).
