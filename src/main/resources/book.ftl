@@ -10,11 +10,11 @@
 
 <#-- generate reference to footnote -->
 <#macro refnote note linktext=note file="99_footnotes.xhtml">
-<a class="refnote" id="rn${note}" href="${file}#fn${note}">${linktext}</a></#macro>
+<a class="refnote" id="rn${note}" href="${resolve(file)}#fn${note}">${linktext}</a></#macro>
 
 <#-- generate footnote with back reference -->
 <#macro footnote note file="" linktext="↑">
-<div class="footnote" id="fn${note}"><a href="${file}#rn${note}">${linktext}</a> <#nested></div>
+<div class="footnote" id="fn${note}"><a href="${resolve(file)}#rn${note}">${linktext}</a> <#nested></div>
 </#macro>
 
 <#-- generate empty lines -->

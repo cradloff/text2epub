@@ -278,7 +278,7 @@ public class Text2Epub {
 			int count = 0;
 			for (String filename : files) {
 				String id = String.format("media-%02d", ++count);
-				FileEntry entry = new FileEntry(filename, MimeTypes.getMimeType(filename), id);
+				FileEntry entry = new FileEntry(filename, filename, MimeTypes.getMimeType(filename), id);
 				writeMedia(basedir, entry);
 			}
 		}
@@ -290,10 +290,10 @@ public class Text2Epub {
 		String content = readContent(file);
 		String outputFilename = file.getName();
 		// Datei ausgeben
-		writeHtml(new InputSource(new StringReader(content)), outputFilename, images);
+		writeHtml(new InputSource(new StringReader(content)), file.getName(), outputFilename, images);
 	}
 
-	private void writeHtml(InputSource input, String outputFilename, Set<FileEntry> images)
+	private void writeHtml(InputSource input, String srcFilename, String outputFilename, Set<FileEntry> images)
 			throws IOException {
 		try {
 			// TOC-Entries einlesen
@@ -318,7 +318,7 @@ public class Text2Epub {
 			filter.parse(input);
 
 			String id = String.format("content-%02d", book.getContentFiles().size() + 1);
-			book.addContentFile(new FileEntry(outputFilename, MimeTypes.MIMETYPE_XHTML, id));
+			book.addContentFile(new FileEntry(srcFilename, outputFilename, MimeTypes.MIMETYPE_XHTML, id));
 
 			echo("MsgFileImported", outputFilename);
 		} catch (SAXException e) {
@@ -382,7 +382,7 @@ public class Text2Epub {
 
 		// in Buch ausgeben
 		String outputFilename = IOUtils.replaceSuffix(file, ".xhtml");
-		writeHtml(new InputSource(new StringReader(output)), outputFilename, images);
+		writeHtml(new InputSource(new StringReader(output)), file.getName(), outputFilename, images);
 	}
 
 	private void echo(String key, Object... param) {

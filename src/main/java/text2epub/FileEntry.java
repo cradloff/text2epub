@@ -6,21 +6,38 @@ package text2epub;
  * @author Claus Radloff
  */
 public class FileEntry {
+	private String srcFilename;
 	private String filename;
 	private String mimeType;
 	private String id;
 
 	/**
 	 * Konstruktor.
-	 * @param filename Dateiname
+	 * @param filename Quell-/Ziel-Dateiname
 	 * @param mimeType Mime-Type
 	 * @param id ID
 	 */
 	public FileEntry(String filename, String mimeType, String id) {
+		this(filename, filename, mimeType, id);
+	}
+
+	/**
+	 * Konstruktor.
+	 * @param srcFilename Quell-Dateiname
+	 * @param filename Ziel-Dateiname
+	 * @param mimeType Mime-Type
+	 * @param id ID
+	 */
+	public FileEntry(String srcFilename, String filename, String mimeType, String id) {
 		super();
+		this.srcFilename = srcFilename;
 		this.filename = filename;
 		this.mimeType = mimeType;
 		this.id = escape(id);
+	}
+
+	public String getSrcFilename() {
+		return srcFilename;
 	}
 
 	public String getFilename() {

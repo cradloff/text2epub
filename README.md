@@ -39,27 +39,36 @@ predefined macros you can use:
 <dd>This macro can be used to place pagebreaks in you ebook, these are references to 
 actual page numbers in the printed version of the book. The first call in each file 
 has to specify the starting page (e.g. &lt;@pagebreak 1/&gt;) in the following calls 
-the page number is automatically increased an can be omitted (&lt;@pagebreak&gt;). If there is at least one pagebreak, <code>text2epub</code> 
+the page number is automatically increased an can be omitted (&lt;@pagebreak&gt;). 
+If there is at least one pagebreak, <code>text2epub</code> 
 creates a pagemap for the book.</dd>
+
 <dt>refnote</dt>
 <dd>Creates a link to a footnote in another file (default <code>99_footnotes.xhtml</code>).
 The macro has three parameters:<dl>
 <dt>note</dt><dd>the id of the footnote (required, e.g. <code>1</code>)</dd>
 <dt>linktext</dt><dd>the text shown in the link (default is note)</dd>
 <dt>file</dt><dd>filename containing footnotes (default <code>99_footnotes.xhtml</code>). 
-Note that the suffix of your content is changed to <code>.xhtml</code> after conversion!</dd>
+The filename is automatically resolved, i.e. you can specify the filename of the source file 
+(e.g. chapter.md) which will be replaced with the filename in the ebook (chapter.xhtml).</dd>
 </dl>
 Example: <code>&lt;@refnote 1 "*"/&gt;</code></dd>
+
 <dt>footnote</dt>
 <dd>Creates a footnote with a back link to the refnote entry. The macro has three parameters:<dl>
 <dt>note</dt><dd>id of the footnote (required, e.g. <code>1</code>)</dd>
 <dt>file</dt><dd>filename which contains the reference (default current file)</dd>
 <dt>linktext</dt><dd>the text shown in the link (default <code>↑</code>)</dd>
 </dl>
-Example: <code>&lt;@footnote 1 "chapter01.xhtml" "^"&gt;Here is the text&lt;/@footnote&gt;</code></dd>
+Example: <code>&lt;@footnote 1 "chapter01.md" "^"&gt;Here is the text&lt;/@footnote&gt;</code></dd>
+
 <dt>spacer</dt>
 <dd>Creates an empty line. If specified, more lines can be created: 
 <code>&lt;@spacer 3/&gt;</code> creates three empty lines</dd>
+
+<dt>resolve(srcFilename)</dt>
+<dd>Resolves the given filename of a source file and returns the filename in the ebook. If `srcFilename`
+is not known, it will be returned. Example: <code>${resolve("chapter.md")}</code></dd>
 </dl>
 
 You can access the properties from `epub.xml` with the expression 

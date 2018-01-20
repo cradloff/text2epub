@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 public class Book {
 	public static final String OPF = "content.opf";
 	public static final String NCX = "content.ncx";
-	public static final FileEntry CSS = new FileEntry("book.css", MimeTypes.MIME_TYPE_CSS, "style-sheet");
+	public static final FileEntry CSS = new FileEntry("book.css", "book.css", MimeTypes.MIME_TYPE_CSS, "style-sheet");
 	private Properties props = new Properties();
 	private Map<String, String> res = new HashMap<>();
 	private Map<String, Object> params = new HashMap<>();
@@ -167,6 +167,22 @@ public class Book {
 	 */
 	public void setFilename(File filename) {
 		this.filename = filename;
+	}
+
+	/**
+	 * Liefert zum übergebenen Quell-Dateinamen den Ziel-Dateinamen im epub zurück.
+	 * @param srcFilename Quell-Dateiname
+	 * @return Ziel-Dateiname
+	 */
+	public String resolve(String srcFilename) {
+		String dstFilename = srcFilename;
+		for (FileEntry entry : contentFiles) {
+			if (srcFilename.equals(entry.getSrcFilename())) {
+				dstFilename = entry.getFilename();
+			}
+		}
+
+		return dstFilename;
 	}
 
 	/**
