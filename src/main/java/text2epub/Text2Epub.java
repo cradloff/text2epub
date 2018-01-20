@@ -25,6 +25,7 @@ import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import com.adobe.epubcheck.api.EpubCheck;
 import com.github.rjeschke.txtmark.Configuration;
 import com.github.rjeschke.txtmark.Configuration.Builder;
 import com.github.rjeschke.txtmark.Processor;
@@ -158,7 +159,12 @@ public class Text2Epub {
 
 		writer.close();
 
-		echo("MsgSuccess", epub.getName());
+		EpubCheck check = new EpubCheck(epub);
+		if (check.validate()) {
+			echo("MsgSuccess", epub.getName());
+		} else {
+			echo("MsgWarnings", epub.getName());
+		}
 	}
 
 	private void createProperties() throws IOException {

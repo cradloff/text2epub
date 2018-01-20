@@ -90,6 +90,11 @@
       <artifactId>asciidoctorj</artifactId>
       <version>1.5.6</version> 
     </dependency>
+    <dependency>
+      <groupId>org.idpf</groupId>
+      <artifactId>epubcheck</artifactId>
+      <version>4.0.2</version>
+    </dependency>
     
     <dependency>
       <groupId>junit</groupId>
