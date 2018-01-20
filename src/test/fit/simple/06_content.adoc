@@ -1,0 +1,9 @@
+== Asciidoc
+
+This file uses *"`Asciidoc`"* markup.
+
+=== Paragraph with Asciidoc
+
+This is a paragraph in *'`Asciidoc`'* markup.
+
+A statement.footnote:[Clarification about this statement.]

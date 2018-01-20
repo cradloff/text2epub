@@ -16,6 +16,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.Options;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -130,6 +132,8 @@ public class Text2Epub {
 				writeTextile(file, new TracWikiDialect(), images);
 			} else if (filename.endsWith(".confluence")) {
 				writeTextile(file, new ConfluenceDialect(), images);
+			} else if (filename.endsWith(".adoc")) {
+				writeAsciidoc(file, images);
 			}
 		}
 
@@ -351,6 +355,20 @@ public class Text2Epub {
 		MarkupParser parser = new MarkupParser(dialect, new HtmlDocumentBuilder(out));
 		parser.parse(content, false);
 		String output = out.toString();
+		// Datei ausgeben
+		writeText(file, output, images);
+	}
+
+	private void writeAsciidoc(File file, Set<FileEntry> images) throws IOException {
+		// Inhalt einlesen
+		String content = readContent(file);
+		// Asciidoc nach Html konvertieren
+		Asciidoctor asciidoctor = Asciidoctor.Factory.create();
+		Options options = new Options();
+		options.setHeaderFooter(false);
+		options.setDocType("book");
+		options.setBackend("xhtml5");
+		String output = asciidoctor.convert(content, options);
 		// Datei ausgeben
 		writeText(file, output, images);
 	}

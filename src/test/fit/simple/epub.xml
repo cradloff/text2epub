@@ -39,7 +39,7 @@
 <!-- create table of contents? (true/false) -->
 <entry key="toc">true</entry>
 <!-- create toc from these elements (CSV, default: h1) -->
-<entry key="toc-entries">h1, h2</entry>
+<entry key="toc-entries">h2, h3</entry>
 <!-- list of additional files (CSV, e.g. first.gif, second.gif) -->
 <entry key="additional-media"></entry>
 <!-- enable freemarker for content? (true/false) -->

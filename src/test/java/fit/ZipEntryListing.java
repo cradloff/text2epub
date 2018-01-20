@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,31 @@ import java.util.zip.ZipInputStream;
  * of the zip archive, the second the zip entry.
  */
 public class ZipEntryListing extends RowFixture {
+	@Override
+	protected TypeAdapter bindField(String name) throws Exception {
+		if (name.equals("content")) {
+			TypeAdapter ta = new TypeAdapter() {
+				@Override
+				public Object get() throws IllegalAccessException, InvocationTargetException {
+					// unescape smart quotes like in Parse.text();
+					String t = super.get().toString();
+					t = t.replace('\u201c', '"');
+					t = t.replace('\u201d', '"');
+					t = t.replace('\u2018', '\'');
+					t = t.replace('\u2019', '\'');
+
+					return t;
+				}
+			};
+			ta.field = getTargetClass().getField(camel(name));
+			ta.target = this;
+			ta.init(this, String.class);
+
+			return ta;
+		}
+		return super.bindField(name);
+	}
+
 	public static class FileEntry {
 		public int line;
 		public String content;

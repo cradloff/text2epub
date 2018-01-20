@@ -8,6 +8,7 @@ format. It converts text from the following formats:
 * Wiki / [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki) (*.wiki)
 * [Trac](https://trac.edgewall.org/) (*.trac)
 * [Confluence](https://www.atlassian.com/software/confluence) (*.confluence)
+* [Asciidoc](http://asciidoctor.org/) (*.adoc)
 
 If your content is already in XHTML-Format (*.xhtml), it will also be included.
 

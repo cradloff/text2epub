@@ -1,7 +1,7 @@
-= MediaWiki =
+== MediaWiki ==
 
 This file uses ''MediaWiki'' markup.
 
-== Wiki paragraph ==
+=== Wiki paragraph ===
 
 Here is a '''paragraph''' in Wiki markup.
