@@ -1,0 +1,272 @@
+<html>
+<head>
+<title>Cover ebook</title>
+<link rel="stylesheet" href="fixture.css"/>
+</head>
+<body>
+<h1>Cover ebook</h1>
+
+<p>Tests a Cover ebook with markup in different formats.</p>
+
+<table>
+	<caption>Create ebook</caption>
+	<tr class="head">
+		<td colspan="2">fit.Text2Epub</td>
+	</tr>
+	<tr class="head">
+		<td>folder</td>
+		<td>filename</td>
+	</tr>
+	<tr>
+		<td>cover</td>
+		<td>Cover.epub</td>
+	</tr>
+</table>
+
+<table>
+	<caption>check structure of ebook</caption>
+	<tr class="head">
+		<td>fit.ZipFileListing</td>
+		<td colspan="3">Cover.epub</td>
+	</tr>
+	<tr class="head">
+		<td>getName()</td>
+		<td>getSize()</td>
+		<td>getMethod()</td>
+		<td></td>
+	</tr>
+	<tr><td><a href="#mimetype">mimetype</a>               </td><td>20</td><td>0</td><td>mime type declaration</td></tr>
+	<tr><td><a href="#container">META-INF/container.xml</a></td><td>  </td><td>8</td><td>container description</td></tr>
+	<tr><td><a href="#opf">content.opf</a>                 </td><td>  </td><td>8</td><td>package document</td></tr>
+	<tr><td><a href="#ncx">content.ncx</a>                 </td><td>  </td><td>8</td><td>navigation document</td></tr>
+	<tr><td><a href="#toc">toc.xhtml</a>                   </td><td>  </td><td>8</td><td>table of contents</td></tr>
+	<tr><td><a href="#content">content.xhtml</a>           </td><td>  </td><td>8</td><td>Markdown content</td></tr>
+	<tr><td><a href="#cover">cover.xhtml</a>               </td><td>  </td><td>8</td><td>generated wrapper for cover</td></tr>
+	<tr><td>cover.png                                      </td><td>  </td><td>8</td><td>cover image</td></tr>
+	<tr><td>book.css                                       </td><td>  </td><td>8</td><td>stylesheet</td></tr>
+</table>
+
+<table id="mimetype">
+	<caption>check mimetype</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Cover.epub</td>
+		<td>mimetype</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">application/epub+zip</td></tr>
+</table>
+
+<table id="container">
+	<caption>check container description</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Cover.epub</td>
+		<td>META-INF/container.xml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;container xmlns='urn:oasis:names:tc:opendocument:xmlns:container' version='1.0'&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;rootfiles&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">   &lt;rootfile full-path='content.opf' media-type='application/oebps-package+xml'/&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/rootfiles&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/container&gt;</td></tr>
+</table>
+
+<table id="opf">
+	<caption>check package document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Cover.epub</td>
+		<td>content.opf</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;package version='3.0'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:dc='http://purl.org/dc/elements/1.1/'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:opf='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    unique-identifier='BookId'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;metadata xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId'>urn:uuid:264b340b-69cf-49ff-92a2-a4804a8c94da&lt;/dc:identifier></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:language>en&lt;/dc:language></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-main">Cover test&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-main" property="title-type">main&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:creator id="author">Colyn Cover&lt;/dc:creator></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#author" property="role" scheme="marc:relators">aut&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta name='cover' content='cover-img'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta property="dcterms:modified">2018-01-21T22:00:00Z&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date>2018-01-21&lt;/dc:date></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/metadata></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;manifest></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='ncx' href='content.ncx' media-type='application/x-dtbncx+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='cover' href='cover.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='toc' href='toc.xhtml' media-type='application/xhtml+xml' properties='nav'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-03' href='content.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='style-sheet' href='book.css' media-type='text/css'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='cover-img' href='cover.png' media-type='image/png' properties='cover-image'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/manifest></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;spine toc='ncx'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='cover'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='toc'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-03'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/spine></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/package></td></tr>
+</table>
+
+<table id="ncx">
+	<caption>check navigation document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Cover.epub</td>
+		<td>content.ncx</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;ncx xmlns='http://www.daisy.org/z3986/2005/ncx/' version='2005-1' xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta name='dtb:uid' content='264b340b-69cf-49ff-92a2-a4804a8c94da'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;docTitle></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;text>Cover test&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/docTitle></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;docAuthor></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;text>Colyn Cover&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/docAuthor></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;navMap></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;navPoint playOrder='1' id='navPoint-1'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;text>Cover&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;content src='cover.xhtml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;navPoint playOrder='2' id='navPoint-2'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;text>Cover test&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;content src='toc.xhtml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='3' id='navPoint-3'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Cover test&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='content.xhtml#h1-01'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/navMap></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/ncx></td></tr>
+</table>
+
+<table id="toc">
+	<caption>check Table of contents</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Cover.epub</td>
+		<td>toc.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' xmlns:epub='http://www.idpf.org/2007/ops'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Cover test - Colyn Cover&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href='book.css' type='text/css' rel='stylesheet'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;section class='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='author'>Colyn Cover&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='title'>Cover test&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='toc' id='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Table of contents&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='content.xhtml#h1-01'>Cover test&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='landmarks' hidden='hidden'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Landmarks&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a epub:type='cover' href='cover.xhtml'>Cover&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a epub:type='toc' href='#toc'>Table of contents&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/section></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table id="content">
+	<caption>check content</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Cover.epub</td>
+		<td>content.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Cover test - Colyn Cover&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href="book.css" type="text/css" rel="stylesheet"/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;h1 id="h1-01">Cover test&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>This ebook tests the integration of cover images.&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table id="cover">
+	<caption>check cover</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Cover.epub</td>
+		<td>cover.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns='http://www.w3.org/1999/xhtml'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Cover&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href='book.css' type='text/css' rel='stylesheet'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;img id='cover' src='cover.png' alt='Colyn Cover - Cover test'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table>
+	<caption>Summary</caption>
+	<tr class="head">
+		<td colspan="2">fit.Summary</td>
+	</tr>
+</table>
+
+</body>
+</html>

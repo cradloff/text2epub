@@ -250,10 +250,10 @@ public class Text2Epub {
 		}
 
 		FileEntry cover = new FileEntry(filename, MimeTypes.getMimeType(filename), "cover-img");
+		cover.setProperty("cover-image");
 		images.add(cover);
 
 		FileEntry entry = new FileEntry(COVER, MimeTypes.MIMETYPE_XHTML, "cover");
-		entry.setProperty("cover-image");
 		book.addContentFile(entry);
 		book.setParam("COVER", COVER);
 		book.setParam("COVER_ID", cover.getId());
@@ -308,6 +308,9 @@ public class Text2Epub {
 		try {
 			// TOC-Entries einlesen
 			String s = book.getProperty().getProperty("toc-entries", "h1");
+			if (s.trim().isEmpty()) {
+				s = "h1";
+			}
 			List<String> headings = StringUtils.splitCSV(s);
 			writer.newEntry(outputFilename);
 			XMLFilter filter = new IdGeneratorFilter(headings);
