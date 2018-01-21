@@ -10,8 +10,6 @@
 <entry key="secondaryID"></entry>
 <!-- type of secondary ID (http://www.stison.com/onix/codelists/onix-codelist-5.htm) -->
 <entry key="secondaryIDType"></entry>
-<!-- EPUB version (2.0 or 3.0, default 3.0) -->
-<entry key="epub-version">3.0</entry>
 <!-- book title (required) -->
 <entry key="title">${property.title}</entry>
 <!-- sub title -->
