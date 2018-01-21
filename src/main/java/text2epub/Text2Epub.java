@@ -105,9 +105,11 @@ public class Text2Epub {
 
 		boolean createToc = Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"));
 		TOC.setProperty("nav");
+		book.setParam("TOC", TOC.getFilename());
 		if (createToc) {
 			book.addContentFile(TOC);
-			book.setParam("TOC", TOC.getFilename());
+		} else {
+			book.addMediaFile(TOC);
 		}
 
 		// XHTML- und Markdown-Dateien konvertieren und schreiben
@@ -147,10 +149,14 @@ public class Text2Epub {
 		writeMedia(basedir);
 
 		// Inhaltsverzeichnis ausgeben
-		freeMarker.writeTemplate("content.ncx.ftlx", Book.NCX);
-		if (createToc) {
-			freeMarker.writeTemplate("toc.xhtml.ftlx", TOC.getFilename());
+		// ggf. default Eintrag anlegen
+		if (book.getTocEntries().isEmpty()) {
+			FileEntry first = book.getContentFiles().get(0);
+			TocEntry entry = new TocEntry("h1", book.getResource("content"), first.getFilename());
+			book.addTocEntry(entry);
 		}
+		freeMarker.writeTemplate("content.ncx.ftlx", Book.NCX);
+		freeMarker.writeTemplate("toc.xhtml.ftlx", TOC.getFilename());
 
 		// Stammdatei schreiben
 		freeMarker.writeTemplate("content.opf.ftlx", Book.OPF);
@@ -307,9 +313,9 @@ public class Text2Epub {
 			throws IOException {
 		try {
 			// TOC-Entries einlesen
-			String s = book.getProperty().getProperty("toc-entries", "h1");
+			String s = book.getProperty().getProperty("toc-entries", "h1, h2");
 			if (s.trim().isEmpty()) {
-				s = "h1";
+				s = "h1, h2";
 			}
 			List<String> headings = StringUtils.splitCSV(s);
 			writer.newEntry(outputFilename);

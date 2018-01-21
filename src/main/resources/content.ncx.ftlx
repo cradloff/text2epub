@@ -36,7 +36,7 @@
       <content src='${params.COVER}'/>
     </navPoint>
     </#if>
-    <#if params.TOC ??>
+    <#if property.toc == "true">
     <navPoint playOrder='${order}' id='navPoint-${order}'>
     <#assign order = order + 1 >
       <navLabel>

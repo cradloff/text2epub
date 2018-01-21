@@ -3,13 +3,13 @@
 <properties>
 <comment>Properties of eBook</comment>
 <!-- unique identifier of book (required) -->
-<entry key="UUID">${property.UUID}</entry>
+<entry key="UUID">8175f8a9-3e5a-4f3d-9288-b92832b4855e</entry>
 <!-- secondary ID (e.g. ISBN urn:isbn:1234567890123) -->
 <entry key="secondaryID"></entry>
 <!-- type of secondary ID (http://www.stison.com/onix/codelists/onix-codelist-5.htm) -->
 <entry key="secondaryIDType"></entry>
 <!-- book title (required) -->
-<entry key="title">${property.title}</entry>
+<entry key="title">No TOC</entry>
 <!-- sub title -->
 <entry key="subtitle"></entry>
 <!-- short title (e.g. "Huck Finn" for "The Adventures of Huckleberry Finn") -->
@@ -21,11 +21,11 @@
 <!-- edition (e.g. "Second Anniversary Edition") -->
 <entry key="edition"></entry>
 <!-- language (required) -->
-<entry key="language">${property.language}</entry>
+<entry key="language">en</entry>
 <!-- description -->
 <entry key="description"></entry>
 <!-- author (for display, required) -->
-<entry key="author"></entry>
+<entry key="author">Notoc Noriami</entry>
 <!-- author (for ordering) -->
 <entry key="authorFileAs"></entry>
 <!-- filename (default: title - author.epub) -->
@@ -37,13 +37,13 @@
 <!-- rights/license (e.g. Public Domain) -->
 <entry key="rights"></entry>
 <!-- publishing date (yyyy-mm-dd) -->
-<entry key="pubDate">${property.date}</entry>
+<entry key="pubDate">2018-01-21</entry>
 <!-- specific time of creation of ebook (yyyy-mm-ddTHH:MM:SSZ, default: current date) -->
-<entry key="creationDate"></entry>
+<entry key="creationDate">2018-01-21T20:00:00Z</entry>
 <!-- cover image (default cover.*) -->
 <entry key="cover"></entry>
 <!-- show table of contents? (true/false) -->
-<entry key="toc">true</entry>
+<entry key="toc">false</entry>
 <!-- show toc for these elements (CSV, default: h1, h2) -->
 <entry key="toc-entries"></entry>
 <!-- list of additional files (CSV, e.g. first.gif, second.gif) -->
