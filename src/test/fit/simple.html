@@ -40,12 +40,13 @@
 	<tr><td><a href="#opf">content.opf</a>                 </td><td>  </td><td>8</td><td>package document</td></tr>
 	<tr><td><a href="#ncx">content.ncx</a>                 </td><td>  </td><td>8</td><td>navigation document</td></tr>
 	<tr><td><a href="#toc">toc.xhtml</a>                   </td><td>  </td><td>8</td><td>table of contents</td></tr>
-	<tr><td><a href="#markdown">01_content.xhtml</a>       </td><td>  </td><td>8</td><td>Markdown content</td></tr>
-	<tr><td><a href="#textile">02_content.xhtml</a>        </td><td>  </td><td>8</td><td>Textile content</td></tr>
-	<tr><td><a href="#wiki">03_content.xhtml</a>           </td><td>  </td><td>8</td><td>Wiki content</td></tr>
-	<tr><td><a href="#trac">04_content.xhtml</a>           </td><td>  </td><td>8</td><td>Trac content</td></tr>
-	<tr><td><a href="#confluence">05_content.xhtml</a>     </td><td>  </td><td>8</td><td>Confluence content</td></tr>
-	<tr><td><a href="#asciidoc">06_content.xhtml</a>       </td><td>  </td><td>8</td><td>Asciidoc content</td></tr>
+	<tr><td><a href="#markdown">01_markdown.xhtml</a>      </td><td>  </td><td>8</td><td>Markdown content</td></tr>
+	<tr><td><a href="#textile">02_textile.xhtml</a>        </td><td>  </td><td>8</td><td>Textile content</td></tr>
+	<tr><td><a href="#wiki">03_wiki.xhtml</a>              </td><td>  </td><td>8</td><td>Wiki content</td></tr>
+	<tr><td><a href="#trac">04_trac.xhtml</a>              </td><td>  </td><td>8</td><td>Trac content</td></tr>
+	<tr><td><a href="#confluence">05_confluence.xhtml</a>  </td><td>  </td><td>8</td><td>Confluence content</td></tr>
+	<tr><td><a href="#asciidoc">06_asciidoc.xhtml</a>      </td><td>  </td><td>8</td><td>Asciidoc content</td></tr>
+	<tr><td><a href="#special">07_special.xhtml</a>        </td><td>  </td><td>8</td><td>content with special characters</td></tr>
 	<tr><td>book.css                                       </td><td>  </td><td>8</td><td>stylesheet</td></tr>
 </table>
 
@@ -94,33 +95,34 @@
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;package version='2.0'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;package version='3.0'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:dc='http://purl.org/dc/elements/1.1/'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:opf='http://www.idpf.org/2007/opf'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns='http://www.idpf.org/2007/opf'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    unique-identifier='BookId'></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;metadata></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId' opf:scheme='UUID'>d9476666-e4e7-4bf9-83e6-a2ccc592cddd&lt;/dc:identifier></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;metadata xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId'>urn:uuid:d9476666-e4e7-4bf9-83e6-a2ccc592cddd&lt;/dc:identifier></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:language>en&lt;/dc:language></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title xml:lang='en'>Simple ebook&lt;/dc:title></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:creator</td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        opf:file-as='Test' opf:role='aut'</td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        xml:lang='en'>Test&lt;/dc:creator></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date opf:event='creation'>2018-01-15&lt;/dc:date></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date opf:event='publication'>2018-01-14&lt;/dc:date></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-main">Simple ebook&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-main" property="title-type">main&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:creator id="author">Test&lt;/dc:creator></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#author" property="role" scheme="marc:relators">aut&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta property="dcterms:modified">2018-01-15T12:00:00Z&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date>2018-01-14&lt;/dc:date></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/metadata></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;manifest></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='ncx' href='content.ncx' media-type='application/x-dtbncx+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='toc' href='toc.xhtml' media-type='application/xhtml+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-02' href='01_content.xhtml' media-type='application/xhtml+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-03' href='02_content.xhtml' media-type='application/xhtml+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-04' href='03_content.xhtml' media-type='application/xhtml+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-05' href='04_content.xhtml' media-type='application/xhtml+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-06' href='05_content.xhtml' media-type='application/xhtml+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-07' href='06_content.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='toc' href='toc.xhtml' media-type='application/xhtml+xml' properties='nav'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-02' href='01_markdown.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-03' href='02_textile.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-04' href='03_wiki.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-05' href='04_trac.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-06' href='05_confluence.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-07' href='06_asciidoc.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-08' href='07_special.xhtml' media-type='application/xhtml+xml'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='style-sheet' href='book.css' media-type='text/css'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/manifest></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;spine &nbsp;toc='ncx'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;spine toc='ncx'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='toc'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-02'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-03'/></td></tr>
@@ -128,10 +130,8 @@
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-05'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-06'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-07'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-08'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/spine></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;guide></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;reference type='toc' title='Table of contents' href='toc.xhtml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/guide></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/package></td></tr>
 </table>
 
@@ -167,73 +167,79 @@
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Markdown&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='01_content.xhtml#h2-01'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='01_markdown.xhtml#h2-01'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navPoint playOrder='3' id='navPoint-3'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;text>Paragraphs with Markdown&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='01_content.xhtml#h3-02'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='01_markdown.xhtml#h3-02'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='4' id='navPoint-4'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Textile&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='02_content.xhtml#Textile'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='02_textile.xhtml#Textile'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navPoint playOrder='5' id='navPoint-5'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;text>Textile paragraph&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='02_content.xhtml#Textileparagraph'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='02_textile.xhtml#Textileparagraph'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='6' id='navPoint-6'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>MediaWiki&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='03_content.xhtml#MediaWiki'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='03_wiki.xhtml#MediaWiki'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navPoint playOrder='7' id='navPoint-7'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;text>Wiki paragraph&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='03_content.xhtml#Wikiparagraph'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='03_wiki.xhtml#Wikiparagraph'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='8' id='navPoint-8'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Trac&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='04_content.xhtml#h2-01'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='04_trac.xhtml#h2-01'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navPoint playOrder='9' id='navPoint-9'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;text>Trac paragraph&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='04_content.xhtml#h3-02'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='04_trac.xhtml#h3-02'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='10' id='navPoint-10'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Confluence&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='05_content.xhtml#Confluence'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='05_confluence.xhtml#Confluence'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navPoint playOrder='11' id='navPoint-11'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;text>Confluence paragraph&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='05_content.xhtml#Confluenceparagraph'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='05_confluence.xhtml#Confluenceparagraph'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='12' id='navPoint-12'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Asciidoc&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='06_content.xhtml#_asciidoc'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='06_asciidoc.xhtml#_asciidoc'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navPoint playOrder='13' id='navPoint-13'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;navLabel></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;text>Paragraph with Asciidoc&lt;/text></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/navLabel></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='06_content.xhtml#_paragraph_with_asciidoc'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;content src='06_asciidoc.xhtml#_paragraph_with_asciidoc'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='14' id='navPoint-14'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Special characters&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='07_special.xhtml#h2-01'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/navPoint></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/navMap></td></tr>
@@ -252,66 +258,79 @@
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' xmlns:epub='http://www.idpf.org/2007/ops'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href='book.css' type='text/css' rel='stylesheet'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body class='toc'></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div id='author'>Test&lt;/div></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div id='title'>Simple ebook&lt;/div></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;h2>Table of contents&lt;/h2></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;ul></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;a href='01_content.xhtml#h2-01'>Markdown&lt;/a></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ul></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;section class='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='author'>Test&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='title'>Simple ebook&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='toc' id='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Table of contents&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='01_content.xhtml#h3-02'>Paragraphs with Markdown&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='01_markdown.xhtml#h2-01'>Markdown&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">                &lt;a href='01_markdown.xhtml#h3-02'>Paragraphs with Markdown&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;/ol></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ul></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;a href='02_content.xhtml#Textile'>Textile&lt;/a></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ul></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='02_content.xhtml#Textileparagraph'>Textile paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='02_textile.xhtml#Textile'>Textile&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">                &lt;a href='02_textile.xhtml#Textileparagraph'>Textile paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;/ol></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ul></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;a href='03_content.xhtml#MediaWiki'>MediaWiki&lt;/a></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ul></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='03_content.xhtml#Wikiparagraph'>Wiki paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='03_wiki.xhtml#MediaWiki'>MediaWiki&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">                &lt;a href='03_wiki.xhtml#Wikiparagraph'>Wiki paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;/ol></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ul></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;a href='04_content.xhtml#h2-01'>Trac&lt;/a></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ul></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='04_trac.xhtml#h2-01'>Trac&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">                &lt;a href='04_trac.xhtml#h3-02'>Trac paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='04_content.xhtml#h3-02'>Trac paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='05_confluence.xhtml#Confluence'>Confluence&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">                &lt;a href='05_confluence.xhtml#Confluenceparagraph'>Confluence paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;/ol></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ul></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;a href='05_content.xhtml#Confluence'>Confluence&lt;/a></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ul></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='05_content.xhtml#Confluenceparagraph'>Confluence paragraph&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='06_asciidoc.xhtml#_asciidoc'>Asciidoc&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">                &lt;a href='06_asciidoc.xhtml#_paragraph_with_asciidoc'>Paragraph with Asciidoc&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">              &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;/ol></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ul></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;a href='06_content.xhtml#_asciidoc'>Asciidoc&lt;/a></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ul></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='06_content.xhtml#_paragraph_with_asciidoc'>Paragraph with Asciidoc&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='07_special.xhtml#h2-01'>Special characters&lt;/a></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ul></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/li></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/ul></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='landmarks' hidden='hidden'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Landmarks&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a epub:type='toc' href='#toc'>Table of contents&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/section></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>
@@ -321,14 +340,14 @@
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
 		<td>Simple.epub</td>
-		<td>01_content.xhtml</td>
+		<td>01_markdown.xhtml</td>
 	</tr>
 	<tr class="head">
 		<td>line</td>
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
@@ -349,14 +368,14 @@
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
 		<td>Simple.epub</td>
-		<td>02_content.xhtml</td>
+		<td>02_textile.xhtml</td>
 	</tr>
 	<tr class="head">
 		<td>line</td>
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
@@ -373,14 +392,14 @@
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
 		<td>Simple.epub</td>
-		<td>03_content.xhtml</td>
+		<td>03_wiki.xhtml</td>
 	</tr>
 	<tr class="head">
 		<td>line</td>
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
@@ -397,14 +416,14 @@
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
 		<td>Simple.epub</td>
-		<td>04_content.xhtml</td>
+		<td>04_trac.xhtml</td>
 	</tr>
 	<tr class="head">
 		<td>line</td>
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
@@ -421,14 +440,14 @@
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
 		<td>Simple.epub</td>
-		<td>05_content.xhtml</td>
+		<td>05_confluence.xhtml</td>
 	</tr>
 	<tr class="head">
 		<td>line</td>
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
@@ -445,14 +464,14 @@
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
 		<td>Simple.epub</td>
-		<td>06_content.xhtml</td>
+		<td>06_asciidoc.xhtml</td>
 	</tr>
 	<tr class="head">
 		<td>line</td>
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Simple ebook - Test&lt;/title></td></tr>
@@ -483,6 +502,38 @@
 	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/div></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/div></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table id="special">
+	<caption>check special content</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Simple.epub</td>
+		<td>07_special.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;title>Simple ebook - Test&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;link href="book.css" type="text/css" rel="stylesheet"/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;h2 id="h2-01">Special characters&lt;/h2></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;p>This file is full of special characters:&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;ul></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;li>n-width dash: –&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;li>m-width dash: —&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;li>hellip: …&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;li>XML entities: &amp;lt; &amp;gt; &amp;amp;&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;li>a &amp;gt; b &amp;amp; a &amp;lt; c&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/ul></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/body></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>
 

@@ -1,5 +1,8 @@
 package text2epub;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * Daten zu einer Datei.
  *
@@ -10,6 +13,7 @@ public class FileEntry {
 	private String filename;
 	private String mimeType;
 	private String id;
+	private Set<String> properties = new TreeSet<>();
 
 	/**
 	 * Konstruktor.
@@ -50,6 +54,19 @@ public class FileEntry {
 
 	public String getId() {
 		return id;
+	}
+
+	public void setProperty(String property) {
+		properties.add(property);
+	}
+
+	public String getProperties() {
+		StringBuilder sb = new StringBuilder();
+		for (String property : properties) {
+			sb.append(property).append(' ');
+		}
+
+		return sb.toString().trim();
 	}
 
 	@Override

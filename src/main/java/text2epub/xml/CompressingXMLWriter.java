@@ -9,7 +9,8 @@ import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Fasst ein Start-Element, das direkt von einem End-Element gefolgt wird,
- * zu einem leeren Element zusammen.
+ * zu einem leeren Element zusammen. Z.B. wird "&lt;br&gt;&lt;/br&gt;" zu
+ * "&lt;br/&gt;" zusammengefasst.
  * @author Claus Radloff
  */
 public class CompressingXMLWriter extends XMLWriter {
@@ -31,7 +32,7 @@ public class CompressingXMLWriter extends XMLWriter {
 		// XML-Deklaration und DOCTYPE ausgeben
 		try {
 			output.write("<?xml version='1.0'?>\n");
-			output.write("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\n");
+			output.write("<!DOCTYPE html>\n");
 		} catch (IOException e) {
 			throw new SAXException(e);
 		}

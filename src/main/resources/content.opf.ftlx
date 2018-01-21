@@ -1,31 +1,45 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<package version='2.0'
+<package version='3.0'
   xmlns:dc='http://purl.org/dc/elements/1.1/'
   xmlns:opf='http://www.idpf.org/2007/opf'
   xmlns='http://www.idpf.org/2007/opf'
   unique-identifier='BookId'>
-  <metadata>
-    <dc:identifier id='BookId' opf:scheme='UUID'>${UUID}</dc:identifier>
-    <#if property.ISBN ?? && property.ISBN != "">
-    <dc:identifier opf:scheme="ISBN">${property.ISBN}</dc:identifier>
+  <metadata xml:lang='${property.language}'>
+    <dc:identifier id='BookId'>urn:uuid:${UUID}</dc:identifier>
+    <#if property.secondaryID ?? && property.secondaryID != "">
+    <dc:identifier id="BookSecondaryID">${property.secondaryID}</dc:identifier>
+    <meta refines="#BookSecondaryID" property="identifier-type" scheme="onix:codelist5">${property.secondaryIDType}</meta>
     </#if>
     <#-- Hauptsprache des Buches -->
     <dc:language>${property.language}</dc:language>
     <#-- Buchtitel -->
-    <dc:title xml:lang='${property.language}'>${property.title}</dc:title>
+    <#macro printTitle propertyname type>
+    <#if property[propertyname] ?? && property[propertyname] != "">
+    <dc:title id="title-${type}">${property[propertyname]}</dc:title>
+    <meta refines="#title-${type}" property="title-type">${type}</meta>
+    </#if>
+    </#macro>
+    <#-- Haupttitel -->
+    <@printTitle "title" "main"/>
+    <#-- Untertitel -->
+    <@printTitle "subtitle" "subtitle"/>
+    <#-- Kurz-Titel -->
+    <@printTitle "shorttitle" "short"/>
+    <#-- Titel einer Sammlung / Serie -->
+    <@printTitle "collection" "collection"/>
+    <#-- Ausgabe / Edition -->
+    <@printTitle "edition" "edition"/>
     <#-- bis hier notwendige Metainformationen, es folgen einige optionale: -->
     <#-- Beschreibung -->
     <#if property.description ?? && property.description != "">
-    <dc:description xml:lang='${property.language}'>${property.description}</dc:description>
+    <dc:description>${property.description}</dc:description>
     </#if>
     <#-- Erzeuger, Erschaffer des digitalen Buches, hier auch der Autor -->
-    <dc:creator
-      <#if property.authorFileAs != "">
-      opf:file-as='${property.authorFileAs}' opf:role='aut'
-      <#else>
-      opf:file-as='${property.author}' opf:role='aut'
-      </#if>
-      xml:lang='${property.language}'>${property.author}</dc:creator>
+    <dc:creator id="author">${property.author}</dc:creator>
+    <meta refines="#author" property="role" scheme="marc:relators">aut</meta>
+    <#if property.authorFileAs ?? && property.authorFileAs != "">
+    <meta refines="#author" property="file-as">${property.authorFileAs}</meta>
+    </#if>
     <#if property.subject ?? && property.subject != "">
     <dc:subject>${property.subject}</dc:subject>
     </#if>
@@ -37,41 +51,31 @@
     <meta name='cover' content='${params.COVER_ID}'/>
     </#if>
     <#-- Charakteristischer Zeitpunkt der Erstellung des Buches -->
-    <dc:date opf:event='creation'>${creation}</dc:date>
+    <meta property="dcterms:modified">${creation}</meta>
     <#-- Verlag -->
     <#if property.publisher ?? && property.publisher != "">
     <dc:publisher>${property.publisher}</dc:publisher>
     </#if>
     <#-- Zeitpunkt der Veröffentlichung -->
     <#if property.pubDate != "">
-    <dc:date opf:event='publication'>${property.pubDate}</dc:date>
+    <dc:date>${property.pubDate}</dc:date>
     </#if>
   </metadata>
   <#-- Verzeichnis der Dateien des Buches -->
   <manifest>
     <item id='ncx' href='${params.NCX}' media-type='application/x-dtbncx+xml'/>
-    <#list contentFiles as entry>
-    <item id='${entry.id}' href='${entry.filename}' media-type='${entry.mimeType}'/>
+    <#macro printEntries entries>
+    <#list entries as entry>
+    <item id='${entry.id}' href='${entry.filename}' media-type='${entry.mimeType}'<#if entry.properties != ""> properties='${entry.properties}'</#if>/>
     </#list>
-    <#list mediaFiles as entry>
-    <item id='${entry.id}' href='${entry.filename}' media-type='${entry.mimeType}'/>
-    </#list>
-    <#if pageEntries ??>
-    <item id="map" href="page-map.xml" media-type="application/oebps-page-map+xml"/>
-    </#if>
+    </#macro>
+    <@printEntries contentFiles/>
+    <@printEntries mediaFiles/>
   </manifest>
   <#-- Reihenfolge der Inhalte des Buches -->
-  <spine <#if pageEntries ??>page-map="map"</#if> toc='ncx'>
+  <spine toc='ncx'>
     <#list contentFiles as entry>
     <itemref idref='${entry.id}'/>
     </#list>
   </spine>
-  <guide>
-    <#if params.COVER ??>
-    <reference type='cover' title='${resource.cover}' href='${params.COVER}'/>
-    </#if>
-    <#if params.TOC ??>
-    <reference type='toc' title='${resource.toc}' href='${params.TOC}'/>
-    </#if>
-  </guide>
 </package>

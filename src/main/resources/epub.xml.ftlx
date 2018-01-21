@@ -6,14 +6,24 @@
 <entry key="UUID">${property.UUID}</entry>
 <!-- ISBN -->
 <entry key="ISBN"></entry>
+<!-- secondary ID (e.g. ISBN urn:isbn:1234567890123) -->
+<entry key="secondaryID"></entry>
+<!-- type of secondary ID (http://www.stison.com/onix/codelists/onix-codelist-5.htm) -->
+<entry key="secondaryIDType"></entry>
+<!-- EPUB version (2.0 or 3.0, default 3.0) -->
+<entry key="epub-version">3.0</entry>
 <!-- book title (required) -->
 <entry key="title">${property.title}</entry>
 <!-- sub title -->
 <entry key="subtitle"></entry>
+<!-- short title (e.g. "Huck Finn" for "The Adventures of Huckleberry Finn") -->
+<entry key="shorttitle"></entry>
 <!-- collection, e.g. series title -->
 <entry key="collection"></entry>
 <!-- position in collection (volume number) -->
 <entry key="group-position"></entry>
+<!-- edition (e.g. "Second Anniversary Edition") -->
+<entry key="edition"></entry>
 <!-- language (required) -->
 <entry key="language">${property.language}</entry>
 <!-- description -->
@@ -32,7 +42,7 @@
 <entry key="rights"></entry>
 <!-- publishing date (yyyy-mm-dd) -->
 <entry key="pubDate">${property.date}</entry>
-<!-- specific time of creation of ebook (yyyy-mm-dd, default: current date) -->
+<!-- specific time of creation of ebook (yyyy-mm-ddTHH:MM:SSZ, default: current date) -->
 <entry key="creationDate"></entry>
 <!-- cover image (default cover.*) -->
 <entry key="cover"></entry>

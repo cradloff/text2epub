@@ -33,6 +33,7 @@ blockquote p {
 }
 img {
 	max-width: 95%;
+	max-height: 95%;
 	margin: 0 auto;
 	padding: 0;
 }
@@ -49,11 +50,14 @@ img {
 	font-size: 1.8em;
 	font-size: x-large;
 }
-.toc#subtitle, .toc #subtitle {
+.toc#subtitle, .toc #subtitle, .toc#edition, .toc #edition {
 	text-align: center;
 	color: dimgray;
 	font-size: 1.25em;
 	font-size: x-large;
+}
+.toc ol {
+	list-style: none;
 }
 
 /* Link zu Fußnote */

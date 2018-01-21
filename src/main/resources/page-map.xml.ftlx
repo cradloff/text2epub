@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<page-map xmlns="http://www.idpf.org/2007/opf">
-  <#list pageEntries as entry>
-    <page name="${entry.title}" href="${entry.filename}#${entry.id}"/>
-  </#list>
-</page-map>

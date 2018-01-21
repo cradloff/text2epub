@@ -33,7 +33,7 @@
 <!-- publishing date (yyyy-mm-dd) -->
 <entry key="pubDate">2018-01-14</entry>
 <!-- creation date -->
-<entry key="creationDate">2018-01-15</entry>
+<entry key="creationDate">2018-01-15T12:00:00Z</entry>
 <!-- cover image (default cover.*) -->
 <entry key="cover"></entry>
 <!-- create table of contents? (true/false) -->

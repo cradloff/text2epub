@@ -1,29 +1,55 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>
-<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='${property.language}'>
-  <head>
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='${property.language}' xmlns:epub='http://www.idpf.org/2007/ops'>
+    <head>
     <title>${property.title} - ${property.author}</title>
     <link href='${stylesheet}' type='text/css' rel='stylesheet'/>
   </head>
-  <body class='toc'>
-    <div id='author'>${property.author}</div>
-    <div id='title'>${property.title}</div>
-    <#if property.subtitle != "">
-    <div id='subtitle'>${property.subtitle}</div>
-    </#if>
-    <h2>${resource.toc}</h2>
-    <#macro printEntries entries>
-    <#if entries?size &gt; 0>
-    <ul>
-    <#list entries as entry>
-      <li>
-        <a href='${entry.filename}'>${entry.title}</a>
-        <@printEntries entries=entry.subEntries/>
-      </li>
-    </#list>
-    </ul>
-    </#if>
-    </#macro>
-    <@printEntries entries=tocEntries/>
+  <body>
+    <section class='toc'>
+      <div id='author'>${property.author}</div>
+      <div id='title'>${property.title}</div>
+      <#if property.subtitle ?? && property.subtitle != "">
+      <div id='subtitle'>${property.subtitle}</div>
+      </#if>
+      <#if property.edition ?? && property.edition != "">
+      <div id='edition'>${property.edition}</div>
+      </#if>
+      <nav epub:type='toc' id='toc'>
+        <h1>${resource.toc}</h1>
+        <#macro printEntries entries>
+        <#if entries?size &gt; 0>
+        <ol>
+        <#list entries as entry>
+          <li>
+            <a href='${entry.filename}'>${entry.title}</a>
+            <@printEntries entries=entry.subEntries/>
+          </li>
+        </#list>
+        </ol>
+        </#if>
+        </#macro>
+        <@printEntries entries=tocEntries/>
+      </nav>
+      <nav epub:type='landmarks' hidden='hidden'>
+        <h1>Landmarks</h1>
+        <ol>
+          <#if params.COVER ??>
+          <li><a epub:type='cover' href='${params.COVER}'>${resource.cover}</a></li>
+          </#if>
+          <li><a epub:type='toc' href='#toc'>${resource.toc}</a></li>
+        </ol>
+      </nav>
+      <#if pageEntries ??>
+      <nav epub:type='page-list' hidden='hidden'>
+        <h1>Pages</h1>
+        <ol>
+        <#list pageEntries as entry>
+        <li><a href='${entry.filename}#${entry.id}'>${entry.title}</a></li>
+        </#list>
+        </ol>
+      </nav>
+      </#if>
+    </section>
   </body>
 </html>

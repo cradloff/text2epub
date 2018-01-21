@@ -4,16 +4,22 @@
 <comment>Properties of eBook</comment>
 <!-- unique identifier of book (required) -->
 <entry key="UUID">66fb2c0f-3284-4eac-a441-ab9176862688</entry>
-<!-- ISBN -->
-<entry key="ISBN"></entry>
+<!-- secondary ID (e.g. ISBN urn:isbn:1234567890123) -->
+<entry key="secondaryID">urn:isbn:1234567890123</entry>
+<!-- type of secondary ID (http://www.stison.com/onix/codelists/onix-codelist-5.htm) -->
+<entry key="secondaryIDType">15</entry>
 <!-- book title (required) -->
 <entry key="title">FreeMarker</entry>
 <!-- sub title -->
 <entry key="subtitle">Test FreeMarker templates</entry>
+<!-- short title (e.g. "Huck Finn" for "The Adventures of Huckleberry Finn") -->
+<entry key="shorttitle">FM</entry>
 <!-- collection, e.g. series title -->
-<entry key="collection"></entry>
+<entry key="collection">Templates</entry>
 <!-- position in collection (volume number) -->
-<entry key="group-position"></entry>
+<entry key="group-position">1</entry>
+<!-- edition (e.g. "Second Anniversary Edition") -->
+<entry key="edition">Second Edition</entry>
 <!-- language (required) -->
 <entry key="language">en</entry>
 <!-- description -->
@@ -34,7 +40,7 @@ in content files.</entry>
 <!-- publishing date (yyyy-mm-dd) -->
 <entry key="pubDate">2018-01-19</entry>
 <!-- creation date -->
-<entry key="creationDate">2018-01-20</entry>
+<entry key="creationDate">2018-01-20T12:00:00Z</entry>
 <!-- cover image (default cover.*) -->
 <entry key="cover"></entry>
 <!-- create table of contents? (true/false) -->

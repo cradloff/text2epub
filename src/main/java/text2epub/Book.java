@@ -208,7 +208,7 @@ public class Book {
 	public String getCreation() {
 		String creation = props.getProperty("creationDate");
 		if (creation == null) {
-			creation = String.format("%tF", new Date());
+			creation = String.format("%1$tFT%1$tTZ", new Date());
 		}
 
 		return creation;

@@ -39,8 +39,7 @@
 	<tr><td><a href="#container">META-INF/container.xml</a></td><td>  </td><td>8</td><td>container description</td></tr>
 	<tr><td><a href="#opf">content.opf</a>                 </td><td>  </td><td>8</td><td>package document</td></tr>
 	<tr><td><a href="#ncx">content.ncx</a>                 </td><td>  </td><td>8</td><td>navigation document</td></tr>
-	<tr><td>toc.xhtml                                      </td><td>  </td><td>8</td><td>table of contents</td></tr>
-	<tr><td><a href="#page-map">page-map.xml</a>           </td><td>  </td><td>8</td><td>page map</td></tr>
+	<tr><td><a href="#toc">toc.xhtml</a>                   </td><td>  </td><td>8</td><td>table of contents</td></tr>
 	<tr><td><a href="#chapter1">01_chapter_one.xhtml</a>   </td><td>  </td><td>8</td><td>chapter one</td></tr>
 	<tr><td><a href="#chapter2">02_chapter_two.xhtml</a>   </td><td>  </td><td>8</td><td>chapter two</td></tr>
 	<tr><td><a href="#footnotes">99_footnotes.xhtml</a>    </td><td>  </td><td>8</td><td>footnotes</td></tr>
@@ -92,42 +91,49 @@
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;package version='2.0'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;package version='3.0'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:dc='http://purl.org/dc/elements/1.1/'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:opf='http://www.idpf.org/2007/opf'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns='http://www.idpf.org/2007/opf'</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    unique-identifier='BookId'></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;metadata></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId' opf:scheme='UUID'>66fb2c0f-3284-4eac-a441-ab9176862688&lt;/dc:identifier></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;metadata xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId'>urn:uuid:66fb2c0f-3284-4eac-a441-ab9176862688&lt;/dc:identifier></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id="BookSecondaryID">urn:isbn:1234567890123&lt;/dc:identifier></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#BookSecondaryID" property="identifier-type" scheme="onix:codelist5">15&lt;/meta></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:language>en&lt;/dc:language></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title xml:lang='en'>FreeMarker&lt;/dc:title></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:description xml:lang='en'>This ebook tests the evaluation of FreeMarker templates</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-main">FreeMarker&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-main" property="title-type">main&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-subtitle">Test FreeMarker templates&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-subtitle" property="title-type">subtitle&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-short">FM&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-short" property="title-type">short&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-collection">Templates&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-collection" property="title-type">collection&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-edition">Second Edition&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-edition" property="title-type">edition&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:description>This ebook tests the evaluation of FreeMarker templates</td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">      in content files.&lt;/dc:description></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:creator</td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        opf:file-as='Author, Arthur' opf:role='aut'</td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">        xml:lang='en'>Arthur Author&lt;/dc:creator></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:creator id="author">Arthur Author&lt;/dc:creator></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#author" property="role" scheme="marc:relators">aut&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#author" property="file-as">Author, Arthur&lt;/meta></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:subject>COMPUTERS / Documentation &amp;amp; Technical Writing&lt;/dc:subject></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date opf:event='creation'>2018-01-20&lt;/dc:date></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date opf:event='publication'>2018-01-19&lt;/dc:date></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta property="dcterms:modified">2018-01-20T12:00:00Z&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date>2018-01-19&lt;/dc:date></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/metadata></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;manifest></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='ncx' href='content.ncx' media-type='application/x-dtbncx+xml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='toc' href='toc.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='toc' href='toc.xhtml' media-type='application/xhtml+xml' properties='nav'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-02' href='01_chapter_one.xhtml' media-type='application/xhtml+xml'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-03' href='02_chapter_two.xhtml' media-type='application/xhtml+xml'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-04' href='99_footnotes.xhtml' media-type='application/xhtml+xml'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='style-sheet' href='book.css' media-type='text/css'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id="map" href="page-map.xml" media-type="application/oebps-page-map+xml"/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/manifest></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;spine page-map="map" toc='ncx'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;spine toc='ncx'></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='toc'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-02'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-03'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-04'/></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/spine></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;guide></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;reference type='toc' title='Table of contents' href='toc.xhtml'/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/guide></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/package></td></tr>
 </table>
 
@@ -196,23 +202,61 @@
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/ncx></td></tr>
 </table>
 
-<table id="page-map">
-	<caption>check page-map</caption>
+<table id="toc">
+	<caption>check table of contents</caption>
 	<tr class="head">
 		<td>fit.ZipEntryListing</td>
 		<td>FreeMarker.epub</td>
-		<td>page-map.xml</td>
+		<td>toc.xhtml</td>
 	</tr>
 	<tr class="head">
 		<td>line</td>
 		<td colspan="2">content</td>
 	</tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version="1.0" ?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;page-map xmlns="http://www.idpf.org/2007/opf"></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;page name="1" href="01_chapter_one.xhtml#page1"/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;page name="2" href="02_chapter_two.xhtml#page2"/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;page name="3" href="02_chapter_two.xhtml#page3"/></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/page-map></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' xmlns:epub='http://www.idpf.org/2007/ops'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>FreeMarker - Arthur Author&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href='book.css' type='text/css' rel='stylesheet'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;section class='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='author'>Arthur Author&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='title'>FreeMarker&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='subtitle'>Test FreeMarker templates&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='edition'>Second Edition&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='toc' id='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Table of contents&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='01_chapter_one.xhtml#h1-01'>Chapter One&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='02_chapter_two.xhtml#h1-01'>Chapter Two&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='99_footnotes.xhtml#h1-01'>Footnotes&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='landmarks' hidden='hidden'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Landmarks&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a epub:type='toc' href='#toc'>Table of contents&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='page-list' hidden='hidden'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Pages&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a href='01_chapter_one.xhtml#page1'>1&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a href='02_chapter_two.xhtml#page2'>2&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a href='02_chapter_two.xhtml#page3'>3&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/section></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>
 
 <table id="chapter1">
@@ -227,7 +271,7 @@
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>FreeMarker - Arthur Author&lt;/title></td></tr>
@@ -257,7 +301,7 @@
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>FreeMarker - Arthur Author&lt;/title></td></tr>
@@ -283,7 +327,7 @@
 		<td colspan="2">content</td>
 	</tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>FreeMarker - Arthur Author&lt;/title></td></tr>

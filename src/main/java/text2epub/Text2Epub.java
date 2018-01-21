@@ -21,6 +21,7 @@ import org.asciidoctor.Options;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
@@ -40,6 +41,7 @@ import net.java.textilej.parser.markup.trac.TracWikiDialect;
 import text2epub.xml.ChainedContentHandler;
 import text2epub.xml.CompressingXMLWriter;
 import text2epub.xml.IdGeneratorFilter;
+import text2epub.xml.NamedEntitesConverter;
 import text2epub.xml.XMLWriter;
 import text2epub.xml.XmlScanner;
 
@@ -102,6 +104,7 @@ public class Text2Epub {
 		writeCover(basedir, images);
 
 		boolean createToc = Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"));
+		TOC.setProperty("nav");
 		if (createToc) {
 			book.addContentFile(TOC);
 			book.setParam("TOC", TOC.getFilename());
@@ -147,11 +150,6 @@ public class Text2Epub {
 		freeMarker.writeTemplate("content.ncx.ftlx", Book.NCX);
 		if (createToc) {
 			freeMarker.writeTemplate("toc.xhtml.ftlx", TOC.getFilename());
-		}
-
-		// ggf. Page-Map ausgeben
-		if (book.getPageEntries() != null) {
-			freeMarker.writeTemplate("page-map.xml.ftlx", "page-map.xml");
 		}
 
 		// Stammdatei schreiben
@@ -254,7 +252,9 @@ public class Text2Epub {
 		FileEntry cover = new FileEntry(filename, MimeTypes.getMimeType(filename), "cover-img");
 		images.add(cover);
 
-		book.addContentFile(new FileEntry(COVER, MimeTypes.MIMETYPE_XHTML, "cover"));
+		FileEntry entry = new FileEntry(COVER, MimeTypes.MIMETYPE_XHTML, "cover");
+		entry.setProperty("cover-image");
+		book.addContentFile(entry);
 		book.setParam("COVER", COVER);
 		book.setParam("COVER_ID", cover.getId());
 		book.setParam("cover_url", filename);
@@ -300,10 +300,10 @@ public class Text2Epub {
 		String content = readContent(file);
 		String outputFilename = file.getName();
 		// Datei ausgeben
-		writeHtml(new InputSource(new StringReader(content)), file.getName(), outputFilename, images);
+		writeHtml(content, file.getName(), outputFilename, images);
 	}
 
-	private void writeHtml(InputSource input, String srcFilename, String outputFilename, Set<FileEntry> images)
+	private void writeHtml(String content, String srcFilename, String outputFilename, Set<FileEntry> images)
 			throws IOException {
 		try {
 			// TOC-Entries einlesen
@@ -325,12 +325,17 @@ public class Text2Epub {
 			ContentHandler handler = new ChainedContentHandler(toc, img, pes, cxWriter);
 			filter.setContentHandler(handler);
 			// Dokument ausgeben
-			filter.parse(input);
+			String conv = NamedEntitesConverter.instance().convert(content);
+			filter.parse(new InputSource(new StringReader(conv)));
 
 			String id = String.format("content-%02d", book.getContentFiles().size() + 1);
 			book.addContentFile(new FileEntry(srcFilename, outputFilename, MimeTypes.MIMETYPE_XHTML, id));
 
 			echo("MsgFileImported", outputFilename);
+		} catch (SAXParseException e) {
+			echo("MsgExceptionImport", String.format("%s (%d,%d)", outputFilename, e.getLineNumber(), e.getColumnNumber()),
+					e.getLocalizedMessage());
+			throw new RuntimeException(e);
 		} catch (SAXException e) {
 			echo("MsgExceptionImport", outputFilename, e.getLocalizedMessage());
 			throw new RuntimeException(e);
@@ -406,7 +411,7 @@ public class Text2Epub {
 
 		// in Buch ausgeben
 		String outputFilename = IOUtils.replaceSuffix(file, ".xhtml");
-		writeHtml(new InputSource(new StringReader(output)), file.getName(), outputFilename, images);
+		writeHtml(output, file.getName(), outputFilename, images);
 	}
 
 	private void echo(String key, Object... param) {
