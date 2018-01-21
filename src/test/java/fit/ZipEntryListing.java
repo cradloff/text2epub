@@ -8,38 +8,34 @@ import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import fit.TypeAdapter.IntAdapter;
 
 /**
  * Lists the content of a textfile from a zip archive. The first argument is the name
  * of the zip archive, the second the zip entry.
  */
 public class ZipEntryListing extends RowFixture {
-	@Override
-	protected TypeAdapter bindField(String name) throws Exception {
-		if (name.equals("content")) {
-			TypeAdapter ta = new TypeAdapter() {
-				@Override
-				public Object get() throws IllegalAccessException, InvocationTargetException {
-					// unescape smart quotes like in Parse.text();
-					String t = super.get().toString();
-					t = t.replace('\u201c', '"');
-					t = t.replace('\u201d', '"');
-					t = t.replace('\u2018', '\'');
-					t = t.replace('\u2019', '\'');
+	private static final class ContentTypeAdapter extends TypeAdapter {
+		@Override
+		public Object get() throws IllegalAccessException, InvocationTargetException {
+			// unescape smart quotes like in Parse.text();
+			String t = super.get().toString();
+			t = t.replace('\u201c', '"');
+			t = t.replace('\u201d', '"');
+			t = t.replace('\u2018', '\'');
+			t = t.replace('\u2019', '\'');
 
-					return t;
-				}
-			};
-			ta.field = getTargetClass().getField(camel(name));
-			ta.target = this;
-			ta.init(this, String.class);
-
-			return ta;
+			return t;
 		}
-		return super.bindField(name);
+	}
+
+	private static final class LineTypeAdapter extends IntAdapter {
+
 	}
 
 	public static class FileEntry {
@@ -84,6 +80,55 @@ public class ZipEntryListing extends RowFixture {
 		}
 
 		return result.toArray();
+	}
+
+	@Override
+	protected TypeAdapter bindField(String name) throws Exception {
+		TypeAdapter ta;
+		if (name.equals("content")) {
+			ta = new ContentTypeAdapter();
+		} else if (name.equals("line")) {
+			ta = new LineTypeAdapter();
+		} else {
+			ta = super.bindField(name);
+		}
+		ta.field = getTargetClass().getField(camel(name));
+		ta.target = this;
+		ta.init(this, String.class);
+
+		return ta;
+	}
+
+	@Override
+	protected List<Parse> list(Parse rows) {
+		// automatically set line if absent
+		int col = -1;
+		LineTypeAdapter ta = null;
+		for (int i = 0; i < columnBindings.length; i++) {
+			if (columnBindings[i] instanceof LineTypeAdapter) {
+				col = i;
+				ta = (LineTypeAdapter) columnBindings[i];
+			}
+		}
+
+		int line = 1;
+		List<Parse> result = new LinkedList<>();
+		while (rows != null) {
+			result.add(rows);
+			if (col >= 0) {
+				Parse cell = rows.parts.at(col);
+				String value = cell.text();
+				if (value.isEmpty()) {
+					cell.body = info("" + line);
+				} else {
+					line = Integer.parseInt(value);
+				}
+			}
+			rows = rows.more;
+			line++;
+		}
+
+		return result;
 	}
 
 }
