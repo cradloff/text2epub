@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Properties of eBook</comment>
+<!-- unique identifier of book (required) -->
+<entry key="UUID">d7a3f948-48ab-4ccf-8ad6-79c85c323eff</entry>
+<!-- secondary ID (e.g. ISBN urn:isbn:1234567890123) -->
+<entry key="secondaryID"></entry>
+<!-- type of secondary ID (http://www.stison.com/onix/codelists/onix-codelist-5.htm) -->
+<entry key="secondaryIDType"></entry>
+<!-- book title (required) -->
+<entry key="title">Minimal</entry>
+<!-- sub title -->
+<entry key="subtitle"></entry>
+<!-- short title (e.g. "Huck Finn" for "The Adventures of Huckleberry Finn") -->
+<entry key="shorttitle"></entry>
+<!-- collection, e.g. series title -->
+<entry key="collection"></entry>
+<!-- position in collection (volume number) -->
+<entry key="group-position"></entry>
+<!-- edition (e.g. "Second Anniversary Edition") -->
+<entry key="edition"></entry>
+<!-- language (required) -->
+<entry key="language">en</entry>
+<!-- description -->
+<entry key="description"></entry>
+<!-- author (for display, required) -->
+<entry key="author">Minni Malistic</entry>
+<!-- author (for ordering) -->
+<entry key="authorFileAs"></entry>
+<!-- filename (default: title - author.epub) -->
+<entry key="filename"></entry>
+<!-- publisher -->
+<entry key="publisher"></entry>
+<!-- keywords/genre (e.g. Humor, Fiction, Romance, ...) http://bisg.org/page/bisacedition -->
+<entry key="subject"></entry>
+<!-- rights/license (e.g. Public Domain) -->
+<entry key="rights"></entry>
+<!-- publishing date (yyyy-mm-dd) -->
+<entry key="pubDate">2018-01-25</entry>
+<!-- specific time of creation of ebook (yyyy-mm-ddTHH:MM:SSZ, default: current date) -->
+<entry key="creationDate">2018-01-25T20:00:00Z</entry>
+<!-- cover image (default cover.*) -->
+<entry key="cover"></entry>
+<!-- show table of contents? (true/false) -->
+<entry key="toc">false</entry>
+<!-- show toc for these elements (CSV, default: h1, h2) -->
+<entry key="toc-entries"></entry>
+<!-- list of additional files (CSV, e.g. first.gif, second.gif) -->
+<entry key="additional-media"></entry>
+<!-- enable freemarker for content? (true/false) -->
+<entry key="freemarker">true</entry>
+</properties>
