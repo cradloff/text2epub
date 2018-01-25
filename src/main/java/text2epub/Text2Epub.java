@@ -113,6 +113,7 @@ public class Text2Epub {
 		}
 
 		// XHTML- und Markdown-Dateien konvertieren und schreiben
+		int firstEntry = book.getContentFiles().size();
 		File[] files = basedir.listFiles();
 		Arrays.sort(files, new Comparator<File>() {
 			@Override
@@ -151,7 +152,7 @@ public class Text2Epub {
 		// Inhaltsverzeichnis ausgeben
 		// ggf. default Eintrag anlegen
 		if (book.getTocEntries().isEmpty()) {
-			FileEntry first = book.getContentFiles().get(0);
+			FileEntry first = book.getContentFiles().get(firstEntry);
 			TocEntry entry = new TocEntry("h1", book.getResource("content"), first.getFilename());
 			book.addTocEntry(entry);
 		}

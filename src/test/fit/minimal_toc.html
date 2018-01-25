@@ -1,0 +1,233 @@
+<html>
+<head>
+<title>Ebook with minimalistic contents</title>
+<link rel="stylesheet" href="fixture.css"/>
+</head>
+<body>
+<h1>Ebook with minimalistic contents</h1>
+
+<p>Tests a ebook minimalistic content. The book has no cover and no headings.</p>
+
+<table>
+	<caption>Create ebook</caption>
+	<tr class="head">
+		<td colspan="2">fit.Text2Epub</td>
+	</tr>
+	<tr class="head">
+		<td>folder</td>
+		<td>filename</td>
+	</tr>
+	<tr>
+		<td>minimal_toc</td>
+		<td>Minimal_toc.epub</td>
+	</tr>
+</table>
+
+<table>
+	<caption>check structure of ebook</caption>
+	<tr class="head">
+		<td>fit.ZipFileListing</td>
+		<td colspan="3">Minimal_toc.epub</td>
+	</tr>
+	<tr class="head">
+		<td>getName()</td>
+		<td>getSize()</td>
+		<td>getMethod()</td>
+		<td></td>
+	</tr>
+	<tr><td><a href="#mimetype">mimetype</a>               </td><td>20</td><td>0</td><td>mime type declaration</td></tr>
+	<tr><td><a href="#container">META-INF/container.xml</a></td><td>  </td><td>8</td><td>container description</td></tr>
+	<tr><td><a href="#opf">content.opf</a>                 </td><td>  </td><td>8</td><td>package document</td></tr>
+	<tr><td><a href="#ncx">content.ncx</a>                 </td><td>  </td><td>8</td><td>navigation document</td></tr>
+	<tr><td><a href="#toc">toc.xhtml</a>                   </td><td>  </td><td>8</td><td>table of contents</td></tr>
+	<tr><td><a href="#content">content.xhtml</a>           </td><td>  </td><td>8</td><td>content</td></tr>
+	<tr><td>book.css                                       </td><td>  </td><td>8</td><td>stylesheet</td></tr>
+</table>
+
+<table id="mimetype">
+	<caption>check mimetype</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Minimal_toc.epub</td>
+		<td>mimetype</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">application/epub+zip</td></tr>
+</table>
+
+<table id="container">
+	<caption>check container description</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Minimal_toc.epub</td>
+		<td>META-INF/container.xml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;container xmlns='urn:oasis:names:tc:opendocument:xmlns:container' version='1.0'&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;rootfiles&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">   &lt;rootfile full-path='content.opf' media-type='application/oebps-package+xml'/&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/rootfiles&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/container&gt;</td></tr>
+</table>
+
+<table id="opf">
+	<caption>check package document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Minimal_toc.epub</td>
+		<td>content.opf</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;package version='3.0'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:dc='http://purl.org/dc/elements/1.1/'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:opf='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    unique-identifier='BookId'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;metadata xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId'>urn:uuid:d7a3f948-48ab-4ccf-8ad6-79c85c323eff&lt;/dc:identifier></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:language>en&lt;/dc:language></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-main">Minimal&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-main" property="title-type">main&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:creator id="author">Minni Malistic&lt;/dc:creator></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#author" property="role" scheme="marc:relators">aut&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta property="dcterms:modified">2018-01-25T20:00:00Z&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date>2018-01-25&lt;/dc:date></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/metadata></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;manifest></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='ncx' href='content.ncx' media-type='application/x-dtbncx+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='toc' href='toc.xhtml' media-type='application/xhtml+xml' properties='nav'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-02' href='content.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='style-sheet' href='book.css' media-type='text/css'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/manifest></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;spine toc='ncx'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='toc'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-02'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/spine></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/package></td></tr>
+</table>
+
+<table id="ncx">
+	<caption>check navigation document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Minimal_toc.epub</td>
+		<td>content.ncx</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;ncx xmlns='http://www.daisy.org/z3986/2005/ncx/' version='2005-1' xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta name='dtb:uid' content='d7a3f948-48ab-4ccf-8ad6-79c85c323eff'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;docTitle></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;text>Minimal&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/docTitle></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;docAuthor></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;text>Minni Malistic&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/docAuthor></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;navMap></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;navPoint playOrder='1' id='navPoint-1'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;text>Minimal&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;content src='toc.xhtml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='2' id='navPoint-2'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Content&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='content.xhtml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/navMap></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/ncx></td></tr>
+</table>
+
+<table id="toc">
+	<caption>check Table of contents</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Minimal_toc.epub</td>
+		<td>toc.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' xmlns:epub='http://www.idpf.org/2007/ops'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Minimal - Minni Malistic&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href='book.css' type='text/css' rel='stylesheet'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;section class='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='author'>Minni Malistic&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='title'>Minimal&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='toc' id='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Table of contents&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='content.xhtml'>Content&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='landmarks' hidden='hidden'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Landmarks&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a epub:type='toc' href='#toc'>Table of contents&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/section></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table id="content">
+	<caption>check content</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Minimal_toc.epub</td>
+		<td>content.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Minimal - Minni Malistic&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href="book.css" type="text/css" rel="stylesheet"/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>This is a very minimalistic book with toc.</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    It contains nothing but these two lines.&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table>
+	<caption>Summary</caption>
+	<tr class="head">
+		<td colspan="2">fit.Summary</td>
+	</tr>
+</table>
+
+</body>
+</html>
