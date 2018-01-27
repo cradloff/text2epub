@@ -31,7 +31,8 @@ public class NamedEntitesConverter {
 					if (tokens.length == 2) {
 						String unicode = tokens[1];
 						unicode = unicode.substring(2);
-						Character.toChars(Integer.parseInt(unicode, 16));
+						char[] chars = Character.toChars(Integer.parseInt(unicode, 16));
+						entities.put(entity, new String(chars));
 					} else {
 						String character = tokens[2];
 						entities.put(entity, character);
