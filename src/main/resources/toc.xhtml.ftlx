@@ -32,7 +32,7 @@
         <@printEntries entries=tocEntries/>
       </nav>
       <#if params.COVER ?? || property.toc == "true">
-      <nav epub:type='landmarks' hidden='hidden'>
+      <nav epub:type='landmarks' hidden='hidden' id='landmarks'>
         <h1>Landmarks</h1>
         <ol>
           <#if params.COVER ??>
@@ -45,7 +45,7 @@
       </nav>
       </#if>
       <#if pageEntries ??>
-      <nav epub:type='page-list' hidden='hidden'>
+      <nav epub:type='page-list' hidden='hidden' id='page-list'>
         <h1>Pages</h1>
         <ol>
         <#list pageEntries as entry>

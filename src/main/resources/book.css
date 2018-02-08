@@ -29,13 +29,8 @@ blockquote p {
 
 /* cover */
 #cover {
-	max-width: 100%;
-}
-img {
-	max-width: 95%;
-	max-height: 95%;
-	margin: 0 auto;
-	padding: 0;
+	width: 100%;
+	height: 100%;
 }
 
 /* table of contents */
@@ -56,8 +51,16 @@ img {
 	font-size: 1.25em;
 	font-size: x-large;
 }
-.toc ol {
-	list-style: none;
+
+#toc ol {
+	list-style-type: none;
+	text-align: left;
+}
+
+/* Landmarks und Page-List ausblenden */
+#landmarks, #page-list {
+	display: none;
+	visibility: hidden;
 }
 
 /* Link zu Fußnote */
