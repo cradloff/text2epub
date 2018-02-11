@@ -51,14 +51,17 @@ the page number is automatically increased an can be omitted (&lt;@pagebreak&gt;
 If there is at least one pagebreak, <code>text2epub</code> 
 creates a pagemap for the book.</dd>
 
+<dt>link</dt>
+<dd>Creates a link to another file in the ebook. The macro gets the filename as parameter. 
+The filename is automatically resolved, i.e. you can specify the filename of the source file 
+(e.g. chapter.md) which will be replaced with the filename in the ebook (chapter.xhtml).</dd>
+
 <dt>refnote</dt>
 <dd>Creates a link to a footnote in another file (default <code>99_footnotes.xhtml</code>).
 The macro has three parameters:<dl>
 <dt>note</dt><dd>the id of the footnote (required, e.g. <code>1</code>)</dd>
 <dt>linktext</dt><dd>the text shown in the link (default is note)</dd>
-<dt>file</dt><dd>filename containing footnotes (default <code>99_footnotes.xhtml</code>). 
-The filename is automatically resolved, i.e. you can specify the filename of the source file 
-(e.g. chapter.md) which will be replaced with the filename in the ebook (chapter.xhtml).</dd>
+<dt>file</dt><dd>filename containing footnotes (default <code>99_footnotes.md</code>).</dd>
 </dl>
 Example: <code>&lt;@refnote 1 "*"/&gt;</code></dd>
 

@@ -1,0 +1,305 @@
+<html>
+<head>
+<title>Linked ebook</title>
+<link rel="stylesheet" href="fixture.css"/>
+</head>
+<body>
+<h1>Linked ebook</h1>
+
+<p>Tests a ebook with links between files.</p>
+
+<table>
+	<caption>Create ebook</caption>
+	<tr class="head">
+		<td colspan="2">fit.Text2Epub</td>
+	</tr>
+	<tr class="head">
+		<td>folder</td>
+		<td>filename</td>
+	</tr>
+	<tr>
+		<td>links</td>
+		<td>Links.epub</td>
+	</tr>
+</table>
+
+<table>
+	<caption>check structure of ebook</caption>
+	<tr class="head">
+		<td>fit.ZipFileListing</td>
+		<td colspan="3">Links.epub</td>
+	</tr>
+	<tr class="head">
+		<td>getName()</td>
+		<td>getSize()</td>
+		<td>getMethod()</td>
+		<td></td>
+	</tr>
+	<tr><td><a href="#mimetype">mimetype</a>               </td><td>20</td><td>0</td><td>mime type declaration</td></tr>
+	<tr><td><a href="#container">META-INF/container.xml</a></td><td>  </td><td>8</td><td>container description</td></tr>
+	<tr><td><a href="#opf">content.opf</a>                 </td><td>  </td><td>8</td><td>package document</td></tr>
+	<tr><td><a href="#ncx">content.ncx</a>                 </td><td>  </td><td>8</td><td>navigation document</td></tr>
+	<tr><td><a href="#toc">toc.xhtml</a>                   </td><td>  </td><td>8</td><td>table of contents</td></tr>
+	<tr><td><a href="#ch01">01_chapter_one.xhtml</a>       </td><td>  </td><td>8</td><td>chapter one</td></tr>
+	<tr><td><a href="#ch02">02_chapter_two.xhtml</a>       </td><td>  </td><td>8</td><td>chapter two</td></tr>
+	<tr><td><a href="#footnotes">99_footnotes.xhtml</a>    </td><td>  </td><td>8</td><td>footnotes</td></tr>
+	<tr><td>book.css                                       </td><td>  </td><td>8</td><td>stylesheet</td></tr>
+</table>
+
+<table id="mimetype">
+	<caption>check mimetype</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>mimetype</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">application/epub+zip</td></tr>
+</table>
+
+<table id="container">
+	<caption>check container description</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>META-INF/container.xml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;container xmlns='urn:oasis:names:tc:opendocument:xmlns:container' version='1.0'&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;rootfiles&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">   &lt;rootfile full-path='content.opf' media-type='application/oebps-package+xml'/&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/rootfiles&gt;</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/container&gt;</td></tr>
+</table>
+
+<table id="opf">
+	<caption>check package document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>content.opf</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;package version='3.0'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:dc='http://purl.org/dc/elements/1.1/'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns:opf='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    xmlns='http://www.idpf.org/2007/opf'</td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    unique-identifier='BookId'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;metadata xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:identifier id='BookId'>urn:uuid:3200266a-0f53-11e8-940b-a731e69ccc75&lt;/dc:identifier></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:language>en&lt;/dc:language></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:title id="title-main">Links&lt;/dc:title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#title-main" property="title-type">main&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:description>A book with links.&lt;/dc:description></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:creator id="author">Loren Link&lt;/dc:creator></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#author" property="role" scheme="marc:relators">aut&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta refines="#author" property="file-as">Link, Loren&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta property="dcterms:modified">2018-02-11T12:00:00Z&lt;/meta></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;dc:date>2018-02-11&lt;/dc:date></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/metadata></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;manifest></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='ncx' href='content.ncx' media-type='application/x-dtbncx+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='toc' href='toc.xhtml' media-type='application/xhtml+xml' properties='nav'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-02' href='01_chapter_one.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-03' href='02_chapter_two.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='content-04' href='99_footnotes.xhtml' media-type='application/xhtml+xml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;item id='style-sheet' href='book.css' media-type='text/css'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/manifest></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;spine toc='ncx'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='toc'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-02'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-03'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;itemref idref='content-04'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/spine></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/package></td></tr>
+</table>
+
+<table id="ncx">
+	<caption>check navigation document</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>content.ncx</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;ncx xmlns='http://www.daisy.org/z3986/2005/ncx/' version='2005-1' xml:lang='en'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;meta name='dtb:uid' content='3200266a-0f53-11e8-940b-a731e69ccc75'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;docTitle></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;text>Links&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/docTitle></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;docAuthor></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;text>Loren Link&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/docAuthor></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;navMap></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;navPoint playOrder='1' id='navPoint-1'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;text>Links&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;content src='toc.xhtml'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='2' id='navPoint-2'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Chapter one&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='01_chapter_one.xhtml#h1-01'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;navPoint playOrder='3' id='navPoint-3'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;text>Chapter two&lt;/text></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/navLabel></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;content src='02_chapter_two.xhtml#h1-01'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/navPoint></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/navMap></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/ncx></td></tr>
+</table>
+
+<table id="toc">
+	<caption>check Table of contents</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>toc.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0' encoding='UTF-8'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' xmlns:epub='http://www.idpf.org/2007/ops'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Links - Loren Link&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href='book.css' type='text/css' rel='stylesheet'/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;section class='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='author'>Loren Link&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;div id='title'>Links&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='toc' id='toc'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Table of contents&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='01_chapter_one.xhtml#h1-01'>Chapter one&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">            &lt;a href='02_chapter_two.xhtml#h1-01'>Chapter two&lt;/a></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;nav epub:type='landmarks' hidden='hidden' id='landmarks'></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;h1>Landmarks&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">          &lt;li>&lt;a epub:type='toc' href='#toc'>Table of contents&lt;/a>&lt;/li></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">        &lt;/ol></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">      &lt;/nav></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;/section></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table id="ch01">
+	<caption>check chapter one</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>01_chapter_one.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Links - Loren Link&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href="book.css" type="text/css" rel="stylesheet"/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;h1 id="h1-01">Chapter one&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>This is the first chapter&lt;a class="refnote" id="rn1" href="#fn1">1&lt;/a>.&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>Here is a link&lt;a class="refnote" id="rn2" href="99_footnotes.xhtml#fn2">2&lt;/a> to &lt;a href="02_chapter_two.xhtml">chapter two&lt;/a>.&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn1">&lt;a href="#rn1">1&lt;/a> A local footnote.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table id="ch02">
+	<caption>check chapter two</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>02_chapter_two.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Links - Loren Link&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href="book.css" type="text/css" rel="stylesheet"/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;h1 id="h1-01">Chapter two&lt;/h1></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>This is the second chapter&lt;a class="refnote" id="rn1" href="#fn1">1&lt;/a>.&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>Here is a link&lt;a class="refnote" id="rn2" href="99_footnotes.xhtml#fn2">2&lt;/a> to &lt;a href="01_chapter_one.xhtml">chapter one&lt;/a>.&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn1">&lt;a href="#rn1">1&lt;/a> A local footnote.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table id="footnotes">
+	<caption>check footnotes</caption>
+	<tr class="head">
+		<td>fit.ZipEntryListing</td>
+		<td>Links.epub</td>
+		<td>99_footnotes.xhtml</td>
+	</tr>
+	<tr class="head">
+		<td>line</td>
+		<td colspan="2">content</td>
+	</tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;?xml version='1.0'?></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;!DOCTYPE html></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;html xmlns="http://www.w3.org/1999/xhtml"></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;title>Links - Loren Link&lt;/title></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;link href="book.css" type="text/css" rel="stylesheet"/></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>Footnotes&lt;/p></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn1">&lt;a href="01_chapter_one.xhtml#rn1">↑&lt;/a> Link to chapter one.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn2">&lt;a href="02_chapter_two.xhtml#rn2">↑&lt;/a> Link to chapter two.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
+</table>
+
+<table>
+	<caption>Summary</caption>
+	<tr class="head">
+		<td colspan="2">fit.Summary</td>
+	</tr>
+</table>
+
+</body>
+</html>

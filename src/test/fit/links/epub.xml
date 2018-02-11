@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Properties of eBook</comment>
+<!-- unique identifier of book (required) -->
+<entry key="UUID">3200266a-0f53-11e8-940b-a731e69ccc75</entry>
+<!-- ISBN -->
+<entry key="ISBN"></entry>
+<!-- book title (required) -->
+<entry key="title">Links</entry>
+<!-- sub title -->
+<entry key="subtitle"></entry>
+<!-- collection, e.g. series title -->
+<entry key="collection"></entry>
+<!-- position in collection (volume number) -->
+<entry key="group-position"></entry>
+<!-- language (required) -->
+<entry key="language">en</entry>
+<!-- description -->
+<entry key="description">A book with links.</entry>
+<!-- author (for display, required) -->
+<entry key="author">Loren Link</entry>
+<!-- author (for ordering) -->
+<entry key="authorFileAs">Link, Loren</entry>
+<!-- filename (default: title - author.epub) -->
+<entry key="filename"></entry>
+<!-- publisher -->
+<entry key="publisher"></entry>
+<!-- keywords/genre (e.g. Humor, Fiction, Romance, ...) http://bisg.org/page/bisacedition -->
+<entry key="subject"></entry>
+<!-- rights/license (e.g. Public Domain) -->
+<entry key="rights"></entry>
+<!-- publishing date (yyyy-mm-dd) -->
+<entry key="pubDate">2018-02-11</entry>
+<!-- creation date -->
+<entry key="creationDate">2018-02-11T12:00:00Z</entry>
+<!-- cover image (default cover.*) -->
+<entry key="cover"></entry>
+<!-- create table of contents? (true/false) -->
+<entry key="toc">true</entry>
+<!-- create toc from these elements (CSV, default: h1) -->
+<entry key="toc-entries"></entry>
+<!-- list of additional files (CSV, e.g. first.gif, second.gif) -->
+<entry key="additional-media"></entry>
+<!-- enable freemarker for content? (true/false) -->
+<entry key="freemarker">true</entry>
+</properties>

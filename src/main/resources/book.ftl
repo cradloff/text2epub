@@ -8,6 +8,10 @@
 </#if>
 <span epub:type="pagebreak" id="page${page}" title="${page}" xmlns:epub="http://www.idpf.org/2007/ops"/></#macro>
 
+<#-- generate link to content -->
+<#macro link filename>
+<a href="${resolve(filename)}"><#nested></a></#macro>
+
 <#-- generate reference to footnote -->
 <#macro refnote note linktext=note file="99_footnotes.xhtml">
 <a class="refnote" id="rn${note}" href="${resolve(file)}#fn${note}">${linktext}</a></#macro>
