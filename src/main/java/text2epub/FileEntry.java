@@ -112,4 +112,9 @@ public class FileEntry {
 
 		return t;
 	}
+
+	@Override
+	public String toString() {
+		return "Entry: " + id + " / " + filename + " - " + mimeType;
+	}
 }

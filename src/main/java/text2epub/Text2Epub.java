@@ -3,21 +3,20 @@ package text2epub;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
-import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.Options;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -27,17 +26,12 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.adobe.epubcheck.api.EpubCheck;
-import com.github.rjeschke.txtmark.Configuration;
-import com.github.rjeschke.txtmark.Configuration.Builder;
-import com.github.rjeschke.txtmark.Processor;
 
-import net.java.textilej.parser.MarkupParser;
-import net.java.textilej.parser.builder.HtmlDocumentBuilder;
-import net.java.textilej.parser.markup.Dialect;
-import net.java.textilej.parser.markup.confluence.ConfluenceDialect;
-import net.java.textilej.parser.markup.mediawiki.MediaWikiDialect;
-import net.java.textilej.parser.markup.textile.TextileDialect;
-import net.java.textilej.parser.markup.trac.TracWikiDialect;
+import text2epub.converter.AsciiDocConverter;
+import text2epub.converter.Converter;
+import text2epub.converter.MarkdownConverter;
+import text2epub.converter.TextileConverter;
+import text2epub.converter.XHtmlConverter;
 import text2epub.xml.ChainedContentHandler;
 import text2epub.xml.CompressingXMLWriter;
 import text2epub.xml.IdGeneratorFilter;
@@ -112,8 +106,14 @@ public class Text2Epub {
 			book.addMediaFile(TOC);
 		}
 
-		// XHTML- und Markdown-Dateien konvertieren und schreiben
-		int firstEntry = book.getContentFiles().size();
+		// Converter registrieren
+		Map<String, Converter> converters = new HashMap<>();
+		MarkdownConverter.register(converters);
+		XHtmlConverter.register(converters);
+		TextileConverter.register(converters);
+		AsciiDocConverter.register(converters);
+
+		// Liste der Dateien erstellen
 		File[] files = basedir.listFiles();
 		Arrays.sort(files, new Comparator<File>() {
 			@Override
@@ -121,27 +121,22 @@ public class Text2Epub {
 				return f1.getName().compareToIgnoreCase(f2.getName());
 			}
 		});
+		int firstEntry = book.getContentFiles().size();
+		List<Content> contents = new ArrayList<>();
 		for (File file : files) {
-			String filename = file.getName().toLowerCase();
-			if (filename.endsWith(".txt")) {
-				writeMarkdown(file, false, images);
-			} else if (filename.endsWith(".md")) {
-				// Extended Profile aktivieren
-				writeMarkdown(file, true, images);
-			} else if (filename.endsWith(".xhtml")) {
-				writeHtml(file, images);
-			} else if (filename.endsWith(".textile")) {
-				writeTextile(file, new TextileDialect(), images);
-			} else if (filename.endsWith(".wiki")
-					|| filename.endsWith(".mediawiki")) {
-				writeTextile(file, new MediaWikiDialect(), images);
-			} else if (filename.endsWith(".trac")) {
-				writeTextile(file, new TracWikiDialect(), images);
-			} else if (filename.endsWith(".confluence")) {
-				writeTextile(file, new ConfluenceDialect(), images);
-			} else if (filename.endsWith(".adoc")) {
-				writeAsciidoc(file, images);
+			String suffix = IOUtils.suffix(file);
+			Converter converter = converters.get(suffix);
+			if (converter != null) {
+				String outputFilename = IOUtils.replaceSuffix(file, ".xhtml");
+				contents.add(new Content(file, outputFilename, converter));
+				String id = String.format("content-%02d", book.getContentFiles().size() + 1);
+				book.addContentFile(new FileEntry(file.getName(), outputFilename, MimeTypes.MIMETYPE_XHTML, id));
 			}
+		}
+
+		// Dateien ausgeben
+		for (Content content : contents) {
+			writeContent(content, images);
 		}
 
 		// Bilder ausgeben
@@ -301,16 +296,32 @@ public class Text2Epub {
 		}
 	}
 
-	/** XHTML übernehmen */
-	private void writeHtml(File file, Set<FileEntry> images) throws IOException {
+	private void writeContent(Content entry, Set<FileEntry> images) throws IOException {
 		// Inhalt einlesen
-		String content = readContent(file);
-		String outputFilename = file.getName();
-		// Datei ausgeben
-		writeHtml(content, file.getName(), outputFilename, images);
+		String content = readContent(entry.getFile());
+
+		// nach Html konvertieren
+		String output = entry.getConverter().convert(content);
+
+		// handelt es sich um ein XHtml-Fragment?
+		if (entry.getConverter().isFragment()) {
+			// gibt es ein eigenes Stylesheet für die Datei?
+			String stylesheet = IOUtils.replaceSuffix(entry.getFile(), ".css");
+			if (IOUtils.exists(basedir, stylesheet)) {
+				writeMedia(basedir, new FileEntry(stylesheet, MimeTypes.MIME_TYPE_CSS, stylesheet));
+				book.setStylesheet(stylesheet);
+			}
+
+			// HTML-Datei erzeugen
+			book.setParam("content", output);
+			output = freeMarker.applyTemplate("content.xhtml.ftlx");
+			book.setStylesheet(null);
+		}
+
+		writeHtml(output, entry.getOutputFilename(), images);
 	}
 
-	private void writeHtml(String content, String srcFilename, String outputFilename, Set<FileEntry> images)
+	private void writeHtml(String content, String outputFilename, Set<FileEntry> images)
 			throws IOException {
 		try {
 			// TOC-Entries einlesen
@@ -338,9 +349,6 @@ public class Text2Epub {
 			String conv = NamedEntitesConverter.instance().convert(content);
 			filter.parse(new InputSource(new StringReader(conv)));
 
-			String id = String.format("content-%02d", book.getContentFiles().size() + 1);
-			book.addContentFile(new FileEntry(srcFilename, outputFilename, MimeTypes.MIMETYPE_XHTML, id));
-
 			echo("MsgFileImported", outputFilename);
 		} catch (SAXParseException e) {
 			echo("MsgExceptionImport", String.format("%s (%d,%d)", outputFilename, e.getLineNumber(), e.getColumnNumber()),
@@ -352,48 +360,6 @@ public class Text2Epub {
 		}
 	}
 
-	/** Markdown nach HTML konvertieren */
-	private void writeMarkdown(File file, boolean extended, Set<FileEntry> images) throws IOException {
-		// Inhalt einlesen
-		String content = readContent(file);
-		// Markdown nach Html konvertieren
-		Builder builder = Configuration.builder();
-		if (extended) {
-			builder = builder.forceExtentedProfile();
-		}
-		Configuration config = builder.build();
-		String output = Processor.process(content, config);
-		// Datei ausgeben
-		writeText(file, output, images);
-	}
-
-	/** mit Textile-J nach HTML konvertieren */
-	private void writeTextile(File file, Dialect dialect, Set<FileEntry> images) throws IOException {
-		// Inhalt einlesen
-		String content = readContent(file);
-		// Textile nach Html konvertieren
-		StringWriter out = new StringWriter();
-		MarkupParser parser = new MarkupParser(dialect, new HtmlDocumentBuilder(out));
-		parser.parse(content, false);
-		String output = out.toString();
-		// Datei ausgeben
-		writeText(file, output, images);
-	}
-
-	private void writeAsciidoc(File file, Set<FileEntry> images) throws IOException {
-		// Inhalt einlesen
-		String content = readContent(file);
-		// Asciidoc nach Html konvertieren
-		Asciidoctor asciidoctor = Asciidoctor.Factory.create();
-		Options options = new Options();
-		options.setHeaderFooter(false);
-		options.setDocType("book");
-		options.setBackend("xhtml5");
-		String output = asciidoctor.convert(content, options);
-		// Datei ausgeben
-		writeText(file, output, images);
-	}
-
 	private String readContent(File file) throws IOException {
 		String content;
 		if (Boolean.parseBoolean(book.getProperty().getProperty("freemarker", "true"))) {
@@ -403,25 +369,6 @@ public class Text2Epub {
 		}
 
 		return content;
-	}
-
-	/** gibt den Text als Html aus */
-	private void writeText(File file, String text, Set<FileEntry> images) throws IOException {
-		// gibt es ein eigenes Stylesheet für die Datei?
-		String stylesheet = IOUtils.replaceSuffix(file, ".css");
-		if (IOUtils.exists(basedir, stylesheet)) {
-			writeMedia(basedir, new FileEntry(stylesheet, MimeTypes.MIME_TYPE_CSS, stylesheet));
-			book.setStylesheet(stylesheet);
-		}
-
-		// HTML-Datei erzeugen
-		book.setParam("content", text);
-		String output = freeMarker.applyTemplate("content.xhtml.ftlx");
-		book.setStylesheet(null);
-
-		// in Buch ausgeben
-		String outputFilename = IOUtils.replaceSuffix(file, ".xhtml");
-		writeHtml(output, file.getName(), outputFilename, images);
 	}
 
 	private void echo(String key, Object... param) {
