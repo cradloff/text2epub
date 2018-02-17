@@ -121,4 +121,17 @@ public class IOUtils {
 		return outputFilename;
 	}
 
+	public static String buildOutputFilename(File file) {
+		// erst das Suffix ersetzen
+		String outputFilename = replaceSuffix(file, ".xhtml");
+		// dann Sonderzeichen ersetzen
+		outputFilename = org.apache.commons.lang3.StringUtils.stripAccents(outputFilename);
+		outputFilename = outputFilename.replace('ß', 's');
+		// Leerzeichen durch Unterstriche ersetzen
+		outputFilename = org.apache.commons.lang3.StringUtils.normalizeSpace(outputFilename);
+		outputFilename = outputFilename.replace(' ', '_');
+
+		return outputFilename;
+	}
+
 }

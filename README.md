@@ -19,6 +19,11 @@ added alphabetically, so you should add a prefix to sort it (e.g. `01_index.txt`
 `02_chapter_one.txt`, ...). The cover has to be named `cover.jpg` (or 
 `cover.png`, `cover.gif` or `cover.svg`) and will be embedded in a html file.
 
+Filenames with special character such as whitespace, accents or umlauts will be renamed so the
+ebook contains only valid filenames in Ascii. This support is somewhat limited, e.g.
+cyryllic or greek letters wont be replaced. In these cases, rename your files so
+that they conform to the epub standard.
+
 ## Stylesheet
 You can provide a stylesheet for the complete book or for each content file. The 
 global stylesheet must be named `book.css`, the other stylesheets 

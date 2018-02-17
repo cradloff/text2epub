@@ -127,7 +127,7 @@ public class Text2Epub {
 			String suffix = IOUtils.suffix(file);
 			Converter converter = converters.get(suffix);
 			if (converter != null) {
-				String outputFilename = IOUtils.replaceSuffix(file, ".xhtml");
+				String outputFilename = IOUtils.buildOutputFilename(file);
 				contents.add(new Content(file, outputFilename, converter));
 				String id = String.format("content-%02d", book.getContentFiles().size() + 1);
 				book.addContentFile(new FileEntry(file.getName(), outputFilename, MimeTypes.MIMETYPE_XHTML, id));
