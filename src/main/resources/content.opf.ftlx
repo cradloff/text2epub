@@ -27,6 +27,17 @@
     <@printTitle "shorttitle" "short"/>
     <#-- Titel einer Sammlung / Serie -->
     <@printTitle "collection" "collection"/>
+    <#if property.collection ?? && property.collection != "">
+    <meta property="belongs-to-collection" id="collection">${property.collection}</meta>
+      <#if property['collection-type'] ?? && property['collection-type'] != "">
+    <meta refines="#collection" property="collection-type">${property.collection-type}</meta>
+      <#else>
+    <meta refines="#collection" property="collection-type">series</meta>
+      </#if>
+      <#if property['group-position'] ?? && property['group-position'] != "">
+    <meta refines="#collection" property="group-position">${property['group-position']}</meta>
+      </#if>
+    </#if>
     <#-- Ausgabe / Edition -->
     <@printTitle "edition" "edition"/>
     <#-- bis hier notwendige Metainformationen, es folgen einige optionale: -->
