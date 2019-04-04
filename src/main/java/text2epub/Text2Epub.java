@@ -1,6 +1,7 @@
 package text2epub;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
@@ -323,6 +324,7 @@ public class Text2Epub {
 
 	private void writeHtml(String content, String outputFilename, Set<FileEntry> images)
 			throws IOException {
+		String text = content;
 		try {
 			// TOC-Entries einlesen
 			String s = book.getProperty().getProperty("toc-entries", "h1, h2");
@@ -346,18 +348,27 @@ public class Text2Epub {
 			ContentHandler handler = new ChainedContentHandler(toc, img, pes, cxWriter);
 			filter.setContentHandler(handler);
 			// Dokument ausgeben
-			String conv = NamedEntitesConverter.instance().convert(content);
-			filter.parse(new InputSource(new StringReader(conv)));
+			text = NamedEntitesConverter.instance().convert(content);
+			filter.parse(new InputSource(new StringReader(text)));
 
 			echo("MsgFileImported", outputFilename);
 		} catch (SAXParseException e) {
 			echo("MsgExceptionImport", String.format("%s (%d,%d)", outputFilename, e.getLineNumber(), e.getColumnNumber()),
 					e.getLocalizedMessage());
+			dump(text, outputFilename);
 			throw new RuntimeException(e);
 		} catch (SAXException e) {
 			echo("MsgExceptionImport", outputFilename, e.getLocalizedMessage());
+			dump(text, outputFilename);
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void dump(String text, String outputFilename) throws IOException {
+		try (FileWriter fw = new FileWriter(outputFilename)) {
+			fw.write(text);
+		}
+		echo("MsgFileDumped", outputFilename);
 	}
 
 	private String readContent(File file) throws IOException {
