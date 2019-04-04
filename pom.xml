@@ -62,6 +62,37 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+                <execution>
+                    <id>copy-resource-one</id>
+                    <phase>install</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+
+                    <configuration>
+                        <outputDirectory>${env.HOME}/bin</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>/${basedir}/target</directory>
+                                <includes>
+                                    <include>*-jar-with-dependencies.jar</include>
+                                </includes>
+                            </resource>
+                            <resource>
+                                <directory>/${basedir}</directory>
+                                <includes>
+                                    <include>*.sh</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+           </executions>
+        </plugin>
     </plugins>
   </build>
 
