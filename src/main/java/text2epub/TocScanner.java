@@ -10,6 +10,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TocScanner extends DefaultHandler {
 	private final List<String> headings;
 	private boolean scan = false;
+	private boolean refTag = false;
 	private String id;
 	private StringBuilder sb = new StringBuilder();
 	private Book book;
@@ -28,6 +29,9 @@ public class TocScanner extends DefaultHandler {
 			scan = true;
 			id = attributes.getValue("id");
 			sb.setLength(0);
+		} else if ("a".equals(qName)
+				&& "refnote".equals(attributes.getValue("class"))) {
+			refTag = true;
 		}
 	}
 
@@ -42,12 +46,13 @@ public class TocScanner extends DefaultHandler {
 			}
 			book.addTocEntry(new TocEntry(qName, sb.toString().trim(), link));
 		}
+		refTag = false;
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-		if (scan) {
+		if (scan && ! refTag) {
 			sb.append(ch, start, length);
 		}
 	}
