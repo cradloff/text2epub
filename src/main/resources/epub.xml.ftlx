@@ -17,7 +17,7 @@
 <!-- collection, e.g. series title -->
 <entry key="collection"></entry>
 <!-- position in collection (volume number) -->
-<entry key="group-position"></entry>
+<entry key="group-position">${property.groupPosition}</entry>
 <!-- edition (e.g. "Second Anniversary Edition") -->
 <entry key="edition"></entry>
 <!-- language (required) -->
@@ -25,9 +25,9 @@
 <!-- description -->
 <entry key="description"></entry>
 <!-- author (for display, required) -->
-<entry key="author"></entry>
+<entry key="author">${property.author}</entry>
 <!-- author (for ordering) -->
-<entry key="authorFileAs"></entry>
+<entry key="authorFileAs">${property.authorFileAs}</entry>
 <!-- filename (default: title - author.epub) -->
 <entry key="filename"></entry>
 <!-- publisher -->

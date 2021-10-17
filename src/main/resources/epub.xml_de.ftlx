@@ -17,7 +17,7 @@
 <!-- Sammlung, z.B. Titel einer Serie -->
 <entry key="collection"></entry>
 <!-- Position innerhalb der Sammlung (Band-Nummer) -->
-<entry key="group-position"></entry>
+<entry key="group-position">${property.groupPosition}</entry>
 <!-- Ausgabe (z.B. "Zweite überarbeitete Ausgabe") -->
 <entry key="edition"></entry>
 <!-- Sprache (Pflichtangabe) -->
@@ -25,9 +25,9 @@
 <!-- Beschreibung -->
 <entry key="description"></entry>
 <!-- Author (Anzeige, Pflichtangabe) -->
-<entry key="author"></entry>
+<entry key="author">${property.author}</entry>
 <!-- Author (für Sortierung) -->
-<entry key="authorFileAs"></entry>
+<entry key="authorFileAs">${property.authorFileAs}</entry>
 <!-- Dateiname (default: Titel - Author.epub) -->
 <entry key="filename"></entry>
 <!-- Verlag -->

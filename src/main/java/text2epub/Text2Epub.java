@@ -172,16 +172,15 @@ public class Text2Epub {
 		Locale locale = Locale.getDefault();
 		book.initResources(locale);
 
-		Properties props = new Properties();
+		Properties props = MetaDataScanner.parseDirectoryName(basedir.getName());
 		props.setProperty("UUID", UUID.randomUUID().toString());
-		props.setProperty("title", basedir.getName());
 		props.setProperty("language", locale.getLanguage());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		props.setProperty("date", sdf.format(new Date()));
 		book.setProperties(props);
 
 		freeMarker = new FreeMarker(null, book);
-		freeMarker.configureCP();
+		freeMarker.configure(basedir);
 		String properties = freeMarker.applyTemplate("epub.xml.ftlx");
 		IOUtils.write(properties, new File(basedir, PROPERTIES));
 
@@ -266,7 +265,7 @@ public class Text2Epub {
 
 	private void writeImages(File basedir, Set<FileEntry> images) throws IOException {
 		// zuerst nach eingebetteten Bildern in SVG-Grafiken suchen
-		for (FileEntry image : new ArrayList<FileEntry>(images)) {
+		for (FileEntry image : new ArrayList<>(images)) {
 			if (MimeTypes.MIME_TYPE_SVG.equals(image.getMimeType())) {
 				ImageScanner scanner = new ImageScanner(images);
 				XmlScanner.scanXml(new File(basedir, image.getFilename()), scanner);
