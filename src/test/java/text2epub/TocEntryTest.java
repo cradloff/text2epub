@@ -1,19 +1,20 @@
 package text2epub;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Testet {@link TocEntry} */
 public class TocEntryTest {
 	@Test public void constructor() {
 		TocEntry entry = new TocEntry("h1", "title h1", "file h1");
-		assertEquals("h1", entry.getLevel());
-		assertEquals("title h1", entry.getTitle());
-		assertEquals("file h1", entry.getFilename());
-		assertNotNull(entry.getSubEntries());
-		assertEquals(0, entry.getSubEntries().size());
+		assertThat(entry)
+			.hasFieldOrPropertyWithValue("level", "h1")
+			.hasFieldOrPropertyWithValue("title", "title h1")
+			.hasFieldOrPropertyWithValue("filename", "file h1");
+		assertThat(entry.getSubEntries())
+			.isEmpty();
 	}
 
 	@Test public void add() {
@@ -32,7 +33,7 @@ public class TocEntryTest {
 		root.add(new TocEntry("h3", "tenth", "n/a"));
 		// jetzt haben wir folgende Struktur:
 		// root
-		// |\+ fist
+		// |\+ first
 		//   | second
 		//   |\+ third
 		//   | | fourth
@@ -42,6 +43,7 @@ public class TocEntryTest {
 		//   |\+ eighth
 		//   | |\+ nineth
 		//   | | | tenth
+
 		// erste Ebene
 		assertEquals(3, root.getSubEntries().size());
 		TocEntry first = root.getSubEntries().get(0);

@@ -1,32 +1,41 @@
 package text2epub;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.File;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IOUtilsTest {
 	@Test
 	public void suffix() {
-		assertEquals(".txt", IOUtils.suffix("test.txt"));
-		assertEquals(".txt", IOUtils.suffix(new File("test.txt")));
-		assertEquals(".txt", IOUtils.suffix("test.xml.txt"));
-		assertEquals(".txt", IOUtils.suffix(new File("test.xml.txt")));
-		assertNull(IOUtils.suffix("test"));
-		assertNull(IOUtils.suffix(new File("test")));
+		assertThat(IOUtils.suffix("test.txt"))
+			.isEqualTo(".txt");
+		assertThat(IOUtils.suffix(new File("test.txt")))
+			.isEqualTo(".txt");
+		assertThat(IOUtils.suffix("test.xml.txt"))
+			.isEqualTo(".txt");
+		assertThat(IOUtils.suffix(new File("test.xml.txt")))
+			.isEqualTo(".txt");
+		assertThat(IOUtils.suffix("test"))
+			.isNull();
+		assertThat(IOUtils.suffix(new File("test")))
+			.isNull();
 	}
 
 	@Test
 	public void replaceSuffix() {
-		assertEquals("test.new", IOUtils.replaceSuffix("test.old", ".new"));
-		assertEquals("test.new", IOUtils.replaceSuffix(new File("test.old"), ".new"));
+		assertThat(IOUtils.replaceSuffix("test.old", ".new"))
+			.isEqualTo("test.new");
+		assertThat(IOUtils.replaceSuffix(new File("test.old"), ".new"))
+			.isEqualTo("test.new");
 	}
 
-	@Test(expected=RuntimeException.class)
+	@Test
 	public void replaceSuffixFail() {
-		IOUtils.replaceSuffix("test", ".new");
+		assertThatExceptionOfType(RuntimeException.class)
+			.isThrownBy(() -> IOUtils.replaceSuffix("test", ".new"));
 	}
 
 	@Test
@@ -39,6 +48,7 @@ public class IOUtilsTest {
 	}
 
 	private void verifyOutputFilename(String expected, String filename) {
-		assertEquals(expected, IOUtils.buildOutputFilename(new File(filename)));
+		assertThat(IOUtils.buildOutputFilename(new File(filename)))
+			.isEqualTo(expected);
 	}
 }

@@ -1,31 +1,40 @@
 package text2epub;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StringUtilsTest {
 
 	@Test
 	public void splitCSV() {
-		assertTrue(StringUtils.splitCSV("").isEmpty());
-		assertTrue(StringUtils.splitCSV(null).isEmpty());
-		assertThat(StringUtils.splitCSV("one"), CoreMatchers.hasItems("one"));
-		assertThat(StringUtils.splitCSV(" one "), CoreMatchers.hasItems("one"));
-		assertThat(StringUtils.splitCSV("one,two"), CoreMatchers.hasItems("one", "two"));
-		assertThat(StringUtils.splitCSV("one,two , , four"), CoreMatchers.hasItems("one", "two", "", "four"));
+		assertTrue(StringUtils.splitCSV("")
+					.isEmpty());
+		assertTrue(StringUtils.splitCSV(null)
+					.isEmpty());
+		assertThat(StringUtils.splitCSV("one"))
+			.containsExactly("one");
+		assertThat(StringUtils.splitCSV(" one "))
+			.containsExactly("one");
+		assertThat(StringUtils.splitCSV("one,two"))
+			.containsExactly("one", "two");
+		assertThat(StringUtils.splitCSV("one,two , , four"))
+			.containsExactly("one", "two", "", "four");
 	}
 
 	@Test
 	public void isEmpty() {
-		assertTrue(StringUtils.isEmpty(null));
-		assertTrue(StringUtils.isEmpty(""));
-		assertTrue(StringUtils.isEmpty(" \t\r\n"));
-		assertFalse(StringUtils.isEmpty("."));
-		assertFalse(StringUtils.isEmpty(" . "));
+		assertThat(StringUtils.isEmpty(null))
+			.isTrue();
+		assertThat(StringUtils.isEmpty(""))
+			.isTrue();
+		assertThat(StringUtils.isEmpty(" \t\r\n"))
+			.isTrue();
+		assertThat(StringUtils.isEmpty("."))
+			.isFalse();
+		assertThat(StringUtils.isEmpty(" . "))
+			.isFalse();
 	}
 
 }
