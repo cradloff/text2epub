@@ -68,6 +68,7 @@ public class Text2Epub {
 
 	private void createEpub(String... args) throws IOException {
 		basedir = new File(args.length == 0 ? "." : args[0]);
+		basedir = basedir.getCanonicalFile();
 		book = new Book();
 		if (! IOUtils.exists(basedir, PROPERTIES)) {
 			createProperties();
