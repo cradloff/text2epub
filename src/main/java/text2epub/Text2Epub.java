@@ -246,7 +246,9 @@ public class Text2Epub {
 					}
 				}
 			}
-			if (! found) {
+			if (found) {
+				echo("MsgFileImported", filename);
+			} else {
 				echo("MsgNoCover");
 				return;
 			}
