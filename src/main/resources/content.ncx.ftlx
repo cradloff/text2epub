@@ -2,7 +2,7 @@
 <ncx xmlns='http://www.daisy.org/z3986/2005/ncx/' version='2005-1' xml:lang='${property.language}'>
   <head>
     <#--  Dieselbe Buchidentifikation wie in der OPF-Datei: -->
-    <meta name='dtb:uid' content='${UUID}'/>
+    <meta name='dtb:uid' content='urn:uuid:${UUID}'/>
   </head>
   <docTitle>
     <text>${property.title}</text>

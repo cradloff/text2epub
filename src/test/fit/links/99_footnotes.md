@@ -4,4 +4,4 @@ Footnotes
 
 <@footnote 2 "02_chapter_two.md">Link to chapter two.</@footnote>
 
-<@footnote 3 "02_chapter_two.md">Link to chapter two.</@footnote>
+<@footnote 3 "01_chapter_one.md">Link to chapter two.</@footnote>
