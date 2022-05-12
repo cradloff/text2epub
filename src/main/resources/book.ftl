@@ -13,12 +13,28 @@
 <a href="${resolve(filename)}"><#nested></a></#macro>
 
 <#-- generate reference to footnote -->
-<#macro refnote note linktext=note file="99_footnotes.xhtml">
-<a class="refnote" id="rn${note}" href="${resolve(file)}#fn${note}">${linktext}</a></#macro>
+<#assign currnote=0>
+<#macro refnote note=-1 linktext="" file="99_footnotes.xhtml">
+<#if note &gt;= 0>
+	<#assign currnote=note />
+<#else>
+	<#assign currnote++ />
+</#if>
+<#if "" + linktext == "">
+	<#assign mylinktext=currnote />
+<#else>
+	<#assign mylinktext=linktext />
+</#if>
+<a class="refnote" id="rn${currnote}" href="${resolve(file)}#fn${currnote}">${mylinktext}</a></#macro>
 
 <#-- generate footnote with back reference -->
-<#macro footnote note file="" linktext="↑">
-<div class="footnote" id="fn${note}"><a href="${resolve(file)}#rn${note}">${linktext}</a> <#nested></div>
+<#macro footnote note=-1 file="" linktext="↑">
+<#if note &gt;= 0>
+	<#assign currnote=note />
+<#else>
+	<#assign currnote++ />
+</#if>
+<div class="footnote" id="fn${currnote}"><a href="${resolve(file)}#rn${currnote}">${linktext}</a> <#nested></div>
 </#macro>
 
 <#-- generate empty lines -->

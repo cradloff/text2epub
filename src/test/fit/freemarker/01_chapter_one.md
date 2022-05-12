@@ -2,7 +2,7 @@ Chapter One
 ===========
 
 <@pagebreak 1/>
-This is the first chapter of ${property.title} from ${property.author}<@refnote 1 1 ""/>.
+This is the first chapter of ${property.title} from ${property.author}<@refnote 1 "1" ""/>.
 
 ${property.description}
 

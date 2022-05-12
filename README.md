@@ -64,7 +64,7 @@ The filename is automatically resolved, i.e. you can specify the filename of the
 <dt>refnote</dt>
 <dd>Creates a link to a footnote in another file (default <code>99_footnotes.xhtml</code>).
 The macro has three parameters:<dl>
-<dt>note</dt><dd>the id of the footnote (required, e.g. <code>1</code>)</dd>
+<dt>note</dt><dd>the id of the footnote (if omitted it gets automatically increased)</dd>
 <dt>linktext</dt><dd>the text shown in the link (default is note)</dd>
 <dt>file</dt><dd>filename containing footnotes (default <code>99_footnotes.md</code>).</dd>
 </dl>
@@ -72,7 +72,7 @@ Example: <code>&lt;@refnote 1 "*"/&gt;</code></dd>
 
 <dt>footnote</dt>
 <dd>Creates a footnote with a back link to the refnote entry. The macro has three parameters:<dl>
-<dt>note</dt><dd>id of the footnote (required, e.g. <code>1</code>)</dd>
+<dt>note</dt><dd>id of the footnote (if omitted it gets automatically increased)</dd>
 <dt>file</dt><dd>filename which contains the reference (default current file)</dd>
 <dt>linktext</dt><dd>the text shown in the link (default <code>↑</code>)</dd>
 </dl>
@@ -83,7 +83,7 @@ Example: <code>&lt;@footnote 1 "chapter01.md" "^"&gt;Here is the text&lt;/@footn
 <code>&lt;@spacer 3/&gt;</code> creates three empty lines</dd>
 
 <dt>resolve(srcFilename)</dt>
-<dd>Resolves the given filename of a source file and returns the filename in the ebook. If `srcFilename`
+<dd>Resolves the given filename of a source file and returns the filename in the ebook. If <code>srcFilename</code> 
 is not known, it will be returned. Example: <code>${resolve("chapter.md")}</code></dd>
 </dl>
 
@@ -92,8 +92,9 @@ You can access the properties from `epub.xml` with the expression
 
 ## Customization
 Most files are created from FreeMarker templates which are contained in the jar 
-archive. If you want to change these templates, just extract them from the jar and
-put them in the local directory. Here you can customize them as you wish.
+archive. If you want to change these templates, just extract them from the jar 
+using some zip tool and put them in the local directory. Here you can customize 
+them as you wish.
 
 Resources (but not content!) are searched in the following locations:
 1. First they are searched in the local directory where your content resides
@@ -105,7 +106,7 @@ corresponding template in a common base directory or in the same directory where
 the jar archive is installed.
 
 ## Prerequisites
-`text2epub` is written in Java, so you have to install a JRE (version 7 or higher).
+`text2epub` is written in Java, so you have to install a JRE (version 11 or higher).
 The JRE can be downloaded from here: 
 [https://java.com/en/download/](https://java.com/en/download/)
 
