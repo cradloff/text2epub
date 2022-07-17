@@ -93,6 +93,15 @@ public class FreeMarker {
 		writeTemplate(templateName, writer);
 	}
 
+	private void writeTemplate(String templateName, Writer out) throws IOException {
+		Template template = fmCfg.getTemplate(templateName);
+		try {
+			template.process(data, out);
+		} catch (TemplateException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * Führt ein FreeMarker-Template aus, und liefert das Ergebnis zurück.
 	 * @param file Datei
@@ -112,14 +121,5 @@ public class FreeMarker {
 		writeTemplate(templateName, out);
 
 		return out.toString();
-	}
-
-	private void writeTemplate(String templateName, Writer out) throws IOException {
-		Template template = fmCfg.getTemplate(templateName);
-		try {
-			template.process(data, out);
-		} catch (TemplateException e) {
-			throw new RuntimeException(e);
-		}
 	}
 }

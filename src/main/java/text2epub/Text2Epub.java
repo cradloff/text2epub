@@ -7,7 +7,6 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -117,12 +116,7 @@ public class Text2Epub {
 
 		// Liste der Dateien erstellen
 		File[] files = basedir.listFiles();
-		Arrays.sort(files, new Comparator<File>() {
-			@Override
-			public int compare(File f1, File f2) {
-				return f1.getName().compareToIgnoreCase(f2.getName());
-			}
-		});
+		Arrays.sort(files, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
 		int firstEntry = book.getContentFiles().size();
 		List<Content> contents = new ArrayList<>();
 		for (File file : files) {
@@ -224,12 +218,6 @@ public class Text2Epub {
 		return filename;
 	}
 
-	private void writeMedia(FileEntry mediaFile) throws IOException {
-		book.addMediaFile(mediaFile);
-		File file = new File(basedir, mediaFile.getFilename());
-		writer.writeFile(file);
-	}
-
 	private void writeCover(Set<FileEntry> images) throws IOException {
 		// Cover suchen
 		boolean found = false;
@@ -297,6 +285,12 @@ public class Text2Epub {
 				writeMedia(entry);
 			}
 		}
+	}
+
+	private void writeMedia(FileEntry mediaFile) throws IOException {
+		book.addMediaFile(mediaFile);
+		File file = new File(basedir, mediaFile.getFilename());
+		writer.writeFile(file);
 	}
 
 	private void writeContent(Content entry, Set<FileEntry> images) throws IOException {
