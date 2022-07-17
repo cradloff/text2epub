@@ -187,11 +187,11 @@ public class Book {
 
 	/**
 	 * Setzt die aktuelle Seite.
-	 * @param page aktuelle Seite
+	 * @param currPage aktuelle Seite
 	 */
-	public int initpage(int page) {
-		this.page = page;
-		return page;
+	public int initpage(int currPage) {
+		this.page = currPage;
+		return currPage;
 	}
 
 	/**

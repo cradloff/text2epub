@@ -15,10 +15,11 @@ public class AsciiDocConverter implements Converter {
 	public String convert(String content) {
 		// Asciidoc nach Html konvertieren
 		Asciidoctor asciidoctor = Asciidoctor.Factory.create();
-		Options options = new Options();
-		options.setHeaderFooter(false);
-		options.setDocType("book");
-		options.setBackend("xhtml5");
+		Options options = Options.builder()
+				.headerFooter(false)
+				.docType("book")
+				.backend("xhtml5")
+				.build();
 		String output = asciidoctor.convert(content, options);
 
 		return output;

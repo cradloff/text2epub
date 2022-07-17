@@ -78,7 +78,7 @@ public class Text2Epub {
 		book.readProperties(new File(basedir, PROPERTIES));
 		Locale locale = Locale.forLanguageTag(book.getProperty("language"));
 		book.initResources(locale);
-		File epub = new File(args.length > 1 ? args[1] : mkFilename(basedir));
+		File epub = new File(args.length > 1 ? args[1] : mkFilename());
 		book.setFilename(epub);
 		writer = new ZipWriter(epub);
 
@@ -97,7 +97,7 @@ public class Text2Epub {
 
 		// Cover
 		Set<FileEntry> images = new HashSet<>();
-		writeCover(basedir, images);
+		writeCover(images);
 
 		boolean createToc = Boolean.parseBoolean(book.getProperty().getProperty("toc", "true"));
 		TOC.setProperty("nav");
@@ -142,9 +142,9 @@ public class Text2Epub {
 		}
 
 		// Bilder ausgeben
-		writeImages(basedir, images);
+		writeImages(images);
 		// sonstige Medien
-		writeMedia(basedir);
+		writeMedia();
 
 		// Inhaltsverzeichnis ausgeben
 		// ggf. default Eintrag anlegen
@@ -189,7 +189,7 @@ public class Text2Epub {
 	}
 
 	/** Liefert den Dateinamen für das EPUB zurück */
-	private String mkFilename(File basedir) {
+	private String mkFilename() {
 		// explizit angegebener Dateiname?
 		String filename = book.getProperty("filename");
 		if (! StringUtils.isEmpty(filename)) {
@@ -224,13 +224,13 @@ public class Text2Epub {
 		return filename;
 	}
 
-	private void writeMedia(File basedir, FileEntry mediaFile) throws IOException {
+	private void writeMedia(FileEntry mediaFile) throws IOException {
 		book.addMediaFile(mediaFile);
 		File file = new File(basedir, mediaFile.getFilename());
 		writer.writeFile(file);
 	}
 
-	private void writeCover(File basedir, Set<FileEntry> images) throws IOException {
+	private void writeCover(Set<FileEntry> images) throws IOException {
 		// Cover suchen
 		boolean found = false;
 		// explizit angegeben?
@@ -266,7 +266,7 @@ public class Text2Epub {
 		freeMarker.writeTemplate("cover.xhtml.ftlx", COVER);
 	}
 
-	private void writeImages(File basedir, Set<FileEntry> images) throws IOException {
+	private void writeImages(Set<FileEntry> images) throws IOException {
 		// zuerst nach eingebetteten Bildern in SVG-Grafiken suchen
 		for (FileEntry image : new ArrayList<>(images)) {
 			if (MimeTypes.MIME_TYPE_SVG.equals(image.getMimeType())) {
@@ -278,14 +278,14 @@ public class Text2Epub {
 		// jetzt die Bilder schreiben
 		for (FileEntry image : images) {
 			// Bild ausgeben
-			writeMedia(basedir, image);
+			writeMedia(image);
 		}
 	}
 
 	/**
 	 * Gibt alle zusätzlichen Medien aus den Properties aus.
 	 */
-	private void writeMedia(File basedir) throws IOException {
+	private void writeMedia() throws IOException {
 		// weitere Dateien ausgeben
 		String additionalMedia = this.book.getProperty("additional-media");
 		if (! StringUtils.isEmpty(additionalMedia)) {
@@ -294,7 +294,7 @@ public class Text2Epub {
 			for (String filename : files) {
 				String id = String.format("media-%02d", ++count);
 				FileEntry entry = new FileEntry(filename, filename, MimeTypes.getMimeType(filename), id);
-				writeMedia(basedir, entry);
+				writeMedia(entry);
 			}
 		}
 	}
@@ -311,7 +311,7 @@ public class Text2Epub {
 			// gibt es ein eigenes Stylesheet für die Datei?
 			String stylesheet = IOUtils.replaceSuffix(entry.getFile(), ".css");
 			if (IOUtils.exists(basedir, stylesheet)) {
-				writeMedia(basedir, new FileEntry(stylesheet, MimeTypes.MIME_TYPE_CSS, stylesheet));
+				writeMedia(new FileEntry(stylesheet, MimeTypes.MIME_TYPE_CSS, stylesheet));
 				book.setStylesheet(stylesheet);
 			}
 
