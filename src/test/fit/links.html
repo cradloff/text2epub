@@ -236,7 +236,7 @@
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;h1 id="h1-01">Chapter one&lt;a class="refnote" id="rn1" href="99_footnotes.xhtml#fn1">1&lt;/a>&lt;/h1></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>This is the first chapter&lt;a class="refnote" id="rn2" href="#fn2">2&lt;/a>.&lt;/p></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>Here is a link&lt;a class="refnote" id="rn3" href="99_footnotes.xhtml#fn3">3&lt;/a> to &lt;a href="02_chapter_two.xhtml">chapter two&lt;/a>.&lt;/p></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn2">&lt;a href="#rn2">2&lt;/a> A local footnote.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn2">&lt;a class="backref" href="#rn2">2&lt;/a> A local footnote.&lt;/div></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>
@@ -263,7 +263,7 @@
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;h1 id="h1-01">Chapter two&lt;/h1></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>This is the second chapter&lt;a class="refnote" id="rn1" href="#fn1">1&lt;/a>.&lt;/p></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>Here is a link&lt;a class="refnote" id="rn2" href="99_footnotes.xhtml#fn2">2&lt;/a> to &lt;a href="01_chapter_one.xhtml">chapter one&lt;/a>.&lt;/p></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn1">&lt;a href="#rn1">1&lt;/a> A local footnote.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn1">&lt;a class="backref" href="#rn1">1&lt;/a> A local footnote.&lt;/div></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>
@@ -288,9 +288,9 @@
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/head></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;body></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;p>Footnotes&lt;/p></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn1">&lt;a href="01_chapter_one.xhtml#rn1">↑&lt;/a> Link to title.&lt;/div></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn2">&lt;a href="02_chapter_two.xhtml#rn2">↑&lt;/a> Link to chapter two.&lt;/div></td></tr>
-	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn3">&lt;a href="01_chapter_one.xhtml#rn3">↑&lt;/a> Link to chapter two.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn1">&lt;a class="backref" href="01_chapter_one.xhtml#rn1">↑&lt;/a> Link to title.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn2">&lt;a class="backref" href="02_chapter_two.xhtml#rn2">↑&lt;/a> Link to chapter two.&lt;/div></td></tr>
+	<tr><td class="number"></td><td class="pre" colspan="2">    &lt;div class="footnote" id="fn3">&lt;a class="backref" href="01_chapter_one.xhtml#rn3">↑&lt;/a> Link to chapter two.&lt;/div></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">  &lt;/body></td></tr>
 	<tr><td class="number"></td><td class="pre" colspan="2">&lt;/html></td></tr>
 </table>

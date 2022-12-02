@@ -78,7 +78,7 @@ a.refnote {
 	margin-bottom: 0.5em;
 }
 
-.footnote a {
+a.backref {
 	font-size: x-small;
 	vertical-align: super;
 	text-decoration: none;

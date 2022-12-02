@@ -34,7 +34,7 @@
 <#else>
 	<#assign currnote++ />
 </#if>
-<div class="footnote" id="fn${currnote}"><a href="${resolve(file)}#rn${currnote}">${linktext}</a> <#nested></div>
+<div class="footnote" id="fn${currnote}"><a class="backref" href="${resolve(file)}#rn${currnote}">${linktext}</a> <#nested></div>
 </#macro>
 
 <#-- generate empty lines -->
