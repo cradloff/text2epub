@@ -5,39 +5,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
-import org.xml.sax.ContentHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLFilter;
-import org.xml.sax.XMLReader;
+import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.adobe.epubcheck.api.EpubCheck;
 
-import text2epub.converter.AsciiDocConverter;
-import text2epub.converter.Converter;
-import text2epub.converter.MarkdownConverter;
-import text2epub.converter.TextileConverter;
-import text2epub.converter.XHtmlConverter;
-import text2epub.xml.ChainedContentHandler;
-import text2epub.xml.CompressingXMLWriter;
-import text2epub.xml.IdGeneratorFilter;
-import text2epub.xml.NamedEntitesConverter;
-import text2epub.xml.XMLWriter;
-import text2epub.xml.XmlScanner;
+import text2epub.converter.*;
+import text2epub.xml.*;
 
 /**
  * Konvertiert Text-Dateien nach Epub.
@@ -156,7 +132,7 @@ public class Text2Epub {
 		writer.close();
 
 		EpubCheck check = new EpubCheck(epub);
-		if (check.validate()) {
+		if (check.doValidate() == 0) {
 			echo("MsgSuccess", epub.getName());
 		} else {
 			echo("MsgWarnings", epub.getName());
