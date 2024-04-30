@@ -1,12 +1,6 @@
 package text2epub;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -93,8 +87,8 @@ public class ZipWriter extends Writer {
 	}
 
 	/** Schreibt eine Datei aus dem Dateisystem in die Zip-Datei */
-	public void writeFile(File file) throws IOException {
-		newEntry(file.getName());
+	public void writeFile(File file, String filename) throws IOException {
+		newEntry(filename);
 		IOUtils.copy(file, zip);
 	}
 

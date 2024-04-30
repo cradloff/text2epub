@@ -29,7 +29,7 @@ public class Text2Epub {
 	private Book book;
 	private FreeMarker freeMarker;
 	private File basedir;
-
+ 
 	/**
 	 * Startet die Erstellung des Buches. Wird das Programm ohne Parameter aufgerufen,
 	 * werden die Quellen im aktuellen Verzeichnis gesucht, der Dateiname des Buchs wird
@@ -41,13 +41,13 @@ public class Text2Epub {
 		new Text2Epub().createEpub(args);
 	}
 
-	private void createEpub(String... args) throws IOException {
+	public boolean createEpub(String... args) throws IOException {
 		basedir = new File(args.length == 0 ? "." : args[0]);
 		basedir = basedir.getCanonicalFile();
 		book = new Book();
 		if (! IOUtils.exists(basedir, PROPERTIES)) {
 			createProperties();
-			return;
+			return false;
 		}
 
 		book.readProperties(new File(basedir, PROPERTIES));
@@ -134,9 +134,11 @@ public class Text2Epub {
 		EpubCheck check = new EpubCheck(epub);
 		if (check.doValidate() == 0) {
 			echo("MsgSuccess", epub.getName());
-		} else {
-			echo("MsgWarnings", epub.getName());
+			return true;
 		}
+		
+		echo("MsgWarnings", epub.getName());
+		return false;
 	}
 
 	private void createProperties() throws IOException {
@@ -218,7 +220,8 @@ public class Text2Epub {
 			}
 		}
 
-		FileEntry cover = new FileEntry(filename, MimeTypes.getMimeType(filename), "cover-img");
+		String outputFilename = IOUtils.normalize(filename);
+		FileEntry cover = new FileEntry(filename, outputFilename, MimeTypes.getMimeType(filename), "cover-img");
 		cover.setProperty("cover-image");
 		images.add(cover);
 
@@ -226,7 +229,7 @@ public class Text2Epub {
 		book.addContentFile(entry);
 		book.setParam("COVER", COVER);
 		book.setParam("COVER_ID", cover.getId());
-		book.setParam("cover_url", filename);
+		book.setParam("cover_url", outputFilename);
 		freeMarker.writeTemplate("cover.xhtml.ftlx", COVER);
 	}
 
@@ -235,7 +238,7 @@ public class Text2Epub {
 		for (FileEntry image : new ArrayList<>(images)) {
 			if (MimeTypes.MIME_TYPE_SVG.equals(image.getMimeType())) {
 				ImageScanner scanner = new ImageScanner(images);
-				XmlScanner.scanXml(new File(basedir, image.getFilename()), scanner);
+				XmlScanner.scanXml(new File(basedir, image.getFilename()), new Filter2HandlerAdapter(scanner));
 			}
 		}
 
@@ -265,8 +268,8 @@ public class Text2Epub {
 
 	private void writeMedia(FileEntry mediaFile) throws IOException {
 		book.addMediaFile(mediaFile);
-		File file = new File(basedir, mediaFile.getFilename());
-		writer.writeFile(file);
+		File file = new File(basedir, mediaFile.getSrcFilename());
+		writer.writeFile(file, mediaFile.getFilename());
 	}
 
 	private void writeContent(Content entry, Set<FileEntry> images) throws IOException {
@@ -300,7 +303,7 @@ public class Text2Epub {
 		try {
 			// TOC-Entries einlesen
 			String s = book.getProperty().getProperty("toc-entries", "h1, h2");
-			if (s.trim().isEmpty()) {
+			if (s.isBlank()) {
 				s = "h1, h2";
 			}
 			List<String> headings = StringUtils.splitCSV(s);
@@ -315,13 +318,14 @@ public class Text2Epub {
 			TocScanner toc = new TocScanner(book, outputFilename, headings);
 			// Bilder suchen
 			ImageScanner img = new ImageScanner(images);
+			img.setParent(filter);
 			// Seitenzahlen suchen
 			PageEntryScanner pes = new PageEntryScanner(book, outputFilename);
-			ContentHandler handler = new ChainedContentHandler(toc, img, pes, cxWriter);
-			filter.setContentHandler(handler);
+			ContentHandler handler = new ChainedContentHandler(toc, pes, cxWriter);
+			img.setContentHandler(handler);
 			// Dokument ausgeben
 			text = NamedEntitesConverter.instance().convert(content);
-			filter.parse(new InputSource(new StringReader(text)));
+			img.parse(new InputSource(new StringReader(text)));
 
 			echo("MsgFileImported", outputFilename);
 		} catch (SAXParseException e) {

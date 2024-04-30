@@ -41,10 +41,20 @@ public class IOUtilsTest {
 	@Test
 	public void buildOutputFilename() {
 		verifyOutputFilename("text.xhtml", " text.md ");
-		verifyOutputFilename("white_space.xhtml", " \t\r\nwhite \t\r\nspace.txt ");
-		verifyOutputFilename("Umlauts.xhtml", "Ümläütß.adoc");
-		verifyOutputFilename("Accent.xhtml", "Áççèñt.confluence");
 		verifyOutputFilename("aaaaaa_c_eeee_iiii_n_ooooo_uuuu_yy.xhtml", "àáâãäå ç èéêë ìíîï ñ òóôõö ùúûü ýÿ.wiki");
+		verifyOutputFilename("text.xhtml", "folders/with/text.txt");
+	}
+	
+	@Test
+	public void normalize() {
+		assertThat(IOUtils.normalize(" \t\r\nwhite \t\r\nspace.txt "))
+			.isEqualTo("white_space.txt");
+		assertThat(IOUtils.normalize("Ümläütß.adoc"))
+			.isEqualTo("Umlauts.adoc");
+		assertThat(IOUtils.normalize("Áççèñt.confluence"))
+			.isEqualTo("Accent.confluence");
+		assertThat(IOUtils.normalize("Text (with special chars:,;-).txt"))
+			.isEqualTo("Text_with_special_chars.txt");
 	}
 
 	private void verifyOutputFilename(String expected, String filename) {

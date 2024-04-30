@@ -1,14 +1,6 @@
 package text2epub;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 
 /** Hilfsfunktionen für IO */
 public class IOUtils {
@@ -124,13 +116,21 @@ public class IOUtils {
 	public static String buildOutputFilename(File file) {
 		// erst das Suffix ersetzen
 		String outputFilename = replaceSuffix(file, ".xhtml");
+		outputFilename = normalize(outputFilename);
+
+		return outputFilename;
+	}
+
+	public static String normalize(String filename) {
 		// dann Sonderzeichen ersetzen
-		outputFilename = org.apache.commons.lang3.StringUtils.stripAccents(outputFilename);
+		String outputFilename = org.apache.commons.lang3.StringUtils.stripAccents(filename);
 		outputFilename = outputFilename.replace('ß', 's');
 		// Leerzeichen durch Unterstriche ersetzen
 		outputFilename = org.apache.commons.lang3.StringUtils.normalizeSpace(outputFilename);
 		outputFilename = outputFilename.replace(' ', '_');
-
+		// ungültige Zeichen entfernen
+		outputFilename = outputFilename.replaceAll("[^a-zA-Z0-9_./]", "");
+		
 		return outputFilename;
 	}
 

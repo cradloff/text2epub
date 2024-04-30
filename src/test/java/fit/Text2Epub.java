@@ -7,9 +7,14 @@ package fit;
 public class Text2Epub extends ColumnFixture {
 	public String folder;
 	public String filename;
+	private boolean success;
 
 	@Override
 	public void execute() throws Exception {
-		text2epub.Text2Epub.main("src/test/fit/" + folder, "target/fit/" + filename);
+		success = new text2epub.Text2Epub().createEpub("src/test/fit/" + folder, "target/fit/" + filename);
+	}
+	
+	public boolean success() {
+		return success;
 	}
 }
