@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <name>text2epub</name>
-  <url>http://maven.apache.org</url>
+  <url>https://github.com/cradloff/text2epub</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
