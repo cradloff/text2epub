@@ -106,7 +106,7 @@ corresponding template in a common base directory or in the same directory where
 the jar archive is installed.
 
 ## Prerequisites
-`text2epub` is written in Java, so you have to install a JRE (version 11 or higher).
+`text2epub` is written in Java, so you have to install a JRE (version 17 or higher).
 The JRE can be downloaded from here: 
 [https://java.com/en/download/](https://java.com/en/download/)
 
