@@ -129,8 +129,15 @@ public class IOUtils {
 		outputFilename = org.apache.commons.lang3.StringUtils.normalizeSpace(outputFilename);
 		outputFilename = outputFilename.replace(' ', '_');
 		// ungültige Zeichen entfernen
-		outputFilename = outputFilename.replaceAll("[^a-zA-Z0-9_./]", "");
-		
+		outputFilename = outputFilename.replaceAll("[^a-zA-Z0-9_.-]", ""); // remove unsafe characters (including '/')
+		// ensure filename is not empty after cleanup
+		if (outputFilename.isEmpty()) {
+			outputFilename = "file";
+		}
+		// limit filename length to common filesystem max
+		if (outputFilename.length() > 255) {
+			outputFilename = outputFilename.substring(0, 255);
+		}
 		return outputFilename;
 	}
 
