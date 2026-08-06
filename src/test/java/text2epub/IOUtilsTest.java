@@ -53,8 +53,10 @@ public class IOUtilsTest {
 			.isEqualTo("Umlauts.adoc");
 		assertThat(IOUtils.normalize("Áççèñt.confluence"))
 			.isEqualTo("Accent.confluence");
-		assertThat(IOUtils.normalize("Text (with special chars:,;-).txt"))
+		assertThat(IOUtils.normalize("Text (with special chars:,;).txt"))
 			.isEqualTo("Text_with_special_chars.txt");
+		assertThat(IOUtils.normalize("päth/tó/ìmage().jpg"))
+			.isEqualTo("path/to/image.jpg");
 	}
 
 	private void verifyOutputFilename(String expected, String filename) {
